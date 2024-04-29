@@ -40,139 +40,143 @@ export class Trainer {
         this.age = age;
         this.rank = rank;
         this.image = image;
-        this.itens = itens;
-        this.badges = badges;
-        this.pokemons = pokemons;
-        this.attributes = attributes;
+        this.itens = [];
+        this.itens.push(itens);
+        this.badges = [];
+        this.badges.push(badges);
+        this.pokemons = [];
+        this.pokemons.push(pokemons);
+        this.attributes = [];
+        this.attributes.push(attributes);
     }
 
     // Getters
-    get getName() {
-        return this.name;
+    get name() {
+        return this._name;
     }
 
-    get getNature() {
-        return this.nature;
+    get nature() {
+        return this._nature;
     }
 
-    get getConfidence() {
-        return this.confidence;
+    get confidence() {
+        return this._confidence;
     }
 
-    get getPlayer() {
-        return this.player;
+    get player() {
+        return this._player;
     }
 
-    get getHP() {
-        return this.HP;
+    get HP() {
+        return this._HP;
     }
 
-    get getWILL() {
-        return this.WILL;
+    get WILL() {
+        return this._WILL;
     }
 
-    get getMoney() {
-        return this.money;
+    get money() {
+        return this._money;
     }
 
-    get getConcept() {
-        return this.concept;
+    get concept() {
+        return this._concept;
     }
 
-    get getXp() {
-        return this.xp;
+    get xp() {
+        return this._xp;
     }
 
-    get getAge() {
-        return this.age;
+    get age() {
+        return this._age;
     }
 
-    get getRank() {
-        return this.rank;
+    get rank() {
+        return this._rank;
     }
 
-    get getImage() {
-        return this.image;
+    get image() {
+        return this._image;
     }
 
-    get getItens() {
-        return this.itens;
+    get itens() {
+        return this._itens;
     }
 
-    get getBadges() {
-        return this.badges;
+    get badges() {
+        return this._badges;
     }
 
-    get getPokemons() {
-        return this.pokemons;
+    get pokemons() {
+        return this._pokemons;
     }
 
-    get getAttributes() {
-        return this.attributes;
+    get attributes() {
+        return this._attributes;
     }
 
     // Setters
-    set setName(name) {
-        this.name = name;
+    set name(name) {
+        this._name = name;
     }
 
-    set setNature(nature) {
-        this.nature = nature;
+    set nature(nature) {
+        this._nature = nature;
     }
 
-    set setConfidence(confidence) {
-        this.confidence = confidence;
+    set confidence(confidence) {
+        this._confidence = confidence;
     }
 
-    set setPlayer(player) {
-        this.player = player;
+    set player(player) {
+        this._player = player;
     }
 
-    set setHP(HP) {
-        this.HP = HP;
+    set HP(HP) {
+        this._HP = HP;
     }
 
-    set setWILL(WILL) {
-        this.WILL = WILL;
+    set WILL(WILL) {
+        this._WILL = WILL;
     }
 
-    set setMoney(money) {
-        this.money = money;
+    set money(money) {
+        this._money = money;
     }
 
-    set setConcept(concept) {
-        this.concept = concept;
+    set concept(concept) {
+        this._concept = concept;
     }
 
-    set setXp(xp) {
-        this.xp = xp;
+    set xp(xp) {
+        this._xp = xp;
     }
 
-    set setAge(age) {
-        this.age = age;
+    set age(age) {
+        this._age = age;
     }
 
-    set setRank(rank) {
-        this.rank = rank;
+    set rank(rank) {
+        this._rank = rank;
     }
 
-    set setImage(image) {
-        this.image = image;
+    set image(image) {
+        this._image = image;
     }
 
-    set setItens(itens) {
-        this.itens = itens;
+    set itens(itens) {
+        this._itens = itens;
     }
 
-    set setBadges(badges) {
-        this.badges = badges;
+    set badges(badges) {
+        this._badges = badges;
     }
 
-    set setPokemons(pokemons) {
-        this.pokemons = pokemons;
+    set pokemons(pokemons) {
+        this._pokemons = pokemons;
     }
 
-    set setAttributes(attributes) {
-        this.attributes = attributes;
+    set attributes(attributes) {
+        this._attributes = attributes;
     }
 }

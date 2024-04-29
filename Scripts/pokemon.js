@@ -35,6 +35,7 @@ export class Pokemon {
     constructor(name, nickname, level, attributes, ability, nature, ivs, evs, item, moves, types, weight, height, hapiness, friendship, isShiny, cries) {
         this.name = name;
         this.nickname = nickname;
+        this.ability = ability;
         this.level = level;
         this.attributes = attributes;
         this.nature = nature;
@@ -54,6 +55,10 @@ export class Pokemon {
     // Getters
     get getName() {
         return this.name;
+    }
+
+    get getAbility() {
+        return this.ability;
     }
 
     get getNickname() {
@@ -118,66 +123,70 @@ export class Pokemon {
 
     // Setters
     set setName(name) {
-        this.name = name;
+        this._name = name;
     }
 
     set setNickname(nickname) {
-        this.nickname = nickname;
+        this._nickname = nickname;
+    }
+
+    set setAbility(ability) {
+        this._ability = ability;
     }
 
     set setLevel(level) {
-        this.level = level;
+        this._level = level;
     }
 
     set setAttributes(attributes) {
-        this.attributes = attributes;
+        this._attributes = attributes;
     }
 
     set setNature(nature) {
-        this.nature = nature;
+        this._nature = nature;
     }
 
     set setIvs(ivs) {
-        this.ivs = ivs;
+        this._ivs = ivs;
     }
 
     set setEvs(evs) {
-        this.evs = evs;
+        this._evs = evs;
     }
 
     set setItem(item) {
-        this.item = item;
+        this._item = item;
     }
 
     set setMoves(moves) {
-        this.moves = moves;
+        this._moves = moves;
     }
 
     set setTypes(types) {
-        this.types = types;
+        this._types = types;
     }
 
     set setWeight(weight) {
-        this.weight = weight;
+        this._weight = weight;
     }
 
     set setHeight(height) {
-        this.height = height;
+        this._height = height;
     }
 
     set setHapiness(hapiness) {
-        this.hapiness = hapiness;
+        this._hapiness = hapiness;
     }
 
     set setFriendship(friendship) {
-        this.friendship = friendship;
+        this._friendship = friendship;
     }
 
     set setIsShiny(isShiny) {
-        this.isShiny = isShiny;
+        this._isShiny = isShiny;
     }
 
     set setCries(cries) {
-        this.cries = cries;
+        this._cries = cries;
     }
 }
