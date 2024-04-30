@@ -19,74 +19,74 @@
     --fairy: #D685AD;
 }
 
-.timePokemon.electric {
+.pokemonTeam.electric {
     background-color: var(--electric);
 }
 
-.timePokemon.fire {
+.pokemonTeam.fire {
     background-color: var(--fire);
 }
 
-.timePokemon.water {
+.pokemonTeam.water {
     background-color: var(--water);
 }
 
-.timePokemon.grass {
+.pokemonTeam.grass {
     background-color: var(--grass);
 }
 
-.timePokemon.poison {
+.pokemonTeam.poison {
     background-color: var(--poison);
 }
 
-.timePokemon.ice {
+.pokemonTeam.ice {
     background-color: var(--ice);
 }
 
-.timePokemon.fighting {
+.pokemonTeam.fighting {
     background-color: var(--fighting);
 }
 
-.timePokemon.ground {
+.pokemonTeam.ground {
     background-color: var(--ground);
 }
 
-.timePokemon.flying {
+.pokemonTeam.flying {
     background-color: var(--flying);
 }
 
-.timePokemon.psychic {
+.pokemonTeam.psychic {
     background-color: var(--psychic);
 }
 
-.timePokemon.bug {
+.pokemonTeam.bug {
     background-color: var(--bug);
 }
 
-.timePokemon.rock {
+.pokemonTeam.rock {
     background-color: var(--rock);
 }
 
-.timePokemon.ghost {
+.pokemonTeam.ghost {
     background-color: var(--ghost);
 }
 
-.timePokemon.dragon {
+.pokemonTeam.dragon {
     background-color: var(--dragon);
 }
 
-.timePokemon.dark {
+.pokemonTeam.dark {
     background-color: var(--dark);
 }
 
-.timePokemon.steel {
+.pokemonTeam.steel {
     background-color: var(--steel);
 }
 
-.timePokemon.fairy {
+.pokemonTeam.fairy {
     background-color: var(--fairy);
 }
 
-.timePokemon.normal {
+.pokemonTeam.normal {
     background-color: var(--normal);
 }

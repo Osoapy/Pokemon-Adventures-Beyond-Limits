@@ -32,8 +32,9 @@ WE HAVE:
 */
 
 export class Pokemon {
-    constructor(name, nickname, level, attributes, ability, nature, ivs, evs, item, moves, types, weight, height, hapiness, friendship, isShiny, cries) {
+    constructor(name, gender, nickname, level, attributes, ability, nature, ivs, evs, item, moves, types, weight, height, hapiness, friendship, isShiny, cries) {
         this.name = name;
+        this.gender = gender;
         this.nickname = nickname;
         this.ability = ability;
         this.level = level;
@@ -55,6 +56,10 @@ export class Pokemon {
     // Getters
     get getName() {
         return this.name;
+    }
+
+    get getGender() {
+        return this.gender;
     }
 
     get getAbility() {
@@ -124,6 +129,10 @@ export class Pokemon {
     // Setters
     set setName(name) {
         this._name = name;
+    }
+
+    set setGender(gender) {
+        this._gender = gender;
     }
 
     set setNickname(nickname) {

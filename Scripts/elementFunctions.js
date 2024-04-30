@@ -1,63 +1,68 @@
 /* DECLARING FUNCTIONS */
-function noSpace(string) {
+export function noSpace(string) {
     return string.replace(/\s/g, " ");
 }
 
 /* EXPORTING FUNCTIONS*/
-export function createPlayer(nome, source) {
+export function createPlayer(name, source) {
     let main = document.getElementById("main");
-    let id = noSpace(nome);
+    let id = noSpace(name);
 
-    let personagemContainer = document.createElement("div");
-    personagemContainer.classList.add("personagem-container");
-    personagemContainer.id = `${id}-container`; 
-    main.appendChild(personagemContainer);
+    let playerContainer = document.createElement("div");
+    playerContainer.classList.add("player-Container");
+    playerContainer.id = `${id}-Container`; 
+    main.appendChild(playerContainer);
 
-    let personagem = document.createElement("div");
-    personagem.classList.add("personagem");
-    personagem.id = id;
-    personagemContainer.appendChild(personagem);
+    let player = document.createElement("div");
+    player.classList.add("player");
+    player.id = id;
+    playerContainer.appendChild(player);
 
-    let topcontainer = document.createElement("header");
-    topcontainer.classList.add("top-container");
-    personagem.appendChild(topcontainer);
+    let topContainer = document.createElement("header");
+    topContainer.classList.add("top-Container");
+    player.appendChild(topContainer);
 
-    let imagem = document.createElement("img");
-    imagem.classList = "personagemImg";
-    imagem.id = `personagem${id}`;
-    imagem.src = source;
-    topcontainer.appendChild(imagem);
+    let playerButton = document.createElement("div");
+    playerButton.classList = "playerButton";
+    playerButton.id = `player${id}Button`;
+    topContainer.appendChild(playerButton);
 
-    let personagemtop = document.createElement("div");
-    personagemtop.classList.add("personagem-top");
-    topcontainer.appendChild(personagemtop);
+    let image = document.createElement("img");
+    image.classList = "playerImg";
+    image.id = `player${id}`;
+    image.src = source;
+    playerButton.appendChild(image);
 
-    let nomeP = document.createElement("h1");
-    nomeP.textContent = nome;
-    personagemtop.appendChild(nomeP);
+    let playerTop = document.createElement("div");
+    playerTop.classList.add("player-Top");
+    topContainer.appendChild(playerTop);
+
+    let playerName = document.createElement("h1");
+    playerName.textContent = name;
+    playerTop.appendChild(playerName);
 
     let underline = document.createElement("div");
     underline.classList.add("underline");
-    personagemtop.appendChild(underline);
+    playerTop.appendChild(underline);
 
-    let timePokemonContainer = document.createElement("div");
-    timePokemonContainer.classList.add("timePokemon-container");
-    personagem.appendChild(timePokemonContainer);
+    let pokemonTeamContainer = document.createElement("div");
+    pokemonTeamContainer.classList.add("pokemonTeam-Container");
+    player.appendChild(pokemonTeamContainer);
 
     for (let i = 0; i <= 5; i++) {
         let divTime = document.createElement("button");
-        divTime.classList.add("timePokemon");
-        divTime.id = `Player${id}TimeBotao${i}`;
-        timePokemonContainer.appendChild(divTime);
+        divTime.classList.add("pokemonTeam");
+        divTime.id = `player${id}TeamButton${i}`;
+        pokemonTeamContainer.appendChild(divTime);
 
         divTime.onclick = function() {
             console.log("ping"); // LOG
         }
 
-        let TimeImagem = document.createElement("img");
-        TimeImagem.classList.add("timePokemonImagem");
-        TimeImagem.id = `Player${id}TimeImagem${i}`;
-        divTime.appendChild(TimeImagem);
+        let Timeimage = document.createElement("img");
+        Timeimage.classList.add("pokemonTeamImage");
+        Timeimage.id = `player${id}TeamImage${i}`;
+        divTime.appendChild(Timeimage);
     }
 }
 
