@@ -12,13 +12,26 @@ import * as trainerClass from './trainer.js';
 let trainerList = {};
 
 /* DECLARING FUNCTIONS */
-function createPlayer(name, image) {
-    console.log("Creating the player " + name + "!"); // LOG
+function createPlayer(name, nature, confidence, player, HP, WILL, money, concept, xp, age, rank, image, itens, badges, attributes, skills) {
     htmlMaker.createPlayer(name, image);
-    let trainer = new trainerClass.Trainer(name);
-    trainer.image = image;
+    let trainer = new trainerClass.Trainer(name, nature, confidence, player, HP, WILL, money, concept, xp, age, rank, image, itens, badges, null, attributes, skills);
+    let serializedObject = JSON.stringify(trainer); 
+    let index = Object.keys(trainerList).length; 
+    localStorage.setItem(`object${index}`, serializedObject);
+    console.log("Creating the player " + name + "!"); // LOG
     console.log(trainer); // LOG
     trainerList[name] = trainer;
+}
+
+function readTrainer(trainer) {
+    console.log("Reading the trainer " + trainer); // LOG
+    console.log(trainer); // LOG
+    htmlMaker.createPlayer(trainer._name, trainer._image);
+    trainerList[trainer._name] = trainer;
+
+    for(let k = 0; k < trainer._pokemons.length && trainer._pokemons[0] != null; k++) {
+        createPokemon(trainer._name, trainer._pokemons[k].name, k)
+    }
 }
 
 async function createPokemon(trainer, name, position) {
@@ -41,49 +54,41 @@ async function createPokemon(trainer, name, position) {
         pokemon.height = data.height/10;
         console.log(pokemon); // LOG
         htmlMaker.changeType(img.parentNode, pokemon.types[0]);
+      
+        botao.onclick = function() {
+            console.log(trainerList[trainer].pokemons[position]); // LOG
+        }
+      
         trainerList[trainer].pokemons[position] = pokemon;
     }).catch(error => {
         console.error(error);
     })
 }
 
-createPlayer("A história de Jhonny", "https://s1.zerochan.net/Aipom.600.3286573.jpg");
-createPokemon("A história de Jhonny", "Flygon", 1);
-createPokemon("A história de Jhonny", "Galvantula", 2);
-createPokemon("A história de Jhonny", "Braviary", 3);
-createPokemon("A história de Jhonny", "Camerupt", 4);
-createPokemon("A história de Jhonny", "Aurorus", 5);
-createPokemon("A história de Jhonny", "Gogoat", 6);
+/*createPlayer("Jhonny Tail, é isso aí", "Bold", 10, "Bebel", 22, 3, 550, "bold", 100, 13, 1, "https://s1.zerochan.net/Aipom.600.3286573.jpg", ["pokeball x5"], ["Sunflower"], [0,1,0,1], [0,1,1,0,1,1,0,0,1,0,0,0,0,0,0,0]);
 
-createPlayer("Jhonny Tail, é isso aí", "https://s1.zerochan.net/Aipom.600.3286573.jpg");
 createPokemon("Jhonny Tail, é isso aí", "Aipom", 1);
-createPokemon("Jhonny Tail, é isso aí", "Ivysaur", 2);
+createPokemon("Jhonny Tail, é isso aí", "Ivysaur", 2);*/
 
-createPlayer("Café", "https://i.pinimg.com/474x/7d/78/5a/7d785ab2ddeb49f66484d0fe0b2e9886.jpg");
-createPokemon("Café", "Froakie", 1);
-createPokemon("Café", "Cyndaquil", 2);
+function reloadPage() {
+    for(let k = 0; ; k++){
+        let serializedObject = localStorage.getItem(`object${k}`);
+        if (serializedObject){
+            let object = JSON.parse(serializedObject);
+            readTrainer(object);
+        }
+        else {
+            break;
+        }
+    }
+}
 
-createPlayer("Couve", "https://i.pinimg.com/474x/7d/78/5a/7d785ab2ddeb49f66484d0fe0b2e9886.jpg");
-createPokemon("Couve", "Misdreavus", 1);
-createPokemon("Couve", "Zorua-Hisui", 2);
-
-createPlayer("Mário", "https://i.pinimg.com/474x/7d/78/5a/7d785ab2ddeb49f66484d0fe0b2e9886.jpg");
-createPokemon("Mário", "Chimchar", 1);
-createPokemon("Mário", "Shroomish", 2);
-
-createPlayer("Mário 2", "https://i.pinimg.com/474x/7d/78/5a/7d785ab2ddeb49f66484d0fe0b2e9886.jpg");
-createPokemon("Mário 2", "Sandshrew", 1);
-createPokemon("Mário 2", "Munchlax", 2);
-
-createPlayer("Gagá", "https://i.pinimg.com/474x/7d/78/5a/7d785ab2ddeb49f66484d0fe0b2e9886.jpg");
-createPokemon("Gagá", "Phantump", 1);
-createPokemon("Gagá", "Honedge", 2);
-
-createPlayer("Barney", "https://i.pinimg.com/474x/7d/78/5a/7d785ab2ddeb49f66484d0fe0b2e9886.jpg");
-createPokemon("Barney", "Sableye", 1);
-createPokemon("Barney", "Kricketot", 2);
-
-createPlayer("Alex", "https://i.pinimg.com/474x/7d/78/5a/7d785ab2ddeb49f66484d0fe0b2e9886.jpg");
-createPokemon("Alex", "Squirtle", 1);
-createPokemon("Alex", "Eevee", 2);
-createPokemon("Alex", "Feebas", 3);
+window.addEventListener("beforeunload", function() { 
+    localStorage.setItem("reloadedPage", "true");
+});
+window.addEventListener("load", function() {
+    if (localStorage.getItem("reloadedPage") === "true") {
+        reloadPage();
+        localStorage.removeItem("reloadedPage");
+    }
+});

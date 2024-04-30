@@ -27,7 +27,7 @@ WE HAVE:
 */
 
 export class Trainer {
-    constructor(name, nature, confidence, player, HP, WILL, money, concept, xp, age, rank, image, itens, badges, pokemons, attributes) {
+    constructor(name, nature, confidence, player, HP, WILL, money, concept, xp, age, rank, image, itens, badges, pokemons, attributes, skills) {
         this.name = name;
         this.nature = nature;
         this.confidence = confidence;
@@ -40,14 +40,12 @@ export class Trainer {
         this.age = age;
         this.rank = rank;
         this.image = image;
-        this.itens = [];
-        this.itens.push(itens);
-        this.badges = [];
-        this.badges.push(badges);
+        this.itens = itens;
+        this.badges = badges;
         this.pokemons = [];
         this.pokemons.push(pokemons);
-        this.attributes = [];
-        this.attributes.push(attributes);
+        this.attributes = attributes;
+        this.skills = skills;
     }
 
     // Getters
@@ -114,6 +112,10 @@ export class Trainer {
     get attributes() {
         return this._attributes;
     }
+  
+    get skills() {
+        return this._skills;
+    }
 
     // Setters
     set name(name) {
@@ -178,5 +180,9 @@ export class Trainer {
 
     set attributes(attributes) {
         this._attributes = attributes;
+    }
+
+    set skills(skills) {
+        this._skills = skills;
     }
 }

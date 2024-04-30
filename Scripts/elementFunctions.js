@@ -51,7 +51,7 @@ export function createPlayer(nome, source) {
         timePokemonContainer.appendChild(divTime);
 
         divTime.onclick = function() {
-            console.log("ping");
+            console.log("ping"); // LOG
         }
 
         let TimeImagem = document.createElement("img");
