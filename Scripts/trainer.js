@@ -19,6 +19,8 @@ WE HAVE:
 - THE TRAINER'S ITENS
 
 - THE TRAINER'S ATTRIBUTES
+- THE TRAINER'S SKILLS
+- THE TRAINER'S QUALITIES
 - THE TRAINER'S HP
 - THE TRAINER'S WILL
 - THE TRAINER'S CONFIDENCE
@@ -27,7 +29,7 @@ WE HAVE:
 */
 
 export class Trainer {
-    constructor(name, nature, confidence, player, HP, WILL, money, concept, xp, age, rank, image, itens, badges, pokemons, attributes, skills) {
+    constructor(name, nature, confidence, player, HP, WILL, money, concept, xp, age, rank, image, itens, badges, pokemons, attributes, skills, qualities) {
         this.name = name;
         this.nature = nature;
         this.confidence = confidence;
@@ -46,6 +48,7 @@ export class Trainer {
         this.pokemons.push(pokemons);
         this.attributes = attributes;
         this.skills = skills;
+        this.qualities = qualities;
     }
 
     // Getters
@@ -117,6 +120,10 @@ export class Trainer {
         return this._skills;
     }
 
+    get qualities() {
+        return this._qualities;
+    }
+
     // Setters
     set name(name) {
         this._name = name;
@@ -184,5 +191,9 @@ export class Trainer {
 
     set skills(skills) {
         this._skills = skills;
+    }
+
+    set qualities(qualities) {
+        this._qualities = qualities;
     }
 }
