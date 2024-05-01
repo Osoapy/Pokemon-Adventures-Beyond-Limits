@@ -22,6 +22,13 @@ function createPlayer(trainer) {
     trainer["index"] = index;
     localStorage.setItem(`object${index}`, serializedObject);
 
+    // ADDING THE LOG FUNCTION TO THE PLAYER IMG
+    let button = document.getElementById(`player${trainer._name}Button`);
+    button.onclick = function() {
+        htmlMaker.changeToken(trainer);
+        console.log(trainerList[trainer._name]); // LOG
+    }
+
     console.log("Creating the player " + trainer.name + "!"); // LOG
     console.log(trainer); // LOG
 
@@ -34,15 +41,15 @@ function readTrainer(trainer) {
     console.log(trainer); // LOG
 
     // MAKING THE HTML PART
-    let id = htmlMaker.noSpace(trainer._name);
     htmlMaker.createPlayer(trainer._name, trainer._image);
   
     // ADDING THE PLAYER TO THE LIST
     trainerList[trainer._name] = trainer;
 
     // ADDING THE LOG FUNCTION TO THE PLAYER IMG
-    let button = document.getElementById(`player${id}Button`);
+    let button = document.getElementById(`player${trainer._name}Button`);
     button.onclick = function() {
+        htmlMaker.changeToken(trainer);
         console.log(trainerList[trainer._name]); // LOG
     }
 

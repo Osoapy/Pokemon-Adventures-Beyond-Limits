@@ -13,6 +13,12 @@ export function createPlayer(name, source) {
     playerContainer.id = `${id}-Container`; 
     main.appendChild(playerContainer);
 
+    let playerToken = document.createElement("div");
+    playerToken.classList.add("player-Token");
+    playerToken.classList.add("empty");
+    playerToken.id = `${id}-Token`; 
+    main.appendChild(playerToken);
+
     let player = document.createElement("div");
     player.classList.add("player");
     player.id = id;
@@ -64,6 +70,16 @@ export function createPlayer(name, source) {
         Timeimage.id = `player${id}TeamImage${i}`;
         divTime.appendChild(Timeimage);
     }
+}
+
+export function changeToken(trainer) {
+    console.log("changing the tainer " + trainer._name + " token");
+    let id = noSpace(trainer._name);
+    let token = document.getElementById(`${id}-Token`);
+    token.classList.remove("empty");
+    token.classList.remove("pokemon");
+    token.classList.add("player");
+    //token.textContent = `Skills {"brawl": ${trainer.skills[0]}, "trow": ${trainer.skills[1]}, "evasion": ${trainer.skills[2]}, "weapon": ${trainer.skills[3]}, "alert": ${trainer.skills[4]}, "athletic": ${trainer.skills[5]}, "nature": ${trainer.skills[6]}, "stealth": ${trainer.skills[7]}, "allure": ${trainer.skills[8]}, "etiquette": ${trainer.skills[9]}, "intimidate": ${trainer.skills[10]}, "peform": ${trainer.skills[11]}, "crafts": ${trainer.skills[12]}, "lore": ${trainer.skills[13]}, "medicine": ${trainer.skills[14]}, "science": ${trainer.skills[15]}}`
 }
 
 export function changeType(element, type) {
