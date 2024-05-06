@@ -8,16 +8,22 @@
 
 /* Variables */
 :root {
-    --fontePadrao: 'Raleway', sans-serif;
-    --fontePokemon: 'Kimberle', sans-serif;
+    /* FONTS */
+    --defaultFont: 'Raleway', sans-serif;
+    --pokemonFont: 'Kimberle', sans-serif;
 
+    /* HEIGHTS */
+    --borderHeight: 5px;
+
+    /* COLORS */
     --lightGray: rgb(235, 234, 237);
+    --white: #ffffff;
 }
 
 /* Global Properties */
 
 * {
-    font-family: 'Kimberle', 'arial';
+    font-family: 'Raleway', 'arial';
     box-sizing: border-box;
     margin: 0px;
     max-width: 100%;
@@ -26,7 +32,7 @@
 /* Tags */
 
 h1 {
-    font-family: var(--fontePadrao);
+    font-family: var(--defaultFont);
 }
 
 body {
@@ -60,7 +66,7 @@ main {
     padding-left: 2%;
     padding-bottom: 2%;
     padding-right: 2%;
-    background-color: white;
+    background-color: var(--white);
     flex-direction: column;
     width: 100%;
     height: 100%;

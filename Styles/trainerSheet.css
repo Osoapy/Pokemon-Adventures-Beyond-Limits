@@ -1,0 +1,334 @@
+/* Variables */
+:root {
+    /* HEIGHTS */
+    --borderHeight: 5px;
+
+    /* COLORS */
+    --tokenBackground: #d9dbde;
+    --tokenTop: #e64f32;
+    --tokenDarkGray: #3f3e40;
+    --tokenBorderColor: #c4472e;
+    --white: #ffffff;
+}
+
+/* Trainer parts */
+.player-Filled-Container {
+    height: 66vh;
+    width: 80%;
+}
+
+.player-Filled {
+    display: flex;
+    border-radius: 15px;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+}
+
+/* Left part */
+.player-Filled-Left {
+    flex-direction: column-reverse;
+    background-color: var(--tokenTop);
+    border-radius: 15px 0px 0px 15px;
+    display: flex;
+    width: 40%;
+}
+
+.player-Filled-Left-Inside {
+    border-top: var(--borderHeight) solid var(--tokenBorderColor);
+    background-color: var(--tokenBackground);
+    border-radius: 0px 7px 0px 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 5%;
+    height: 85%;
+    width: 100%;
+}
+
+.player-Filled-Left-Inside-Image-Container {
+    margin-top: calc(5% + var(--borderHeight));
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    height: 65%;
+    width: 80%;
+}
+
+.player-Filled-Left-Inside-WILL-Container,  .player-Filled-Left-Inside-HP-Container {
+    width: 85%;
+    height: 10%;
+}
+
+.player-Filled-Left-Inside-WILL, .player-Filled-Left-Inside-HP {
+    border-radius: 15px;
+    background-color: var(--tokenDarkGray);
+    color: var(--white);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+    align-items: center;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    justify-content: space-between;
+    padding-left: 3%;
+    padding-right: 1%;
+}
+
+.player-Filled-Left-Inside-WILL-Value, .player-Filled-Left-Inside-HP-Value {
+    justify-content: center;
+    margin-right: 1.5%;
+    align-items: center;
+    border-radius: 15px;
+    display: flex;
+    background-color: var(--white);
+    color: black;
+    width: 33%;
+    height: 80%;
+    text-align: center;
+}
+
+.player-Filled-Left-Inside-WILL-Container {
+    margin-bottom: 5%;
+}
+
+.player-Filled-Left-Inside-Image {
+    height: 100%;
+    width: 100%;
+    border: 5px solid var(--tokenDarkGray);
+    border-radius: 15px;
+}
+
+/* Right part */
+.player-Filled-Right {
+    border-radius: 15px;
+    flex-direction: column-reverse;
+    display: flex;
+    width: 60%;
+    justify-content: flex-end;
+    background-color: var(--tokenBackground);
+    z-index: 2;
+}
+
+.player-Filled-Right-Inside {
+    flex-direction: column;
+    gap: 2.5%;
+    align-items: center;
+    justify-content: flex-start;
+    display: flex;
+    border-radius: 0px 0px 15px 0px;
+    background-color: var(--tokenBackground);
+    height: 70%;
+    width: 100%;
+}
+
+.player-Filled-Right-Inside-Player {
+    justify-content: center;
+    margin-top: calc(5% + var(--borderHeight));
+    border: 5px solid var(--tokenDarkGray);
+    align-items: center;
+    border-radius: 15px;
+    display: flex;
+    background-color: var(--white);
+    color: black;
+    width: 94%;
+    height: 20%;
+    text-align: center;
+}
+
+.player-Filled-Right-Inside-Nature-Container {
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    display: flex;
+    color: black;
+    width: 94%;
+    gap: 5%;
+    height: 20%;
+    text-align: center;
+}
+
+.player-Filled-Right-Inside-Nature {
+    justify-content: center;
+    border: 5px solid var(--tokenDarkGray);
+    background-color: var(--tokenDarkGray);
+    align-items: center;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    color: black;
+    width: 47.5%;
+    height: 100%;
+    text-align: center;
+}
+
+.player-Filled-Right-Inside-Nature-Value {
+    justify-content: center;
+    background-color: var(--white);
+    border-radius: 15px;
+    align-items: center;
+    display: flex;
+    color: black;
+    width: 100%;
+    height: 66%;
+    text-align: center;
+}
+
+.player-Filled-Right-Inside-Confidence-Value {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    color: var(--white);
+    width: 100%;
+    height: 34%;
+    text-align: center;
+}
+
+.pokemonIcon {
+    height: 100%;
+}
+
+.player-Filled-Right-Inside-Money {
+    justify-content: center;
+    border: 5px solid var(--tokenDarkGray);
+    align-items: center;
+    border-radius: 15px;
+    display: flex;
+    background-color: var(--white);
+    color: black;
+    width: 47.5%;
+    height: 100%;
+    text-align: center;
+}
+
+.player-Filled-Right-Inside-Pokemons {
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    display: flex;
+    color: black;
+    flex-wrap: wrap;
+    width: 94%;
+    gap: 5%;
+    height: 40%;
+    text-align: center;
+}
+
+.pokemonNickname {
+    margin-left: 5%;
+}
+
+.player-Filled-Right-Inside-Pokemons-Nicknames {
+    background-color: white;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 999px;
+    display: flex;
+    color: black;
+    width: 47%;
+    height: 30%;
+    text-align: center;
+}
+
+.player-Filled-Right-Inside-Top {
+    align-items: center;
+    display: flex;
+    border-bottom: var(--borderHeight) solid var(--tokenBorderColor);
+    background-color: var(--tokenTop);
+    border-radius: 0px 15px 7px 7px;
+    flex-direction: column;
+    justify-content: center;
+    height: 30%;
+    width: 100%;
+}
+
+.player-Filled-Right-Inside-Title {
+    color: white;
+    align-items: center;
+    justify-content: flex-start;
+    display: flex;
+    background-color: var(--tokenTop);
+    height: 30%;
+    width: 100%;
+}
+
+.player-Filled-Right-Inside-Rank {
+    display: flex;
+    width: 100%;
+    height: 30%;
+}
+
+.player-Filled-Right-Inside-Rank-Text {
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    display: flex;
+    color: var(--white);
+    height: 100%;
+    text-align: center;
+}
+
+.player-Filled-Right-Inside-Rank-Value {
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    display: flex;
+    background-color: var(--white);
+    margin-left: 5%;
+    color: black;
+    width: 20%;
+    height: 90%;
+    text-align: center;
+}
+
+.player-Filled-Right-Inside-Rank-Name {
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    display: flex;
+    background-color: var(--white);
+    margin-left: 5%;
+    color: black;
+    width: 20%;
+    height: 100%;
+    text-align: center;
+}
+
+.player-Filled-Right-Inside-Name {
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    display: flex;
+    background-color: var(--white);
+    color: black;
+    text-align: left;
+    width: 80%;
+    height: 20%;
+}
+
+.player-Filled-Right-Inside-Top-Div {
+    display: flex;
+    height: 60%;
+    width: 100%;
+    min-width: 80%;
+}
+
+.player-Filled-Right-Inside-Title-Container {
+    display: flex;
+    height: 100%;
+    max-width: 100%;
+    flex-direction: column;
+    justify-content: space-evenly;
+    min-width: 80%;
+}
+
+.player-Filled-Right-Inside-Top-Guild-Image {
+    position: relative;
+    height: 70%;
+    right: 3%;
+    top: 15%;
+    max-width: 20%;
+}

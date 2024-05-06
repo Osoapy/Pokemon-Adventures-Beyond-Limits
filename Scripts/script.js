@@ -25,7 +25,7 @@ function createPlayer(trainer) {
     // ADDING THE LOG FUNCTION TO THE PLAYER IMG
     let button = document.getElementById(`player${trainer._name}Button`);
     button.onclick = function() {
-        htmlMaker.changeToken(trainer);
+        htmlMaker.changeTokenPlayer(trainer);
         console.log(trainerList[trainer._name]); // LOG
     }
 
