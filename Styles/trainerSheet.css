@@ -1,17 +1,47 @@
+/* Fonts */
+@font-face {
+  font-family: Kimberle;
+  src: url('../Assets/Fonts/kimberle.ttf') format('truetype');
+}
+
 /* Variables */
 :root {
+    /* FONTS */
+    --pokemonFont: 'Kimberle', sans-serif;
+    
     /* HEIGHTS */
     --borderHeight: 5px;
 
     /* COLORS */
     --tokenBackground: #d9dbde;
     --tokenTop: #e64f32;
+    --tokenLightGray: rgb(178, 180, 184);
     --tokenDarkGray: #3f3e40;
     --tokenBorderColor: #c4472e;
     --white: #ffffff;
+
+    /* Shadows */
+    --tokenShadow: 0px 11px 10px var(--tokenLightGray);
 }
 
 /* Trainer parts */
+.token-Spam-Text-Content {
+    font-family: var(--pokemonFont);
+    margin-top: 0.23%;
+    margin-left: 0.23%;
+    position: absolute;
+}
+
+.token-Spam-Text-Content.small-Spam-Text-Content {
+    margin-left: 0.33%;
+    margin-top: 0;
+    font-size: 0.8em;
+}
+
+.spam-Text-Content {
+    margin: auto;
+}
+
 .player-Filled-Container {
     height: 66vh;
     width: 80%;
@@ -62,6 +92,7 @@
 }
 
 .player-Filled-Left-Inside-WILL, .player-Filled-Left-Inside-HP {
+    box-shadow: var(--tokenShadow);
     border-radius: 15px;
     background-color: var(--tokenDarkGray);
     color: var(--white);
@@ -96,6 +127,7 @@
 }
 
 .player-Filled-Left-Inside-Image {
+    box-shadow: var(--tokenShadow);
     height: 100%;
     width: 100%;
     border: 5px solid var(--tokenDarkGray);
@@ -115,7 +147,7 @@
 
 .player-Filled-Right-Inside {
     flex-direction: column;
-    gap: 2.5%;
+    gap: 4%;
     align-items: center;
     justify-content: flex-start;
     display: flex;
@@ -125,7 +157,8 @@
     width: 100%;
 }
 
-.player-Filled-Right-Inside-Player {
+.player-Filled-Right-Inside-Player-Container {
+    box-shadow: var(--tokenShadow);
     justify-content: center;
     margin-top: calc(5% + var(--borderHeight));
     border: 5px solid var(--tokenDarkGray);
@@ -135,8 +168,25 @@
     background-color: var(--white);
     color: black;
     width: 94%;
-    height: 20%;
+    height: 15%;
     text-align: center;
+}
+
+.player-Filled-Right-Inside-Player, .player-Filled-Right-Inside-Age {
+    display: flex;
+    height: 100%;
+    border-radius: 15px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: row;
+}
+
+.player-Filled-Right-Inside-Player {
+    width: 70%;
+}
+
+.player-Filled-Right-Inside-Age {
+    width: 30%;
 }
 
 .player-Filled-Right-Inside-Nature-Container {
@@ -147,11 +197,29 @@
     color: black;
     width: 94%;
     gap: 5%;
-    height: 20%;
+    height: 25%;
     text-align: center;
 }
 
+.player-Filled-Right-Inside-Player-Name, .player-Filled-Right-Inside-Player-Concept {
+    display: flex;
+    height: 100%;
+    border-radius: 15px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: row;
+}
+
+.player-Filled-Right-Inside-Player-Name {
+    width: 45%;
+}
+
+.player-Filled-Right-Inside-Player-Concept {
+    width: 55%;
+}
+
 .player-Filled-Right-Inside-Nature {
+    box-shadow: var(--tokenShadow);
     justify-content: center;
     border: 5px solid var(--tokenDarkGray);
     background-color: var(--tokenDarkGray);
@@ -166,10 +234,10 @@
 }
 
 .player-Filled-Right-Inside-Nature-Value {
-    justify-content: center;
+    justify-content: flex-start;
     background-color: var(--white);
     border-radius: 15px;
-    align-items: center;
+    align-items: flex-start;
     display: flex;
     color: black;
     width: 100%;
@@ -177,7 +245,7 @@
     text-align: center;
 }
 
-.player-Filled-Right-Inside-Confidence-Value {
+.player-Filled-Right-Inside-Confidence-Value-Container {
     justify-content: center;
     align-items: center;
     display: flex;
@@ -187,14 +255,28 @@
     text-align: center;
 }
 
+.player-Filled-Right-Inside-Confidence-Value {
+    justify-content: center;
+    margin-left: 3%;
+    align-items: center;
+    border-radius: 15px;
+    display: flex;
+    background-color: var(--white);
+    color: black;
+    width: 33%;
+    height: 80%;
+    text-align: center;
+}
+
 .pokemonIcon {
     height: 100%;
 }
 
 .player-Filled-Right-Inside-Money {
-    justify-content: center;
+    box-shadow: var(--tokenShadow);
+    justify-content: flex-start;
     border: 5px solid var(--tokenDarkGray);
-    align-items: center;
+    align-items: flex-start;
     border-radius: 15px;
     display: flex;
     background-color: var(--white);
@@ -205,6 +287,9 @@
 }
 
 .player-Filled-Right-Inside-Pokemons {
+    box-shadow: var(--tokenShadow);
+    padding: 5%;
+    background-color: var(--tokenLightGray);
     justify-content: center;
     align-items: center;
     border-radius: 15px;
@@ -212,7 +297,7 @@
     color: black;
     flex-wrap: wrap;
     width: 94%;
-    gap: 5%;
+    gap: 6%;
     height: 40%;
     text-align: center;
 }
@@ -303,6 +388,7 @@
     border-radius: 15px;
     display: flex;
     background-color: var(--white);
+    flex-direction: row-reverse;
     color: black;
     text-align: left;
     width: 80%;

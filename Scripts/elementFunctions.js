@@ -3,11 +3,18 @@ export function noSpace(string) {
     return string.replace(/\s/g, " ");
 }
 
+export function createTextContent(element, text) {
+    let p = document.createElement("p");
+    p.classList.add("spam-Text-Content");
+    p.textContent = text;
+    element.appendChild(p);
+}
+
 /* EXPORTING FUNCTIONS*/
 export function createPlayer(name, source) {
     let main = document.getElementById("main");
     let id = noSpace(name);
-
+    
     let playerContainer = document.createElement("div");
     playerContainer.classList.add("player-Container");
     playerContainer.id = `${id}-Container`; 
@@ -72,14 +79,26 @@ export function createPlayer(name, source) {
     }
 }
 
-export function changeTokenPlayer(trainer) {
-    console.log("changing the tainer " + trainer._name + " token");
+export function changePlayerToken(trainer) {
     let id = noSpace(trainer._name);
     let token = document.getElementById(`${id}-Token`);
+    
+    if(token.classList.contains("player-Filled-Container")) {
+        console.log(`closing the trainer ${trainer._name} token`);
+
+        token.classList.remove("player-Filled-Container");
+        
+        while (token.firstChild) {
+            token.removeChild(token.firstChild);
+        }
+        return 0;
+    }
+
+    console.log("changing the tainer " + trainer._name + " token");
     token.classList.remove("empty");
     token.classList.remove("pokemon");
     token.classList.add("player-Filled-Container");
-
+    
     let insideToken = document.createElement("div");
     insideToken.classList.add("player-Filled");
     token.appendChild(insideToken);
@@ -92,42 +111,54 @@ export function changeTokenPlayer(trainer) {
     leftInside.classList.add("player-Filled-Left-Inside");
     left.appendChild(leftInside);
 
-    let leftInsideImgContainer = document.createElement("div");
-    leftInsideImgContainer.classList.add("player-Filled-Left-Inside-Image-Container");
-    leftInside.appendChild(leftInsideImgContainer);
+    let leftImageContainer = document.createElement("div");
+    leftImageContainer.classList.add("player-Filled-Left-Inside-Image-Container");
+    leftInside.appendChild(leftImageContainer);
 
-    let leftInsideImg = document.createElement("img");
-    leftInsideImg.classList.add("player-Filled-Left-Inside-Image");
-    leftInsideImg.src = trainer._image;
-    leftInsideImgContainer.appendChild(leftInsideImg);
+    let leftImage = document.createElement("img");
+    leftImage.classList.add("player-Filled-Left-Inside-Image");
+    leftImage.src = trainer._image;
+    leftImageContainer.appendChild(leftImage);
 
-    let leftInsideHPContainer = document.createElement("div");
-    leftInsideHPContainer.classList.add("player-Filled-Left-Inside-HP-Container");
-    leftInside.appendChild(leftInsideHPContainer);
+    let HPContainer = document.createElement("div");
+    HPContainer.classList.add("player-Filled-Left-Inside-HP-Container");
+    leftInside.appendChild(HPContainer);
 
-    let leftInsideHP = document.createElement("div");
-    leftInsideHP.classList.add("player-Filled-Left-Inside-HP");
-    leftInsideHP.textContent = "HP";
-    leftInsideHPContainer.appendChild(leftInsideHP);
+    let HP = document.createElement("div");
+    HP.classList.add("player-Filled-Left-Inside-HP");
+    HP.textContent = "HP";
+    HPContainer.appendChild(HP);
 
-    let leftInsideHPValue = document.createElement("div");
-    leftInsideHPValue.classList.add("player-Filled-Left-Inside-HP-Value");
-    leftInsideHPValue.textContent = `${trainer._HP}`;
-    leftInsideHP.appendChild(leftInsideHPValue);
+    let HPValue = document.createElement("div");
+    HPValue.classList.add("player-Filled-Left-Inside-HP-Value");
+    HPValue.textContent = `${trainer._HP}`;
+    HP.appendChild(HPValue);
+    HPValue.contentEditable = true;
+    HPValue.spellcheck = false;
+    HPValue.addEventListener('input', function() {
+        trainer._HP = this.textContent;
+        localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
+    });
 
-    let leftInsideWILLContainer = document.createElement("div");
-    leftInsideWILLContainer.classList.add("player-Filled-Left-Inside-WILL-Container");
-    leftInside.appendChild(leftInsideWILLContainer);
+    let WILLContainer = document.createElement("div");
+    WILLContainer.classList.add("player-Filled-Left-Inside-WILL-Container");
+    leftInside.appendChild(WILLContainer);
 
-    let leftInsideWILL = document.createElement("div");
-    leftInsideWILL.classList.add("player-Filled-Left-Inside-WILL");
-    leftInsideWILL.textContent = "WILL";
-    leftInsideWILLContainer.appendChild(leftInsideWILL);
+    let WILL = document.createElement("div");
+    WILL.classList.add("player-Filled-Left-Inside-WILL");
+    WILL.textContent = "WILL";
+    WILLContainer.appendChild(WILL);
 
-    let leftInsideWILLValue = document.createElement("div");
-    leftInsideWILLValue.classList.add("player-Filled-Left-Inside-WILL-Value");
-    leftInsideWILLValue.textContent = `${trainer._WILL}`;
-    leftInsideWILL.appendChild(leftInsideWILLValue);
+    let WILLValue = document.createElement("div");
+    WILLValue.classList.add("player-Filled-Left-Inside-WILL-Value");
+    WILLValue.textContent = `${trainer._WILL}`;
+    WILL.appendChild(WILLValue);
+    WILLValue.contentEditable = true;
+    WILLValue.spellcheck = false;
+    WILLValue.addEventListener('input', function() {
+        trainer._WILL = this.textContent;
+        localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
+    });
 
     let right = document.createElement("div");
     right.classList.add("player-Filled-Right");
@@ -141,91 +172,195 @@ export function changeTokenPlayer(trainer) {
     rightInsideTop.classList.add("player-Filled-Right-Inside-Top");
     right.appendChild(rightInsideTop);
 
-    let rightInsideTopDiv = document.createElement("div");
-    rightInsideTopDiv.classList.add("player-Filled-Right-Inside-Top-Div");
-    rightInsideTop.appendChild(rightInsideTopDiv);
+    let rightInsideContainer = document.createElement("div");
+    rightInsideContainer.classList.add("player-Filled-Right-Inside-Top-Div");
+    rightInsideTop.appendChild(rightInsideContainer);
 
     let GuildImage = document.createElement("img");
     GuildImage.classList.add("player-Filled-Right-Inside-Top-Guild-Image");
     GuildImage.src = "../Assets/Images/leagueSymbol.png";
-    rightInsideTopDiv.appendChild(GuildImage);
+    rightInsideContainer.appendChild(GuildImage);
 
-    let rightInsideTitleRankContainer = document.createElement("div");
-    rightInsideTitleRankContainer.classList.add("player-Filled-Right-Inside-Title-Container");
-    rightInsideTopDiv.appendChild(rightInsideTitleRankContainer);
+    let titleContainer = document.createElement("div");
+    titleContainer.classList.add("player-Filled-Right-Inside-Title-Container");
+    rightInsideContainer.appendChild(titleContainer);
 
-    let rightInsideTitle = document.createElement("h1");
-    rightInsideTitle.classList.add("player-Filled-Right-Inside-Title");
-    rightInsideTitle.textContent = "POKÉMON LEAGUE";
-    rightInsideTitleRankContainer.appendChild(rightInsideTitle);
+    let title = document.createElement("h1");
+    title.classList.add("player-Filled-Right-Inside-Title");
+    title.textContent = "POKÉMON LEAGUE";
+    titleContainer.appendChild(title);
 
-    let rightInsideRank = document.createElement("div");
-    rightInsideRank.classList.add("player-Filled-Right-Inside-Rank");
-    rightInsideTitleRankContainer.appendChild(rightInsideRank);
+    let rankContainer = document.createElement("div");
+    rankContainer.classList.add("player-Filled-Right-Inside-Rank");
+    titleContainer.appendChild(rankContainer);
 
-    let rightInsideRankText = document.createElement("p");
-    rightInsideRankText.classList.add("player-Filled-Right-Inside-Rank-Text");
-    rightInsideRankText.textContent = `Trainer's Rank:`;
-    rightInsideRank.appendChild(rightInsideRankText);
+    let rankContainerText = document.createElement("p");
+    rankContainerText.classList.add("player-Filled-Right-Inside-Rank-Text");
+    rankContainerText.textContent = `Trainer's Rank:`;
+    rankContainer.appendChild(rankContainerText);
 
-    let rightInsideRankValue = document.createElement("p");
-    rightInsideRankValue.classList.add("player-Filled-Right-Inside-Rank-Value");
-    rightInsideRankValue.textContent = `${trainer._rank}`;
-    rightInsideRank.appendChild(rightInsideRankValue);
+    let rankValue = document.createElement("p");
+    rankValue.classList.add("player-Filled-Right-Inside-Rank-Value");
+    rankValue.textContent = `${trainer._rank}`;
+    rankValue.contentEditable = true;
+    rankValue.spellcheck = false;
+    rankValue.addEventListener('input', function() {
+        trainer._rank = this.textContent;
+        localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
+    });
+    rankContainer.appendChild(rankValue);
 
-    let rightInsidePlayer = document.createElement("div");
-    rightInsidePlayer.classList.add("player-Filled-Right-Inside-Player");
-    rightInsidePlayer.textContent = `Player & Concept: ${trainer._name} & ${trainer._concept}`;
-    rightInside.appendChild(rightInsidePlayer);
+    let player = document.createElement("div");
+    player.classList.add("player-Filled-Right-Inside-Player-Container");
+    rightInside.appendChild(player);
+
+    let playerName = document.createElement("div");
+    playerName.classList.add("token-Spam-Text-Content");
+    playerName.textContent = `PLAYER:`;
+
+    let playerNameContainer = document.createElement("div");
+    playerNameContainer.classList.add("player-Filled-Right-Inside-Player-Name");
+    playerNameContainer.appendChild(playerName);
+    createTextContent(playerNameContainer, `${trainer._player}`);
+    playerNameContainer.children[1].contentEditable = true;
+    playerNameContainer.children[1].spellcheck = false;
+    playerNameContainer.children[1].addEventListener('input', function() {
+        trainer._player = this.textContent;
+        localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
+    });
+    player.appendChild(playerNameContainer);
+
+    let playerConcept = document.createElement("div");
+    playerConcept.classList.add("token-Spam-Text-Content");
+    playerConcept.textContent = `CONCEPT:`;
+
+    let playerConceptContainer = document.createElement("div");
+    playerConceptContainer.classList.add("player-Filled-Right-Inside-Player-Concept");
+    playerConceptContainer.appendChild(playerConcept);
+    createTextContent(playerConceptContainer, `${trainer._concept}`);
+    playerConceptContainer.children[1].contentEditable = true;
+    playerConceptContainer.children[1].spellcheck = false;
+    playerConceptContainer.children[1].addEventListener('input', function() {
+        trainer._concept = this.textContent;
+        localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
+    });
+    player.appendChild(playerConceptContainer);
 
     let rightInsideName = document.createElement("div");
     rightInsideName.classList.add("player-Filled-Right-Inside-Name");
-    rightInsideName.textContent = `Name: ${trainer._name} Age: ${trainer._age}`;
     rightInsideTop.appendChild(rightInsideName);
 
-    let rightInsideNatureContainer = document.createElement("div");
-    rightInsideNatureContainer.classList.add("player-Filled-Right-Inside-Nature-Container");
-    rightInside.appendChild(rightInsideNatureContainer);
+    let trainerName = document.createElement("div");
+    trainerName.classList.add("token-Spam-Text-Content");
+    trainerName.classList.add("small-Spam-Text-Content");
+    trainerName.textContent = `Trainer:`;
+    
+    let trainerNameContainer = document.createElement("div");
+    trainerNameContainer.classList.add("player-Filled-Right-Inside-Player");
+    trainerNameContainer.appendChild(trainerName);
+    createTextContent(trainerNameContainer, `${trainer._name}`);
+    trainerNameContainer.children[1].contentEditable = true;
+    trainerNameContainer.children[1].spellcheck = false;
+    trainerNameContainer.children[1].addEventListener('input', function() {
+        trainer._name = this.textContent;
+        localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
+    });
+    rightInsideName.appendChild(trainerNameContainer);
+
+    let trainerAge = document.createElement("div");
+    trainerAge.classList.add("token-Spam-Text-Content");
+    trainerAge.classList.add("small-Spam-Text-Content");
+    trainerAge.textContent = `Age:`;
+
+    let trainerAgeContainer = document.createElement("div");
+    trainerAgeContainer.classList.add("player-Filled-Right-Inside-Age");
+    trainerAgeContainer.appendChild(trainerAge);
+    createTextContent(trainerAgeContainer, `${trainer._age}`);
+    trainerAgeContainer.children[1].contentEditable = true;
+    trainerAgeContainer.children[1].spellcheck = false;
+    trainerAgeContainer.children[1].addEventListener('input', function() {
+        trainer._age = this.textContent;
+        localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
+    });
+    rightInsideName.appendChild(trainerAgeContainer);
+
+    let natureContainer = document.createElement("div");
+    natureContainer.classList.add("player-Filled-Right-Inside-Nature-Container");
+    rightInside.appendChild(natureContainer);
 
     let rightInsideNature = document.createElement("div");
     rightInsideNature.classList.add("player-Filled-Right-Inside-Nature");
-    rightInsideNatureContainer.appendChild(rightInsideNature);
+    natureContainer.appendChild(rightInsideNature);
 
-    let rightInsideNatureValue = document.createElement("div");
-    rightInsideNatureValue.classList.add("player-Filled-Right-Inside-Nature-Value");
-    rightInsideNatureValue.textContent = `Nature: ${trainer._nature}`;
-    rightInsideNature.appendChild(rightInsideNatureValue);
+    let natureValue = document.createElement("div");
+    natureValue.classList.add("token-Spam-Text-Content");
+    natureValue.textContent = `NATURE:`;
+    
+    let natureValueContainer = document.createElement("div");
+    natureValueContainer.classList.add("player-Filled-Right-Inside-Nature-Value");
+    natureValueContainer.appendChild(natureValue);
+    createTextContent(natureValueContainer, `${trainer._nature}`);
+    rightInsideNature.appendChild(natureValueContainer);
+    natureValueContainer.children[1].contentEditable = true;
+    natureValueContainer.children[1].spellcheck = false;
+    natureValueContainer.children[1].addEventListener('input', function() {
+        trainer._nature = this.textContent;
+        localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
+    });
+    rightInsideName.appendChild(trainerNameContainer);
 
-    let rightInsideConfidenceValue = document.createElement("div");
-    rightInsideConfidenceValue.classList.add("player-Filled-Right-Inside-Confidence-Value");
-    rightInsideConfidenceValue.textContent = `Confidence: ${trainer._confidence}`;
-    rightInsideNature.appendChild(rightInsideConfidenceValue);
+    let confidenceContainer = document.createElement("div");
+    confidenceContainer.classList.add("player-Filled-Right-Inside-Confidence-Value-Container");
+    confidenceContainer.textContent = `Confidence:`;
+    rightInsideNature.appendChild(confidenceContainer);
 
-    let rightInsideMoney = document.createElement("div");
-    rightInsideMoney.classList.add("player-Filled-Right-Inside-Money");
-    rightInsideMoney.textContent = `Money: ${trainer._money}`;
-    rightInsideNatureContainer.appendChild(rightInsideMoney);
+    let confidence = document.createElement("div");
+    confidence.classList.add("player-Filled-Right-Inside-Confidence-Value");
+    confidence.textContent = `${trainer._confidence}`;
+    confidenceContainer.appendChild(confidence);
+    confidence.contentEditable = true;
+    confidence.spellcheck = false;
+    confidence.addEventListener('input', function() {
+        trainer._confidence = this.textContent;
+        localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
+    });
 
-    let rightInsidePokemons = document.createElement("div");
-    rightInsidePokemons.classList.add("player-Filled-Right-Inside-Pokemons");
-    rightInside.appendChild(rightInsidePokemons);
+    let moneyText = document.createElement("div");
+    moneyText.classList.add("token-Spam-Text-Content");
+    moneyText.textContent = `MONEY:`;
+
+    let money = document.createElement("div");
+    money.classList.add("player-Filled-Right-Inside-Money");
+    money.appendChild(moneyText);
+    createTextContent(money, `${trainer._money}`);
+    natureContainer.appendChild(money);
+    money.children[1].contentEditable = true;
+    money.children[1].spellcheck = false;
+    money.children[1].addEventListener('input', function() {
+        trainer._money = this.textContent;
+        localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
+    });
+
+    let teamContainer = document.createElement("div");
+    teamContainer.classList.add("player-Filled-Right-Inside-Pokemons");
+    rightInside.appendChild(teamContainer);
 
     for(let k = 0; k < 6; k++) {
-        let divTimeNicks = document.createElement("div");
-        divTimeNicks.classList.add("player-Filled-Right-Inside-Pokemons-Nicknames");
+        let teamNicknames = document.createElement("div");
+        teamNicknames.classList.add("player-Filled-Right-Inside-Pokemons-Nicknames");
         let img = document.createElement("img");
-        img.classList.add("pokemonIcon")
+        img.classList.add("pokemonIcon");
         img.src = "../Assets/Images/capturedPokemon.png";
-        divTimeNicks.appendChild(img);
+        teamNicknames.appendChild(img);
 
         if (trainer._pokemons[k]) {
-                let name = document.createElement("p");
-                name.textContent = `${trainer._pokemons[k].nickname}`;
-                name.classList = "pokemonNickname";
-                divTimeNicks.appendChild(name);
+            let name = document.createElement("p");
+            name.textContent = `${trainer._pokemons[k].nickname}`;
+            name.classList = "pokemonNickname";
+            teamNicknames.appendChild(name);
         }
-    
-        rightInsidePokemons.appendChild(divTimeNicks);
+
+        teamContainer.appendChild(teamNicknames);
     }
 }
 
