@@ -63,40 +63,249 @@ export function createPlayer(name, source) {
     player.appendChild(pokemonTeamContainer);
 
     for (let i = 0; i <= 5; i++) {
-        let divTime = document.createElement("button");
-        divTime.classList.add("pokemonTeam");
-        divTime.id = `player${id}TeamButton${i}`;
-        pokemonTeamContainer.appendChild(divTime);
+            let divTime = document.createElement("button");
+            divTime.classList.add("pokemonTeam");
+            divTime.id = `player${id}TeamButton${i}`;
+            pokemonTeamContainer.appendChild(divTime);
+    
+            divTime.onclick = function() {
+                console.log("ping"); // LOG
+            }
+    
+            let Timeimage = document.createElement("img");
+            Timeimage.classList.add("pokemonTeamImage");
+            Timeimage.id = `player${id}TeamImage${i}`;
+            divTime.appendChild(Timeimage);
+    }
+}
 
-        divTime.onclick = function() {
-            console.log("ping"); // LOG
+export function createPokemon(trainer, pokemon) {
+    let pokemonPosition = 0;
+    
+    for(let name = pokemon.nickname; trainer._pokemons[pokemonPosition].nickname != name; pokemonPosition++) {}
+    
+    function createBoldParagraph (father, text) {
+        let p = document.createElement("p");
+        p.classList.add("pokemon-field-text");
+        let b = document.createElement("b");
+        b.textContent = text;
+        p.appendChild(b);
+        father.appendChild(p);
+    }
+    
+    let id = noSpace(trainer._name);
+    let token = document.getElementById(`${id}-Token`);
+    
+    if(token.classList.contains("player-Filled-Container") || token.classList.contains("pokemon-Filled-Container")) {
+        console.log(`closing the trainer ${trainer._name} token`);
+
+        token.classList.remove("pokemon-Filled-Container");
+        token.classList.remove("player-Filled-Container");
+
+        while (token.firstChild) {
+            token.removeChild(token.firstChild);
         }
 
-        let Timeimage = document.createElement("img");
-        Timeimage.classList.add("pokemonTeamImage");
-        Timeimage.id = `player${id}TeamImage${i}`;
-        divTime.appendChild(Timeimage);
+        return 0;
     }
+
+    console.log("changing the tainer " + trainer._name + " token");
+    token.classList.remove("empty");
+    token.classList.remove("player-Filled-Container");
+    token.classList.add("pokemon-Filled-Container");
+    
+    let insideFirstToken = document.createElement("div");
+    insideFirstToken.classList.add("start");
+    token.appendChild(insideFirstToken);
+
+    let insideFirstTokenInfo = document.createElement("div");
+    insideFirstTokenInfo.classList.add("info");
+    insideFirstTokenInfo.textContent = "Info";
+    insideFirstToken.appendChild(insideFirstTokenInfo);
+
+    createBoldParagraph(insideFirstToken, "Level:");
+    let level = document.createElement("div");
+    level.classList.add("pokemon-field-answear");
+    level.textContent = trainer._pokemons[pokemonPosition].level;
+    insideFirstToken.appendChild(level);
+
+    createBoldParagraph(insideFirstToken, "Gender:");
+    let gender = document.createElement("div");
+    gender.classList.add("pokemon-field-answear");
+    gender.textContent = trainer._pokemons[pokemonPosition].gender;
+    insideFirstToken.appendChild(gender);
+
+    createBoldParagraph(insideFirstToken, "Ability:");
+    let ability = document.createElement("div");
+    ability.classList.add("pokemon-field-answear");
+    ability.textContent = trainer._pokemons[pokemonPosition].ability;
+    insideFirstToken.appendChild(ability);
+    ability.classList.add("ability");
+
+    createBoldParagraph(insideFirstToken, "Nature:");
+    let nature = document.createElement("div");
+    nature.classList.add("pokemon-field-answear");
+    nature.textContent = trainer._pokemons[pokemonPosition].nature;
+    insideFirstToken.appendChild(nature);
+    nature.classList.add("nature");
+
+    createBoldParagraph(insideFirstToken, "Held item:");
+    let heldItem = document.createElement("div");
+    heldItem.classList.add("pokemon-field-answear");
+    heldItem.textContent = trainer._pokemons[pokemonPosition].heldItem;
+    insideFirstToken.appendChild(heldItem);
+
+    let insideSecondToken = document.createElement("div");
+    insideSecondToken.classList.add("moves-container");
+    token.appendChild(insideSecondToken);
+
+    let insideSecondTokenInfo = document.createElement("div");
+    insideSecondTokenInfo.classList.add("info");
+    insideSecondTokenInfo.textContent = "Moves";
+    insideSecondToken.appendChild(insideSecondTokenInfo);
+
+    let moves = document.createElement("div");
+    moves.classList.add("moves");
+    insideSecondToken.appendChild(moves);
+
+    for (let i = 0; i < 4; i++) {
+        let move = document.createElement("div");
+        move.classList.add("move");
+        move.textContent = trainer._pokemons[pokemonPosition].moves[i];
+        moves.appendChild(move);
+    }
+
+    let insideThirdToken = document.createElement("div");
+    insideThirdToken.classList.add("ivs-container");
+    token.appendChild(insideThirdToken);
+
+    let insideThirdTokenInfo = document.createElement("div");
+    insideThirdTokenInfo.classList.add("info");
+    insideThirdTokenInfo.textContent = "IVs / EVS";
+    insideThirdToken.appendChild(insideThirdTokenInfo);
+
+    let ivButton = document.createElement("button");
+    ivButton.classList.add("iv-button");
+    insideThirdToken.appendChild(ivButton);
+
+    let leftbutton = document.createElement("button");
+    leftbutton.classList.add("left-button");
+    leftbutton.classList.add("active");
+    leftbutton.textContent = "IVs";
+    ivButton.appendChild(leftbutton);
+
+    let righbutton = document.createElement("button");
+    righbutton.classList.add("right-button");
+    righbutton.textContent = "EVs";
+    ivButton.appendChild(righbutton);
+
+    let ivsDiv = document.createElement("div");
+    ivsDiv.classList.add("ivs");
+    insideThirdToken.appendChild(ivsDiv);
+
+    let attributes = ["HP", "Attack", "Defense", "S.Atk", "S.De", "Speed"];
+    for (let i = 0; i < 6; i++) {
+        let ivDiv = document.createElement("div");
+        ivDiv.classList.add("ev");
+        ivsDiv.appendChild(ivDiv);
+        
+        let attribute = document.createElement("div");
+        attribute.classList.add("iv-text");
+        attribute.textContent = attributes[i];
+        ivDiv.appendChild(attribute);
+
+        let value = document.createElement("div");
+        value.classList.add("iv-value");
+        value.textContent = trainer._pokemons[pokemonPosition].ivs[i];
+        ivDiv.appendChild(value);
+    }
+
+    let evsDiv = document.createElement("div");
+    evsDiv.classList.add("evs");
+    evsDiv.classList.add("hidden");
+    insideThirdToken.appendChild(evsDiv);
+
+    for (let i = 0; i < 6; i++) {
+        let evDiv = document.createElement("div");
+        evDiv.classList.add("ev");
+        evsDiv.appendChild(evDiv);
+        
+        let attribute = document.createElement("div");
+        attribute.classList.add("ev-text");
+        attribute.textContent = attributes[i];
+        evDiv.appendChild(attribute);
+
+        let value = document.createElement("div");
+        value.classList.add("ev-value");
+        value.textContent = trainer._pokemons[pokemonPosition].evs[i];
+        evDiv.appendChild(value);
+    }
+
+    let insideFourthToken = document.createElement("div");
+    insideFourthToken.classList.add("stats");
+    token.appendChild(insideFourthToken);
+
+    let insideFourthTokenInfo = document.createElement("div");
+    insideFourthTokenInfo.classList.add("info");
+    insideFourthTokenInfo.textContent = "Stats";
+    insideFourthToken.appendChild(insideFourthTokenInfo);
+
+    let stats = document.createElement("canvas");
+    stats.id = "myChart";
+    insideFourthToken.appendChild(stats);
+    new Chart(stats, {
+      type: 'radar',
+      data: {
+        labels: [
+          'Attack',
+          'Defence',
+          'HP',
+          'S.Def',
+          'S.Atk',
+          'Speed',
+        ],
+        datasets: [{
+          label: '',
+          data: trainer._pokemons[pokemonPosition].attributes,
+          fill: true,
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgb(255, 99, 132)',
+          pointBackgroundColor: 'rgb(255, 99, 132)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgb(255, 99, 132)'
+        }]
+      },
+      options: {
+        elements: {
+          line: {
+            borderWidth: 3
+          }
+        }
+      }
+    });
 }
 
 export function changePlayerToken(trainer) {
     let id = noSpace(trainer._name);
     let token = document.getElementById(`${id}-Token`);
     
-    if(token.classList.contains("player-Filled-Container")) {
+    if(token.classList.contains("player-Filled-Container") || token.classList.contains("pokemon-Filled-Container")) {
         console.log(`closing the trainer ${trainer._name} token`);
 
         token.classList.remove("player-Filled-Container");
+        token.classList.remove("pokemon-Filled-Container");
         
         while (token.firstChild) {
             token.removeChild(token.firstChild);
         }
+        
         return 0;
     }
 
     console.log("changing the tainer " + trainer._name + " token");
     token.classList.remove("empty");
-    token.classList.remove("pokemon");
+    token.classList.remove("pokemon-Filled-Container");
     token.classList.add("player-Filled-Container");
     
     let insideToken = document.createElement("div");
@@ -370,11 +579,11 @@ export function changeType(element, type) {
             element.classList.add("electric"); 
             break;
         case "fire":
-          element.classList.add("fire"); 
-          break;
+            element.classList.add("fire"); 
+            break;
         case "water":
-          element.classList.add("water");
-          break;
+            element.classList.add("water");
+            break;
         case "psychic":
             element.classList.add("psychic");
             break;
@@ -418,6 +627,6 @@ export function changeType(element, type) {
             element.classList.add("fairy");
             break;
         default:
-          element.classList.add("normal");
+            element.classList.add("normal");
     }
 }

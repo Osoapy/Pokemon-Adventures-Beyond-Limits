@@ -10,6 +10,7 @@ import * as trainerClass from './trainer.js';
 
 /* GLOBAL VARIABLES */
 let trainerList = {};
+let trainerArray = [];
 
 /* DECLARING FUNCTIONS */
 function createPlayer(trainer) {
@@ -25,7 +26,7 @@ function createPlayer(trainer) {
     // ADDING THE LOG FUNCTION TO THE PLAYER IMG
     let button = document.getElementById(`player${trainer._name}Button`);
     button.onclick = function() {
-        htmlMaker.changeTokenPlayer(trainer);
+        htmlMaker.changePlayerToken(trainer);
         console.log(trainerList[trainer._name]); // LOG
     }
 
@@ -37,7 +38,7 @@ function createPlayer(trainer) {
 }
 
 function readTrainer(trainer) {
-    console.log("Reading the trainer " + trainer); // LOG
+    console.log("Reading the trainer " + trainer._name); // LOG
     console.log(trainer); // LOG
 
     // MAKING THE HTML PART
@@ -87,7 +88,6 @@ async function createPokemon(trainer, pokemon, position) {
 
         // INSERT IN THE OBJECT POKEMON ITS CRIES, ATTRIBUTES, TYPES, WEIGHT & HEIGHT
         pokemon.cries = data.cries.latest;
-        pokemon.attributes = data.stats.basestat;
         let types = [];
         for (let i = 0; i < data.types.length; types.push(data.types[i].type.name), i++) {}
         console.log("Pokemon types are: " + types); // LOG
@@ -104,6 +104,7 @@ async function createPokemon(trainer, pokemon, position) {
         let botao = document.getElementById(`player${trainer._name}TeamButton${position}`);
         botao.onclick = function() {
             console.log(trainerList[trainer._name]._pokemons[position]); // LOG
+            htmlMaker.createPokemon(trainer, trainerList[trainer._name]._pokemons[position])
         }
 
         // NOW, SAVE IT
@@ -116,21 +117,23 @@ async function createPokemon(trainer, pokemon, position) {
 }
 
 // name, nature, confidence, player, HP, WILL, money, concept, xp, age, rank, image, itens, badges, pokemons, attributes, skills, qualities
-//let trainer = new trainerClass.Trainer("Jhonny Tail, é isso aí", "Bold", 9, "Bebel", 25, 4, 680, "Fotógrafo", 0, 13, "Beginner", "https://s1.zerochan.net/Aipom.600.3286573.jpg", ["pokeball x3", "mochila", "câmera", "cartas", "pokedex", "gancho de alpinismo", "roupa de trapper", "potion x2"], ["Sunflower"], [], [1,2,1,2], [0,1,1,0,1,1,0,0,1,0,0,0,0,0,0,0], [1, 2, 1, 1, 2]);
-//createPlayer(trainer);
+let trainer = new trainerClass.Trainer("Jhonny Tail, é isso aí", "Bold", 9, "Bebel", 25, 4, 680, "Fotógrafo", 0, 13, "Beginner", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLu64GywifUB9hi5ydUFnFn-9BPn1_j67jtg&s", ["pokeball x3", "mochila", "câmera", "cartas", "pokedex", "gancho de alpinismo", "roupa de trapper", "potion x2"], ["Sunflower"], [], [1,2,1,2], [0,1,1,0,1,1,0,0,1,0,0,0,0,0,0,0], [1, 2, 1, 1, 2]);
+createPlayer(trainer);
 //name, gender, nickname, level, attributes, ability, nature, ivs, evs, item, moves, types, weight, height, hapiness, friendship, isShiny, cries
-//let pokemon1 = new pokemonClass.Pokemon("Aipom", "M", "Polaroid", 16, [48, 42, 27, 51, 27, 20], "Skill Link", "Jolly", [31, 31, 31, 31, 31], [6, 252, 0, 252, 0, 0], null, ["Sand Attack", "Rain Dance", "Tickle", "Astonish"], null, null, null, 100, 100, 0, null);
-//createPokemon(trainer, pokemon1, 1);
-//let pokemon2 = new pokemonClass.Pokemon("Ivysaur", "F", "Leica", 17, [47, 40, 26, 22, 32, 42], "Overgrow", "Brave", [31, 31, 31, 31, 31], [6, 252, 0, 252, 0, 0], null, ["Sleep Powder", "Poison Powder", "Solar Beam", "Razor Leaf"], null, null, null, 100, 100, 0, null);
-//createPokemon(trainer, pokemon2, 2);
+let pokemon1 = new pokemonClass.Pokemon("Aipom", "M", "Polaroid", 16, [48, 42, 27, 51, 27, 20], "Skill Link", "Jolly", [31, 31, 31, 31, 31], [6, 252, 0, 252, 0, 0], null, ["Sand Attack", "Rain Dance", "Tickle", "Astonish"], null, null, null, 100, 100, 0, null);
+createPokemon(trainer, pokemon1, 1);
+let pokemon2 = new pokemonClass.Pokemon("Ivysaur", "F", "Leica", 17, [47, 40, 26, 22, 32, 42], "Overgrow", "Brave", [31, 31, 31, 31, 31], [6, 252, 0, 252, 0, 0], null, ["Sleep Powder", "Poison Powder", "Solar Beam", "Razor Leaf"], null, null, null, 100, 100, 0, null);
+createPokemon(trainer, pokemon2, 2);
 
 function reloadPage() {
     // READ EVERY OBJECT/PLAYER IN THE LOCALSTORAGE
     for(let k = 0; ; k++){
         let serializedObject = localStorage.getItem(`object${k}`);
         if (serializedObject){
-            let object = JSON.parse(serializedObject);
-            readTrainer(object);
+                let object = JSON.parse(serializedObject);
+                if (!trainerList[object._name]) {
+                        readTrainer(object);
+                }
         }
         else {
             break;
