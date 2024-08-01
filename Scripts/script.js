@@ -10,9 +10,38 @@ import * as trainerClass from './trainer.js';
 
 /* GLOBAL VARIABLES */
 let trainerList = {};
-let trainerArray = [];
 
 /* DECLARING FUNCTIONS */
+function getNatureEffect(nature) {
+  const natures = {
+    "Adamant": [2, 4],  // Attack+, Sp Atk-
+    "Bold": [3, 2],     // Defense+, Attack-
+    "Brave": [2, 6],    // Attack+, Speed-
+    "Calm": [5, 2],     // Sp Def+, Attack-
+    "Careful": [5, 4],  // Sp Def+, Sp Atk-
+    "Gentle": [5, 3],   // Sp Def+, Defense-
+    "Hardy": [0, 0],    // Neutral
+    "Hasty": [6, 3],    // Speed+, Defense-
+    "Impish": [3, 4],   // Defense+, Sp Atk-
+    "Jolly": [6, 4],    // Speed+, Sp Atk-
+    "Lax": [3, 5],      // Defense+, Sp Def-
+    "Lonely": [2, 3],   // Attack+, Defense-
+    "Mild": [4, 3],     // Sp Atk+, Defense-
+    "Modest": [4, 2],   // Sp Atk+, Attack-
+    "Naive": [6, 5],    // Speed+, Sp Def-
+    "Naughty": [2, 5],  // Attack+, Sp Def-
+    "Quiet": [4, 6],    // Sp Atk+, Speed-
+    "Quirky": [0, 0],   // Neutral
+    "Rash": [4, 5],     // Sp Atk+, Sp Def-
+    "Relaxed": [3, 6],  // Defense+, Speed-
+    "Sassy": [5, 6],    // Sp Def+, Speed-
+    "Serious": [0, 0],  // Neutral
+    "Timid": [6, 2]     // Speed+, Attack-
+  };
+
+  return natures[nature] || [0, 0]; // Returns 0 0 if the nature is not found
+}
+
 function createPlayer(trainer) {
     // MAKE THE HTML PART
     htmlMaker.createPlayer(trainer.name, trainer.image);
@@ -88,6 +117,59 @@ async function createPokemon(trainer, pokemon, position) {
 
         // INSERT IN THE OBJECT POKEMON ITS CRIES, ATTRIBUTES, TYPES, WEIGHT & HEIGHT
         pokemon.cries = data.cries.latest;
+        let attributes = [];
+        for (let i = 0; i < data.stats.length; attributes.push(data.stats[i].base_stat), i++) {
+        }
+        pokemon.attributes = attributes;
+        for(let i = 0; i < attributes.length; i++) {
+                // IF
+                if(attributes == 0) {
+                    // ELSE
+                    attributes[i] = Math.floor(0.01 * (2 * attributes[i] + pokemon.iv[i] + Math.floor(0.25 * pokemon.ev[i])) * pokemon.level) + pokemon.level + 10;
+                    // IF
+                    if (pokemon.name == "Shedinja") {
+                        attributes[i] = 1;
+                    }
+                }
+                // ELSE
+                Math.floor(0.01 * (2 * attributes[i] + pokemon.ivs[i] + Math.floor(0.25 * pokemon.evs[i])) * pokemon.level) + 5;
+        }
+        switch(getNatureEffect(pokemon.nature)[1]) {
+            case 2:
+                pokemon.attributes[2] = Math.floor(pokemon.attributes[2] * 1.1);
+                break;
+            
+            case 3:
+                pokemon.attributes[3] = Math.floor(pokemon.attributes[3] * 1.1);
+                break;
+            case 4:
+                pokemon.attributes[4] = Math.floor(pokemon.attributes[4] * 1.1);
+                break;
+            case 5:
+                pokemon.attributes[5] = Math.floor(pokemon.attributes[5] * 1.1);
+                break;
+            case 6:
+                pokemon.attributes[6] = Math.floor(pokemon.attributes[6] * 1.1);
+                break;
+        }
+        switch(getNatureEffect(pokemon.nature)[2]) {
+            case 2:
+                pokemon.attributes[2] = Math.floor(pokemon.attributes[2] * 0.9);
+                break;
+
+            case 3:
+                pokemon.attributes[3] = Math.floor(pokemon.attributes[3] * 0.9);
+                break;
+            case 4:
+                pokemon.attributes[4] = Math.floor(pokemon.attributes[4] * 0.9);
+                break;
+            case 5:
+                pokemon.attributes[5] = Math.floor(pokemon.attributes[5] * 0.9);
+                break;
+            case 6:
+                pokemon.attributes[6] = Math.floor(pokemon.attributes[6] * 0.9);
+                break;
+        }
         let types = [];
         for (let i = 0; i < data.types.length; types.push(data.types[i].type.name), i++) {}
         console.log("Pokemon types are: " + types); // LOG
@@ -120,9 +202,9 @@ async function createPokemon(trainer, pokemon, position) {
 let trainer = new trainerClass.Trainer("Jhonny Tail, é isso aí", "Bold", 9, "Bebel", 25, 4, 680, "Fotógrafo", 0, 13, "Beginner", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLu64GywifUB9hi5ydUFnFn-9BPn1_j67jtg&s", ["pokeball x3", "mochila", "câmera", "cartas", "pokedex", "gancho de alpinismo", "roupa de trapper", "potion x2"], ["Sunflower"], [], [1,2,1,2], [0,1,1,0,1,1,0,0,1,0,0,0,0,0,0,0], [1, 2, 1, 1, 2]);
 createPlayer(trainer);
 //name, gender, nickname, level, attributes, ability, nature, ivs, evs, item, moves, types, weight, height, hapiness, friendship, isShiny, cries
-let pokemon1 = new pokemonClass.Pokemon("Aipom", "M", "Polaroid", 16, [48, 42, 27, 51, 27, 20], "Skill Link", "Jolly", [31, 31, 31, 31, 31], [6, 252, 0, 252, 0, 0], null, ["Sand Attack", "Rain Dance", "Tickle", "Astonish"], null, null, null, 100, 100, 0, null);
+let pokemon1 = new pokemonClass.Pokemon("Aipom", "M", "Polaroid", 16, null, "Skill Link", "Jolly", [31, 31, 31, 31, 31, 31], [6, 252, 0, 252, 0, 0], null, ["Sand Attack", "Rain Dance", "Tickle", "Astonish"], null, null, null, 100, 100, 0, null);
 createPokemon(trainer, pokemon1, 1);
-let pokemon2 = new pokemonClass.Pokemon("Ivysaur", "F", "Leica", 17, [47, 40, 26, 22, 32, 42], "Overgrow", "Brave", [31, 31, 31, 31, 31], [6, 252, 0, 252, 0, 0], null, ["Sleep Powder", "Poison Powder", "Solar Beam", "Razor Leaf"], null, null, null, 100, 100, 0, null);
+let pokemon2 = new pokemonClass.Pokemon("Ivysaur", "F", "Leica", 17, null, "Overgrow", "Brave", [31, 31, 31, 31, 31, 31], [6, 252, 0, 252, 0, 0], null, ["Sleep Powder", "Poison Powder", "Solar Beam", "Razor Leaf"], null, null, null, 100, 100, 0, null);
 createPokemon(trainer, pokemon2, 2);
 
 function reloadPage() {

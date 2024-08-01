@@ -51,6 +51,7 @@ export function createPlayer(name, source) {
     topContainer.appendChild(playerTop);
 
     let playerName = document.createElement("h1");
+    playerName.classList.add("player-Name");
     playerName.textContent = name;
     playerTop.appendChild(playerName);
 
@@ -128,12 +129,24 @@ export function createPokemon(trainer, pokemon) {
     level.classList.add("pokemon-field-answear");
     level.textContent = trainer._pokemons[pokemonPosition].level;
     insideFirstToken.appendChild(level);
+    level.contentEditable = true;
+    level.spellcheck = false;
+    level.addEventListener('input', function() {
+        trainer._pokemons[pokemonPosition].level = this.textContent;
+        localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
+    });
 
     createBoldParagraph(insideFirstToken, "Gender:");
     let gender = document.createElement("div");
     gender.classList.add("pokemon-field-answear");
     gender.textContent = trainer._pokemons[pokemonPosition].gender;
     insideFirstToken.appendChild(gender);
+    gender.contentEditable = true;
+    gender.spellcheck = false;
+    gender.addEventListener('input', function() {
+        trainer._pokemons[pokemonPosition].gender = this.textContent;
+        localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
+    });
 
     createBoldParagraph(insideFirstToken, "Ability:");
     let ability = document.createElement("div");
@@ -141,6 +154,12 @@ export function createPokemon(trainer, pokemon) {
     ability.textContent = trainer._pokemons[pokemonPosition].ability;
     insideFirstToken.appendChild(ability);
     ability.classList.add("ability");
+    ability.contentEditable = true;
+    ability.spellcheck = false;
+    ability.addEventListener('input', function() {
+        trainer._pokemons[pokemonPosition].ability = this.textContent;
+        localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
+    });
 
     createBoldParagraph(insideFirstToken, "Nature:");
     let nature = document.createElement("div");
@@ -148,12 +167,24 @@ export function createPokemon(trainer, pokemon) {
     nature.textContent = trainer._pokemons[pokemonPosition].nature;
     insideFirstToken.appendChild(nature);
     nature.classList.add("nature");
+    nature.contentEditable = true;
+    nature.spellcheck = false;
+    nature.addEventListener('input', function() {
+        trainer._pokemons[pokemonPosition].nature = this.textContent;
+        localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
+    });
 
     createBoldParagraph(insideFirstToken, "Held item:");
     let heldItem = document.createElement("div");
     heldItem.classList.add("pokemon-field-answear");
     heldItem.textContent = trainer._pokemons[pokemonPosition].heldItem;
     insideFirstToken.appendChild(heldItem);
+    heldItem.contentEditable = true;
+    heldItem.spellcheck = false;
+    heldItem.addEventListener('input', function() {
+        trainer._pokemons[pokemonPosition].heldItem = this.textContent;
+        localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
+    });
 
     let insideSecondToken = document.createElement("div");
     insideSecondToken.classList.add("moves-container");
@@ -173,6 +204,12 @@ export function createPokemon(trainer, pokemon) {
         move.classList.add("move");
         move.textContent = trainer._pokemons[pokemonPosition].moves[i];
         moves.appendChild(move);
+        move.contentEditable = true;
+        move.spellcheck = false;
+        move.addEventListener('input', function() {
+            trainer._pokemons[pokemonPosition].moves[i] = this.textContent;
+            localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
+        });
     }
 
     let insideThirdToken = document.createElement("div");
@@ -181,7 +218,7 @@ export function createPokemon(trainer, pokemon) {
 
     let insideThirdTokenInfo = document.createElement("div");
     insideThirdTokenInfo.classList.add("info");
-    insideThirdTokenInfo.textContent = "IVs / EVS";
+    insideThirdTokenInfo.textContent = "IVs / EVs";
     insideThirdToken.appendChild(insideThirdTokenInfo);
 
     let ivButton = document.createElement("button");
@@ -190,20 +227,52 @@ export function createPokemon(trainer, pokemon) {
 
     let leftbutton = document.createElement("button");
     leftbutton.classList.add("left-button");
-    leftbutton.classList.add("active");
     leftbutton.textContent = "IVs";
     ivButton.appendChild(leftbutton);
+    leftbutton.onclick = function() {
+        let father = ivButton.parentElement;
+        ivButton.children[1].classList.remove("active");
+        father.children[3].classList.remove("show");
+        ivButton.children[2].classList.remove("active");
+        father.children[4].classList.remove("show");
+        ivButton.children[0].classList.add("active");
+        father.children[2].classList.add("show");
+    }
 
+    let attbutton = document.createElement("button");
+    attbutton.classList.add("att-button");
+    attbutton.textContent = "Stats";
+    attbutton.classList.add("active");
+    ivButton.appendChild(attbutton);
+    attbutton.onclick = function() {
+        let father = ivButton.parentElement;
+        ivButton.children[0].classList.remove("active");
+        father.children[2].classList.remove("show");
+        ivButton.children[2].classList.remove("active");
+        father.children[4].classList.remove("show");
+        ivButton.children[1].classList.add("active");
+        father.children[3].classList.add("show");
+    }
+    
     let righbutton = document.createElement("button");
     righbutton.classList.add("right-button");
     righbutton.textContent = "EVs";
     ivButton.appendChild(righbutton);
+    righbutton.onclick = function() {
+        let father = ivButton.parentElement;
+        ivButton.children[0].classList.remove("active");
+        father.children[2].classList.remove("show");
+        ivButton.children[1].classList.remove("active");
+        father.children[3].classList.remove("show");
+        ivButton.children[2].classList.add("active");
+        father.children[4].classList.add("show");
+    }
 
     let ivsDiv = document.createElement("div");
     ivsDiv.classList.add("ivs");
     insideThirdToken.appendChild(ivsDiv);
 
-    let attributes = ["HP", "Attack", "Defense", "S.Atk", "S.De", "Speed"];
+    let attributes = ["HP", "Attack", "Defense", "S.Atk", "S.Def", "Speed"];
     for (let i = 0; i < 6; i++) {
         let ivDiv = document.createElement("div");
         ivDiv.classList.add("ev");
@@ -218,11 +287,43 @@ export function createPokemon(trainer, pokemon) {
         value.classList.add("iv-value");
         value.textContent = trainer._pokemons[pokemonPosition].ivs[i];
         ivDiv.appendChild(value);
+        value.contentEditable = true;
+        value.spellcheck = false;
+        value.addEventListener('input', function() {
+            trainer._pokemons[pokemonPosition].ivs[i] = this.textContent;
+            localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
+        });
+    }
+
+    let attDiv = document.createElement("div");
+    attDiv.classList.add("ivs");
+    attDiv.classList.add("show");
+    insideThirdToken.appendChild(attDiv);
+
+    for (let i = 0; i < 6; i++) {
+        let evDiv = document.createElement("div");
+        evDiv.classList.add("ev");
+        attDiv.appendChild(evDiv);
+
+        let attribute = document.createElement("div");
+        attribute.classList.add("ev-text");
+        attribute.textContent = attributes[i];
+        evDiv.appendChild(attribute);
+
+        let value = document.createElement("div");
+        value.classList.add("ev-value");
+        value.textContent = trainer._pokemons[pokemonPosition].attributes[i];
+        evDiv.appendChild(value);
+        value.contentEditable = true;
+        value.spellcheck = false;
+        value.addEventListener('input', function() {
+            trainer._pokemons[pokemonPosition].attributes[i] = this.textContent;
+            localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
+        });
     }
 
     let evsDiv = document.createElement("div");
     evsDiv.classList.add("evs");
-    evsDiv.classList.add("hidden");
     insideThirdToken.appendChild(evsDiv);
 
     for (let i = 0; i < 6; i++) {
@@ -239,6 +340,12 @@ export function createPokemon(trainer, pokemon) {
         value.classList.add("ev-value");
         value.textContent = trainer._pokemons[pokemonPosition].evs[i];
         evDiv.appendChild(value);
+        value.contentEditable = true;
+        value.spellcheck = false;
+        value.addEventListener('input', function() {
+            trainer._pokemons[pokemonPosition].evs[i] = this.textContent;
+            localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
+        });
     }
 
     let insideFourthToken = document.createElement("div");
@@ -254,36 +361,46 @@ export function createPokemon(trainer, pokemon) {
     stats.id = "myChart";
     insideFourthToken.appendChild(stats);
     new Chart(stats, {
-      type: 'radar',
-      data: {
-        labels: [
-          'Attack',
-          'Defence',
-          'HP',
-          'S.Def',
-          'S.Atk',
-          'Speed',
-        ],
-        datasets: [{
-          label: '',
-          data: trainer._pokemons[pokemonPosition].attributes,
-          fill: true,
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          borderColor: 'rgb(255, 99, 132)',
-          pointBackgroundColor: 'rgb(255, 99, 132)',
-          pointBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgb(255, 99, 132)'
-        }]
-      },
-      options: {
-        elements: {
-          line: {
-            borderWidth: 3
-          }
+        type: 'radar',
+        data: {
+            labels: [
+              'Attack',
+              'Defence',
+              'HP',
+              'S.Def',
+              'S.Atk',
+              'Speed'
+            ],
+            datasets: [{
+              label: '',
+              data: trainer._pokemons[pokemonPosition].attributes,
+              fill: true,
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderColor: 'rgb(255, 99, 132)',
+              pointBackgroundColor: 'rgb(255, 99, 132)',
+              pointBorderColor: '#fff',
+              pointHoverBackgroundColor: '#fff',
+              pointHoverBorderColor: 'rgb(255, 99, 132)'
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    labels: {
+                        font: {
+                            family: "'Kimberle', sans-serif"
+                        }
+                    }
+                }
+            },
+            elements: {
+                line: {
+                    borderWidth: 2
+                }
+            }
         }
-      }
     });
+    Chart.defaults.font.size = 18;
 }
 
 export function changePlayerToken(trainer) {
@@ -567,6 +684,12 @@ export function changePlayerToken(trainer) {
             name.textContent = `${trainer._pokemons[k].nickname}`;
             name.classList = "pokemonNickname";
             teamNicknames.appendChild(name);
+            name.contentEditable = true;
+            name.spellcheck = false;
+            name.addEventListener('input', function() {
+                trainer._pokemons[k].nickname = this.textContent;
+                localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
+            });
         }
 
         teamContainer.appendChild(teamNicknames);
