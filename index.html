@@ -7,11 +7,102 @@
     <link rel="stylesheet" href="Styles/types.css">
     <link rel="stylesheet" href="Styles/trainerSheet.css">
     <link rel="stylesheet" href="Styles/pokemonSheet.css">
+    <link rel="stylesheet" href="Styles/creatorSheet.css">
     <link rel="icon" href="Assets/Images/pokemon.png">
 </head>
 <body>
-    <main id="main"></main>
-
+    <div id="overlay">
+        
+    </div>
+    <div id="inputContainer">
+        <input type="text" id="linkInput" placeholder="Insira o link aqui">
+        <button id="confirmBtn">Confirmar</button>
+    </div>
+    <main id="main">
+        <div class="creatorSheet">
+            <div class="player-Token player-Filled-Container" id="creationToken">
+                <div class="player-Filled">
+                    <div class="player-Filled-Left">
+                        <div class="player-Filled-Left-Inside">
+                            <div class="player-Filled-Left-Inside-Image-Container">
+                                <img id="showInputBtn" class="player-Filled-Left-Inside-Image" src="">
+                            </div>
+                            <div class="player-Filled-Left-Inside-HP-Container">
+                                <div class="player-Filled-Left-Inside-HP">HP
+                                    <div id="creationHP" class="player-Filled-Left-Inside-HP-Value" contenteditable="true" spellcheck="false">0
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="player-Filled-Left-Inside-WILL-Container">
+                                <div class="player-Filled-Left-Inside-WILL">WILL
+                                    <div id="creationWILL" class="player-Filled-Left-Inside-WILL-Value" contenteditable="true" spellcheck="false">0
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-Filled-Right">
+                        <div class="player-Filled-Right-Inside">
+                            <div class="player-Filled-Right-Inside-Player-Container">
+                                <div class="player-Filled-Right-Inside-Player-Name">
+                                    <div class="token-Spam-Text-Content">PLAYER:</div>
+                                    <p id="creationPlayer" class="spam-Text-Content" contenteditable="true" spellcheck="false">???</p>
+                                </div>
+                                <div class="player-Filled-Right-Inside-Player-Concept">
+                                    <div class="token-Spam-Text-Content">CONCEPT:</div>
+                                    <p id="creationConcept" class="spam-Text-Content" contenteditable="true" spellcheck="false">???</p>
+                                </div>
+                            </div>
+                            <div class="player-Filled-Right-Inside-Nature-Container">
+                                <div class="player-Filled-Right-Inside-Nature">
+                                    <div class="player-Filled-Right-Inside-Nature-Value">
+                                        <div class="token-Spam-Text-Content">NATURE:</div>
+                                        <p id="creationNature" class="spam-Text-Content" contenteditable="true" spellcheck="false">???</p>
+                                    </div>
+                                    <div class="player-Filled-Right-Inside-Confidence-Value-Container">Confidence:
+                                        <div id="creationConfidence" class="player-Filled-Right-Inside-Confidence-Value" contenteditable="true" spellcheck="false">0
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="player-Filled-Right-Inside-Money">
+                                    <div class="token-Spam-Text-Content">MONEY:</div>
+                                    <p id="creationMoney" class="spam-Text-Content" contenteditable="true" spellcheck="false">0</p>
+                                </div>
+                            </div>
+                            <div class="playerCreationButtons">
+                                <img id="redButton" src="Assets/Images/redButton.png">
+                                <img id="greenButton" src="Assets/Images/greenButton.png">
+                            </div>
+                        </div>
+                        <div class="player-Filled-Right-Inside-Top">
+                            <div class="player-Filled-Right-Inside-Top-Div">
+                                <img class="player-Filled-Right-Inside-Top-Guild-Image" src="../Assets/Images/leagueSymbol.png">
+                                <div class="player-Filled-Right-Inside-Title-Container">
+                                    <h1 class="player-Filled-Right-Inside-Title">TRAINER CREATION</h1>
+                                    <div class="player-Filled-Right-Inside-Rank">
+                                        <p class="player-Filled-Right-Inside-Rank-Text">Trainer's Rank:</p>
+                                        <p id="creationRank" class="player-Filled-Right-Inside-Rank-Value" contenteditable="true" spellcheck="false">None
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="player-Filled-Right-Inside-Name">
+                                <div class="player-Filled-Right-Inside-Age">
+                                    <div class="token-Spam-Text-Content small-Spam-Text-Content">AGE:</div>
+                                    <p id="creationAge" class="spam-Text-Content" contenteditable="true" spellcheck="false">0</p>
+                                </div>
+                                <div class="player-Filled-Right-Inside-Player">
+                                    <div class="token-Spam-Text-Content small-Spam-Text-Content">TRAINER:</div>
+                                    <p id="creationName" class="spam-Text-Content" contenteditable="true" spellcheck="false">Insert name here...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
     <script src="Scripts/script.js" type="module"></script>
+    <script src="Scripts/createSite.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>

@@ -10,41 +10,95 @@ import * as trainerClass from './trainer.js';
 
 /* GLOBAL VARIABLES */
 let trainerList = {};
+let firstChild = document.getElementById('main').children[0];
 
 /* DECLARING FUNCTIONS */
-function getNatureEffect(nature) {
+export function getNatureEffect(nature) {
   const natures = {
-    "Adamant": [2, 4],  // Attack+, Sp Atk-
-    "Bold": [3, 2],     // Defense+, Attack-
-    "Brave": [2, 6],    // Attack+, Speed-
-    "Calm": [5, 2],     // Sp Def+, Attack-
-    "Careful": [5, 4],  // Sp Def+, Sp Atk-
-    "Gentle": [5, 3],   // Sp Def+, Defense-
-    "Hardy": [0, 0],    // Neutral
-    "Hasty": [6, 3],    // Speed+, Defense-
-    "Impish": [3, 4],   // Defense+, Sp Atk-
-    "Jolly": [6, 4],    // Speed+, Sp Atk-
-    "Lax": [3, 5],      // Defense+, Sp Def-
-    "Lonely": [2, 3],   // Attack+, Defense-
-    "Mild": [4, 3],     // Sp Atk+, Defense-
-    "Modest": [4, 2],   // Sp Atk+, Attack-
-    "Naive": [6, 5],    // Speed+, Sp Def-
-    "Naughty": [2, 5],  // Attack+, Sp Def-
-    "Quiet": [4, 6],    // Sp Atk+, Speed-
-    "Quirky": [0, 0],   // Neutral
-    "Rash": [4, 5],     // Sp Atk+, Sp Def-
-    "Relaxed": [3, 6],  // Defense+, Speed-
-    "Sassy": [5, 6],    // Sp Def+, Speed-
-    "Serious": [0, 0],  // Neutral
-    "Timid": [6, 2]     // Speed+, Attack-
+    "adamant": [2, 4],  // Attack+, Sp Atk-
+    "bold": [3, 2],     // Defense+, Attack-
+    "brave": [2, 6],    // Attack+, Speed-
+    "calm": [5, 2],     // Sp Def+, Attack-
+    "careful": [5, 4],  // Sp Def+, Sp Atk-
+    "gentle": [5, 3],   // Sp Def+, Defense-
+    "hardy": [0, 0],    // Neutral
+    "hasty": [6, 3],    // Speed+, Defense-
+    "impish": [3, 4],   // Defense+, Sp Atk-
+    "jolly": [6, 4],    // Speed+, Sp Atk-
+    "lax": [3, 5],      // Defense+, Sp Def-
+    "lonely": [2, 3],   // Attack+, Defense-
+    "mild": [4, 3],     // Sp Atk+, Defense-
+    "modest": [4, 2],   // Sp Atk+, Attack-
+    "naive": [6, 5],    // Speed+, Sp Def-
+    "naughty": [2, 5],  // Attack+, Sp Def-
+    "quiet": [4, 6],    // Sp Atk+, Speed-
+    "quirky": [0, 0],   // Neutral
+    "rash": [4, 5],     // Sp Atk+, Sp Def-
+    "relaxed": [3, 6],  // Defense+, Speed-
+    "sassy": [5, 6],    // Sp Def+, Speed-
+    "serious": [0, 0],  // Neutral
+    "timid": [6, 2]     // Speed+, Attack-
   };
 
-  return natures[nature] || [0, 0]; // Returns 0 0 if the nature is not found
+  return natures[nature.toLowerCase()] || [0, 0]; // Returns 0 0 if the nature is not found
 }
 
-function createPlayer(trainer) {
+export function actualizeAttributes(pokemon) {
+    for(let i = 0; i < 6; i++) {
+        // IF
+        if(i == 0) {
+            // (( IV + (EV/4) + 2*Status Base)*level/100) + 10 + level
+            pokemon.attributes[i] = Math.floor(((pokemon.ivs[i] + (pokemon.evs[i]/4) + 2 * pokemon.baseStats[i]) * pokemon.level / 100) + 10 + pokemon.level);
+            // IF ITS SHEDINJA
+            if (pokemon.name == "Shedinja") {
+                pokemon.attributes[i] = 1;
+            }
+        }
+        else {
+            // (( IV + (EV/4) + 2*Status Base + 5)*level/100 )* nature
+            pokemon.attributes[i] = Math.floor((pokemon.ivs[i] + (pokemon.evs[i]/4) + 2 * pokemon.baseStats[i] + 5) * pokemon.level / 100);
+        }
+    }
+    switch(getNatureEffect(pokemon.nature)[0]) {
+    case 2:
+        pokemon.attributes[1] = Math.floor(pokemon.attributes[1] * 1.1);
+        break;
+    case 3:
+        pokemon.attributes[2] = Math.floor(pokemon.attributes[2] * 1.1);
+        break;
+    case 4:
+        pokemon.attributes[3] = Math.floor(pokemon.attributes[3] * 1.1);
+        break;
+    case 5:
+        pokemon.attributes[4] = Math.floor(pokemon.attributes[4] * 1.1);
+        break;
+    case 6:
+        pokemon.attributes[5] = Math.floor(pokemon.attributes[5] * 1.1);
+        break;
+    }
+    switch(getNatureEffect(pokemon.nature)[1]) {
+    case 2:
+        pokemon.attributes[1] = Math.floor(pokemon.attributes[1] * 0.9);
+        break;
+    case 3:
+        pokemon.attributes[2] = Math.floor(pokemon.attributes[2] * 0.9);
+        break;
+    case 4:
+        pokemon.attributes[3] = Math.floor(pokemon.attributes[3] * 0.9);
+        break;
+    case 5:
+        pokemon.attributes[4] = Math.floor(pokemon.attributes[4] * 0.9);
+        break;
+    case 6:
+        pokemon.attributes[5] = Math.floor(pokemon.attributes[5] * 0.9);
+        break;
+    }
+    console.log(pokemon.attributes); // LOG
+} 
+
+export function createPlayer(trainer) {
     // MAKE THE HTML PART
-    htmlMaker.createPlayer(trainer.name, trainer.image);
+    htmlMaker.createPlayer(trainer.name, trainer.image, firstChild);
 
    // ADD THE PLAYER TO THE LOCALSTORAGE
     let serializedObject = JSON.stringify(trainer); 
@@ -53,10 +107,17 @@ function createPlayer(trainer) {
     localStorage.setItem(`object${index}`, serializedObject);
 
     // ADDING THE LOG FUNCTION TO THE PLAYER IMG
-    let button = document.getElementById(`player${trainer._name}Button`);
+    let button = document.getElementById(`player${trainer._name.replace(/\s+/g, '')}Button`);
     button.onclick = function() {
         htmlMaker.changePlayerToken(trainer);
         console.log(trainerList[trainer._name]); // LOG
+    }
+
+    for(let i = 0; i < 6; i++) {
+        let botao = document.getElementById(`player${trainer._name.replace(/\s+/g, '')}TeamButton${i}`);
+        botao.onclick = function() {
+            htmlMaker.createNewPokemon(trainer, i + 1);
+        }
     }
 
     console.log("Creating the player " + trainer.name + "!"); // LOG
@@ -71,13 +132,13 @@ function readTrainer(trainer) {
     console.log(trainer); // LOG
 
     // MAKING THE HTML PART
-    htmlMaker.createPlayer(trainer._name, trainer._image);
+    htmlMaker.createPlayer(trainer._name, trainer._image, firstChild);
   
     // ADDING THE PLAYER TO THE LIST
     trainerList[trainer._name] = trainer;
 
     // ADDING THE LOG FUNCTION TO THE PLAYER IMG
-    let button = document.getElementById(`player${trainer._name}Button`);
+    let button = document.getElementById(`player${trainer._name.replace(/\s+/g, '')}Button`);
     button.onclick = function() {
         htmlMaker.changePlayerToken(trainer);
         console.log(trainerList[trainer._name]); // LOG
@@ -95,7 +156,7 @@ function updateTrainer(trainer) {
     localStorage.setItem(`object${trainer.index}`, serializedObject);
 }
 
-async function createPokemon(trainer, pokemon, position) {
+export async function createPokemon(trainer, pokemon, position) {
     // ADJUSTING THE INDEX
     position--;
     pokemon.index = position;
@@ -107,69 +168,26 @@ async function createPokemon(trainer, pokemon, position) {
         console.log(data); // LOG
 
         // IF IT'S A SHINY POKEMON, PICK IT'S SHINY SPRITE, ELSE, PICK IT'S NORMAL SPRITE
-        let img = document.getElementById(`player${trainer._name}TeamImage${position}`);
+        let img = document.getElementById(`player${trainer._name.replace(/\s+/g, '')}TeamImage${position}`);
         if(pokemon.isShiny == 1) {
-            fetch.alterImgSrc(img, data.sprites.front_shiny);
+            fetch.alterImgSrc(img, data.sprites.other.home.front_shiny);
+            pokemon.gif = data.sprites.other.showdown.front_shiny;
         }
         else {
-            fetch.alterImgSrc(img, data.sprites.front_default);
+            fetch.alterImgSrc(img, data.sprites.other.home.front_default);
+            pokemon.gif = data.sprites.other.showdown.front_default;
         }
 
         // INSERT IN THE OBJECT POKEMON ITS CRIES, ATTRIBUTES, TYPES, WEIGHT & HEIGHT
         pokemon.cries = data.cries.latest;
-        let attributes = [];
-        for (let i = 0; i < data.stats.length; attributes.push(data.stats[i].base_stat), i++) {
+        pokemon.baseStats = [];
+        pokemon.attributes = [];
+        for(let i = 0; i < 6; i++) {
+            pokemon.baseStats[i] = data.stats[i].base_stat;
+            pokemon.attributes[i] = data.stats[i].base_stat;
         }
-        pokemon.attributes = attributes;
-        for(let i = 0; i < attributes.length; i++) {
-                // IF
-                if(attributes == 0) {
-                    // ELSE
-                    attributes[i] = Math.floor(0.01 * (2 * attributes[i] + pokemon.iv[i] + Math.floor(0.25 * pokemon.ev[i])) * pokemon.level) + pokemon.level + 10;
-                    // IF
-                    if (pokemon.name == "Shedinja") {
-                        attributes[i] = 1;
-                    }
-                }
-                // ELSE
-                Math.floor(0.01 * (2 * attributes[i] + pokemon.ivs[i] + Math.floor(0.25 * pokemon.evs[i])) * pokemon.level) + 5;
-        }
-        switch(getNatureEffect(pokemon.nature)[1]) {
-            case 2:
-                pokemon.attributes[2] = Math.floor(pokemon.attributes[2] * 1.1);
-                break;
-            
-            case 3:
-                pokemon.attributes[3] = Math.floor(pokemon.attributes[3] * 1.1);
-                break;
-            case 4:
-                pokemon.attributes[4] = Math.floor(pokemon.attributes[4] * 1.1);
-                break;
-            case 5:
-                pokemon.attributes[5] = Math.floor(pokemon.attributes[5] * 1.1);
-                break;
-            case 6:
-                pokemon.attributes[6] = Math.floor(pokemon.attributes[6] * 1.1);
-                break;
-        }
-        switch(getNatureEffect(pokemon.nature)[2]) {
-            case 2:
-                pokemon.attributes[2] = Math.floor(pokemon.attributes[2] * 0.9);
-                break;
-
-            case 3:
-                pokemon.attributes[3] = Math.floor(pokemon.attributes[3] * 0.9);
-                break;
-            case 4:
-                pokemon.attributes[4] = Math.floor(pokemon.attributes[4] * 0.9);
-                break;
-            case 5:
-                pokemon.attributes[5] = Math.floor(pokemon.attributes[5] * 0.9);
-                break;
-            case 6:
-                pokemon.attributes[6] = Math.floor(pokemon.attributes[6] * 0.9);
-                break;
-        }
+        console.log(pokemon.attributes);
+        actualizeAttributes(pokemon);
         let types = [];
         for (let i = 0; i < data.types.length; types.push(data.types[i].type.name), i++) {}
         console.log("Pokemon types are: " + types); // LOG
@@ -183,7 +201,7 @@ async function createPokemon(trainer, pokemon, position) {
         htmlMaker.changeType(img.parentNode, pokemon.types[0]);
 
         // IF THE BUTTON IS PRESSED LOG THE POKEMON
-        let botao = document.getElementById(`player${trainer._name}TeamButton${position}`);
+        let botao = document.getElementById(`player${trainer._name.replace(/\s+/g, '')}TeamButton${position}`);
         botao.onclick = function() {
             console.log(trainerList[trainer._name]._pokemons[position]); // LOG
             htmlMaker.createPokemon(trainer, trainerList[trainer._name]._pokemons[position])
@@ -198,14 +216,31 @@ async function createPokemon(trainer, pokemon, position) {
     })
 }
 
+/* CREATING JHONNY'S FIRST TEAM */
 // name, nature, confidence, player, HP, WILL, money, concept, xp, age, rank, image, itens, badges, pokemons, attributes, skills, qualities
-let trainer = new trainerClass.Trainer("Jhonny Tail, é isso aí", "Bold", 9, "Bebel", 25, 4, 680, "Fotógrafo", 0, 13, "Beginner", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLu64GywifUB9hi5ydUFnFn-9BPn1_j67jtg&s", ["pokeball x3", "mochila", "câmera", "cartas", "pokedex", "gancho de alpinismo", "roupa de trapper", "potion x2"], ["Sunflower"], [], [1,2,1,2], [0,1,1,0,1,1,0,0,1,0,0,0,0,0,0,0], [1, 2, 1, 1, 2]);
-createPlayer(trainer);
-//name, gender, nickname, level, attributes, ability, nature, ivs, evs, item, moves, types, weight, height, hapiness, friendship, isShiny, cries
-let pokemon1 = new pokemonClass.Pokemon("Aipom", "M", "Polaroid", 16, null, "Skill Link", "Jolly", [31, 31, 31, 31, 31, 31], [6, 252, 0, 252, 0, 0], null, ["Sand Attack", "Rain Dance", "Tickle", "Astonish"], null, null, null, 100, 100, 0, null);
-createPokemon(trainer, pokemon1, 1);
-let pokemon2 = new pokemonClass.Pokemon("Ivysaur", "F", "Leica", 17, null, "Overgrow", "Brave", [31, 31, 31, 31, 31, 31], [6, 252, 0, 252, 0, 0], null, ["Sleep Powder", "Poison Powder", "Solar Beam", "Razor Leaf"], null, null, null, 100, 100, 0, null);
-createPokemon(trainer, pokemon2, 2);
+let jhonny = new trainerClass.Trainer("Jhonny Tail", "Bold", 9, "Bebel", 25, 4, 680, "Fotógrafo", 0, 13, "Beginner", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLu64GywifUB9hi5ydUFnFn-9BPn1_j67jtg&s", ["pokeball x3", "mochila", "câmera", "cartas", "pokedex", "gancho de alpinismo", "roupa de trapper", "potion x1"], ["Sunflower"], [], [1,2,1,2], [0,1,1,0,1,1,0,0,1,0,0,0,0,0,0,0], [1, 2, 1, 1, 2]);
+createPlayer(jhonny);
+//name, gender, nickname, level, attributes, basestats, ability, nature, ivs, evs, item, moves, types, weight, height, hapiness, friendship, isShiny, cries
+let jhonnyPokemon1 = new pokemonClass.Pokemon("Aipom", "M", "Polaroid", 23, null, null, "Skill Link", "Jolly", [31, 31, 31, 31, 31, 31], [4, 252, 0, 0, 0, 252], "Leppa Berry", ["Sand Attack", "Rain Dance", "Tickle", "Sunny Day"], null, null, null, 100, 100, 0, null);
+createPokemon(jhonny, jhonnyPokemon1, 1);
+let jhonnyPokemon2 = new pokemonClass.Pokemon("Ivysaur", "F", "Leica", 24, null, null, "Overgrow", "Quiet", [31, 12, 30, 27, 19, 13], [252, 0, 0, 252, 4, 0], "Leppa Berry", ["Sleep Powder", "Poison Powder", "Solar Beam", "Seed Bomb"], null, null, null, 100, 100, 0, null);
+createPokemon(jhonny, jhonnyPokemon2, 2);
+let jhonnyPokemon3 = new pokemonClass.Pokemon("Roggenrola", "F", "Nokia", 23, null, null, "Sand Force", "Adamant", [21, 29, 26, 25, 17, 16], [252, 252, 0, 0, 4, 0], null, ["Sand Attack", "Smack Down", "Earthquake", "Tackle"], null, null, null, 100, 100, 0, null);
+createPokemon(jhonny, jhonnyPokemon3, 3);
+let jhonnyPokemon4 = new pokemonClass.Pokemon("Metapod", "F", "Fujifilm", 20, null, null, "Shed Skin", "Modest", [28, 27, 16, 25, 28, 12], [252, 0, 4, 252, 0, 0], null, ["String Shot", "Harden", "Bug Bite"], null, null, null, 100, 100, 0, null);
+createPokemon(jhonny, jhonnyPokemon4, 4);
+let jhonnyPokemon5 = new pokemonClass.Pokemon("Trapinch", "M", "Olympus", 16, null, null, "Sheer Force", "Adamant", [31, 31, 31, 31, 31, 31], [4, 252, 0, 0, 0, 252], null, ["Sand Attack", "Astonish", "Fury Cutter"], null, null, null, 100, 100, 0, null);
+createPokemon(jhonny, jhonnyPokemon5, 5);
+let jhonnyPokemon6 = new pokemonClass.Pokemon("Numel", "M", "Samsung", 24, null, null, "Own Tempo", "Modest", [12, 22, 29, 29, 17, 15], [252, 0, 4, 252, 0, 0], null, ["Bulldoze", "Incinerate", "Tackle", "Earthquake"], null, null, null, 100, 100, 0, null);
+createPokemon(jhonny, jhonnyPokemon6, 6);
+/* CREATING JHONNY'S SECOND TEAM */
+let jhonny2 = new trainerClass.Trainer("Jhonny Tail 2", "Bold", 9, "Bebel", 25, 4, 680, "Fotógrafo", 0, 13, "Beginner", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLu64GywifUB9hi5ydUFnFn-9BPn1_j67jtg&s", ["pokeball x3", "mochila", "câmera", "cartas", "pokedex", "gancho de alpinismo", "roupa de trapper", "potion x1"], ["Sunflower"], [], [1,2,1,2], [0,1,1,0,1,1,0,0,1,0,0,0,0,0,0,0], [1, 2, 1, 1, 2]);
+createPlayer(jhonny2);
+let jhonny2Pokemon1 = new pokemonClass.Pokemon("Metang", "None", "Lente", 20, null, null, "Clear Body", "Adamant", [14, 18, 16, 18, 16, 28], [252, 252, 0, 0, 4, 0], null, ["Zen Headbutt", "Confusion", "Bullet Punch", "Flash Cannon"], null, null, null, 100, 100, 0, null);
+createPokemon(jhonny2, jhonny2Pokemon1, 1);
+let jhonny2Pokemon2 = new pokemonClass.Pokemon("Poliwag", "M", "Paramount", 21, null, null, "Water Absorb", "Mild", [19, 27, 15, 15, 21, 27], [252, 0, 4, 252, 0, 0], null, ["Bubble Beam", "Hypnosis", "Mud Shot", "Pound"], null, null, null, 100, 100, 0, null);
+createPokemon(jhonny2, jhonny2Pokemon2, 2);
+
 
 function reloadPage() {
     // READ EVERY OBJECT/PLAYER IN THE LOCALSTORAGE

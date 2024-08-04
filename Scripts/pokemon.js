@@ -33,13 +33,16 @@ WE HAVE:
 */
 
 export class Pokemon {
-    constructor(name, gender, nickname, level, attributes, ability, nature, ivs, evs, item, moves, types, weight, height, hapiness, friendship, isShiny, cries) {
+    gif = "";
+    
+    constructor(name, gender, nickname, level, attributes, baseStats, ability, nature, ivs, evs, item, moves, types, weight, height, hapiness, friendship, isShiny, cries) {
         this.name = name;
         this.gender = gender;
         this.nickname = nickname;
         this.ability = ability;
         this.level = level;
         this.attributes = attributes;
+        this.baseStats = baseStats;
         this.nature = nature;
         this.ivs = ivs;
         this.evs = evs;
@@ -77,6 +80,10 @@ export class Pokemon {
 
     get getAttributes() {
         return this.attributes;
+    }
+
+    get getBaseStats() {
+        return this.baseStats;
     }
 
     get getNature() {
@@ -150,6 +157,10 @@ export class Pokemon {
 
     set setAttributes(attributes) {
         this._attributes = attributes;
+    }
+
+    set setBaseStats(attributes) {
+        this._baseStats = attributes;
     }
 
     set setNature(nature) {

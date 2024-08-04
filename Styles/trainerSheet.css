@@ -26,7 +26,7 @@
 
 /* Trainer parts */
 .player-Name {
-    z-index: 3;
+    z-index: 3
 }
 
 .token-Spam-Text-Content {
@@ -133,6 +133,8 @@
 
 .player-Filled-Left-Inside-Image {
     box-shadow: var(--tokenShadow);
+    cursor: pointer;
+    background-color: white;
     height: 100%;
     width: 100%;
     border: 5px solid var(--tokenDarkGray);

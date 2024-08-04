@@ -26,7 +26,7 @@ export async function Sprite(pokemonName) {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
 
         if (!response.ok) {
-            throw new Error("Não foi possível obter o recurso");
+            throw new Error("Could not fetch resorce");
         }
 
         const data = await response.json();

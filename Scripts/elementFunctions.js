@@ -1,6 +1,15 @@
+/* IMPORTING FUNCTIONS */
+import * as mainScript from './script.js';
+import * as pokemonClass from './pokemon.js';
+import * as fetch from './fetchFunctions.js';
+
 /* DECLARING FUNCTIONS */
 export function noSpace(string) {
-    return string.replace(/\s/g, " ");
+    return string.replace(/\s+/g, '');
+}
+
+export function returnText(html) {
+    return html.textContent;
 }
 
 export function createTextContent(element, text) {
@@ -11,20 +20,20 @@ export function createTextContent(element, text) {
 }
 
 /* EXPORTING FUNCTIONS*/
-export function createPlayer(name, source) {
+export function createPlayer(name, source, firstChild) {
     let main = document.getElementById("main");
     let id = noSpace(name);
-    
-    let playerContainer = document.createElement("div");
-    playerContainer.classList.add("player-Container");
-    playerContainer.id = `${id}-Container`; 
-    main.appendChild(playerContainer);
 
     let playerToken = document.createElement("div");
     playerToken.classList.add("player-Token");
     playerToken.classList.add("empty");
     playerToken.id = `${id}-Token`; 
-    main.appendChild(playerToken);
+    main.insertBefore(playerToken, firstChild);
+    
+    let playerContainer = document.createElement("div");
+    playerContainer.classList.add("player-Container");
+    playerContainer.id = `${id}-Container`; 
+    main.insertBefore(playerContainer, playerToken);
 
     let player = document.createElement("div");
     player.classList.add("player");
@@ -70,12 +79,13 @@ export function createPlayer(name, source) {
             pokemonTeamContainer.appendChild(divTime);
     
             divTime.onclick = function() {
-                console.log("ping"); // LOG
+                console.log("Creating a new pokemon"); // LOG
             }
     
             let Timeimage = document.createElement("img");
             Timeimage.classList.add("pokemonTeamImage");
             Timeimage.id = `player${id}TeamImage${i}`;
+            Timeimage.src = `Assets/Images/addButton.png`;
             divTime.appendChild(Timeimage);
     }
 }
@@ -97,9 +107,10 @@ export function createPokemon(trainer, pokemon) {
     let id = noSpace(trainer._name);
     let token = document.getElementById(`${id}-Token`);
     
-    if(token.classList.contains("player-Filled-Container") || token.classList.contains("pokemon-Filled-Container")) {
+    if(token.classList.contains("player-Filled-Container") || token.classList.contains("pokemon-Filled-Container") || token.classList.remove("new-pokemon-Filled-Container")) {
         console.log(`closing the trainer ${trainer._name} token`);
 
+        token.classList.remove("new-pokemon-Filled-Container");
         token.classList.remove("pokemon-Filled-Container");
         token.classList.remove("player-Filled-Container");
 
@@ -154,6 +165,7 @@ export function createPokemon(trainer, pokemon) {
     ability.textContent = trainer._pokemons[pokemonPosition].ability;
     insideFirstToken.appendChild(ability);
     ability.classList.add("ability");
+    changeType(ability, trainer._pokemons[pokemonPosition].types[0]);
     ability.contentEditable = true;
     ability.spellcheck = false;
     ability.addEventListener('input', function() {
@@ -177,7 +189,9 @@ export function createPokemon(trainer, pokemon) {
     createBoldParagraph(insideFirstToken, "Held item:");
     let heldItem = document.createElement("div");
     heldItem.classList.add("pokemon-field-answear");
-    heldItem.textContent = trainer._pokemons[pokemonPosition].heldItem;
+    if (trainer._pokemons[pokemonPosition].heldItem) {
+        heldItem.textContent = trainer._pokemons[pokemonPosition].heldItem;
+    }
     insideFirstToken.appendChild(heldItem);
     heldItem.contentEditable = true;
     heldItem.spellcheck = false;
@@ -202,7 +216,9 @@ export function createPokemon(trainer, pokemon) {
     for (let i = 0; i < 4; i++) {
         let move = document.createElement("div");
         move.classList.add("move");
-        move.textContent = trainer._pokemons[pokemonPosition].moves[i];
+        if(trainer._pokemons[pokemonPosition].moves[i]) {
+            move.textContent = trainer._pokemons[pokemonPosition].moves[i];
+        }
         moves.appendChild(move);
         move.contentEditable = true;
         move.spellcheck = false;
@@ -295,6 +311,10 @@ export function createPokemon(trainer, pokemon) {
         });
     }
 
+    // ACTUALIZING THE STATS VALUES
+    mainScript.actualizeAttributes(trainer._pokemons[pokemonPosition]);
+    console.log(trainer._pokemons[pokemonPosition])
+    
     let attDiv = document.createElement("div");
     attDiv.classList.add("ivs");
     attDiv.classList.add("show");
@@ -357,18 +377,22 @@ export function createPokemon(trainer, pokemon) {
     insideFourthTokenInfo.textContent = "Stats";
     insideFourthToken.appendChild(insideFourthTokenInfo);
 
+    let canvasContainer = document.createElement("div");
+    canvasContainer.classList.add("canvas-container");
+    insideFourthToken.appendChild(canvasContainer);
+    
     let stats = document.createElement("canvas");
     stats.id = "myChart";
-    insideFourthToken.appendChild(stats);
+    canvasContainer.appendChild(stats);
     new Chart(stats, {
         type: 'radar',
         data: {
             labels: [
+              'HP',
               'Attack',
               'Defence',
-              'HP',
-              'S.Def',
               'S.Atk',
+              'S.Def',
               'Speed'
             ],
             datasets: [{
@@ -401,6 +425,288 @@ export function createPokemon(trainer, pokemon) {
         }
     });
     Chart.defaults.font.size = 18;
+
+    let imageCont = document.createElement("div");
+    imageCont.classList.add("pokemon-sprite-Container");
+    insideFourthToken.appendChild(imageCont);
+
+    let image = document.createElement("img");
+    image.src = trainer._pokemons[pokemonPosition].gif;
+    image.classList.add("pokemon-sprite");
+    imageCont.appendChild(image);
+}
+
+export function createNewPokemon(trainer, pokemonPosition) {
+    function createBoldParagraph (father, text) {
+        let p = document.createElement("p");
+        p.classList.add("pokemon-field-text");
+        let b = document.createElement("b");
+        b.textContent = text;
+        p.appendChild(b);
+        father.appendChild(p);
+    }
+
+    let id = noSpace(trainer._name);
+    let token = document.getElementById(`${id}-Token`);
+
+    if(token.classList.contains("player-Filled-Container") || token.classList.contains("pokemon-Filled-Container") || token.classList.contains("new-pokemon-Filled-Container")) {
+        console.log(`closing the trainer ${trainer._name} token`);
+
+        token.classList.remove("new-pokemon-Filled-Container");
+        token.classList.remove("pokemon-Filled-Container");
+        token.classList.remove("player-Filled-Container");
+
+        while (token.firstChild) {
+            token.removeChild(token.firstChild);
+        }
+
+        return 0;
+    }
+
+    console.log("changing the tainer " + trainer._name + " token");
+    token.classList.remove("empty");
+    token.classList.remove("player-Filled-Container");
+    token.classList.add("pokemon-Filled-Container");
+
+    let insideFirstToken = document.createElement("div");
+    insideFirstToken.classList.add("start");
+    token.appendChild(insideFirstToken);
+
+    let insideFirstTokenInfo = document.createElement("div");
+    insideFirstTokenInfo.classList.add("info");
+    insideFirstTokenInfo.textContent = "Info";
+    insideFirstToken.appendChild(insideFirstTokenInfo);
+
+    let p = document.createElement("p");
+    p.classList.add("pokemon-field-text");
+    let b = document.createElement("b");
+    b.textContent = "Species:";
+    p.appendChild(b);
+    insideFirstToken.appendChild(p);
+    p.classList.add("creation-start");
+    let name = document.createElement("div");
+    name.classList.add("creation-start");
+    name.classList.add("pokemon-field-answear");
+    name.textContent = "Insert the specie's name here...";
+    insideFirstToken.appendChild(name);
+    name.contentEditable = true;
+    name.spellcheck = false;
+
+    createBoldParagraph(insideFirstToken, "Nickname:");
+    let nickName = document.createElement("div");
+    nickName.classList.add("pokemon-field-answear");
+    nickName.textContent = "???";
+    insideFirstToken.appendChild(nickName);
+    nickName.contentEditable = true;
+    nickName.spellcheck = false;
+    
+    createBoldParagraph(insideFirstToken, "Level:");
+    let level = document.createElement("div");
+    level.classList.add("pokemon-field-answear");
+    level.textContent = "1";
+    insideFirstToken.appendChild(level);
+    level.contentEditable = true;
+    level.spellcheck = false;
+
+    createBoldParagraph(insideFirstToken, "Gender:");
+    let gender = document.createElement("div");
+    gender.classList.add("pokemon-field-answear");
+    gender.textContent = "Choose between M, F or None";
+    gender.ariaPlaceholder = "inser babies";
+    insideFirstToken.appendChild(gender);
+    gender.contentEditable = true;
+    gender.spellcheck = false;
+
+    createBoldParagraph(insideFirstToken, "Ability:");
+    let ability = document.createElement("div");
+    ability.classList.add("pokemon-field-answear");
+    ability.textContent = "Insert its ability here...";
+    insideFirstToken.appendChild(ability);
+    ability.classList.add("ability");
+    ability.contentEditable = true;
+    ability.spellcheck = false;
+
+    createBoldParagraph(insideFirstToken, "Nature:");
+    let nature = document.createElement("div");
+    nature.classList.add("pokemon-field-answear");
+    nature.textContent = "Inset its nature here...";
+    insideFirstToken.appendChild(nature);
+    nature.classList.add("nature");
+    nature.contentEditable = true;
+    nature.spellcheck = false;
+
+    createBoldParagraph(insideFirstToken, "Held item:");
+    let heldItem = document.createElement("div");
+    heldItem.classList.add("pokemon-field-answear");
+    heldItem.textContent = "None";
+    insideFirstToken.appendChild(heldItem);
+    heldItem.contentEditable = true;
+    heldItem.spellcheck = false;
+
+    let insideSecondToken = document.createElement("div");
+    insideSecondToken.classList.add("moves-container");
+    token.appendChild(insideSecondToken);
+
+    let insideSecondTokenInfo = document.createElement("div");
+    insideSecondTokenInfo.classList.add("info");
+    insideSecondTokenInfo.textContent = "Moves";
+    insideSecondToken.appendChild(insideSecondTokenInfo);
+
+    let moves = document.createElement("div");
+    moves.classList.add("moves");
+    insideSecondToken.appendChild(moves);
+
+    let movesValue = [];
+    for (let i = 0; i < 4; i++) {
+        let move = document.createElement("div");
+        move.classList.add("move");
+        move.textContent = `Move #${i + 1}`;
+        movesValue[i] = move;
+        moves.appendChild(move);
+        move.contentEditable = true;
+        move.spellcheck = false;
+    }
+
+    let insideThirdToken = document.createElement("div");
+    insideThirdToken.classList.add("ivs-container");
+    token.appendChild(insideThirdToken);
+
+    let insideThirdTokenInfo = document.createElement("div");
+    insideThirdTokenInfo.classList.add("info");
+    insideThirdTokenInfo.textContent = "IVs / EVs";
+    insideThirdToken.appendChild(insideThirdTokenInfo);
+
+    let ivButton = document.createElement("button");
+    ivButton.classList.add("iv-button");
+    insideThirdToken.appendChild(ivButton);
+
+    let leftbutton = document.createElement("button");
+    leftbutton.classList.add("left-button");
+    leftbutton.textContent = "IVs";
+    ivButton.appendChild(leftbutton);
+    leftbutton.onclick = function() {
+        let father = ivButton.parentElement;
+        ivButton.children[1].classList.remove("active");
+        father.children[3].classList.remove("show");
+        ivButton.children[2].classList.remove("active");
+        father.children[4].classList.remove("show");
+        ivButton.children[0].classList.add("active");
+        father.children[2].classList.add("show");
+    }
+
+    let attbutton = document.createElement("button");
+    attbutton.classList.add("att-button");
+    attbutton.textContent = "Stats";
+    attbutton.classList.add("active");
+    ivButton.appendChild(attbutton);
+    attbutton.onclick = function() {
+        let father = ivButton.parentElement;
+        ivButton.children[0].classList.remove("active");
+        father.children[2].classList.remove("show");
+        ivButton.children[2].classList.remove("active");
+        father.children[4].classList.remove("show");
+        ivButton.children[1].classList.add("active");
+        father.children[3].classList.add("show");
+    }
+
+    let righbutton = document.createElement("button");
+    righbutton.classList.add("right-button");
+    righbutton.textContent = "EVs";
+    ivButton.appendChild(righbutton);
+    righbutton.onclick = function() {
+        let father = ivButton.parentElement;
+        ivButton.children[0].classList.remove("active");
+        father.children[2].classList.remove("show");
+        ivButton.children[1].classList.remove("active");
+        father.children[3].classList.remove("show");
+        ivButton.children[2].classList.add("active");
+        father.children[4].classList.add("show");
+    }
+
+    let ivsDiv = document.createElement("div");
+    ivsDiv.classList.add("ivs");
+    insideThirdToken.appendChild(ivsDiv);
+
+    let attributes = ["HP", "Attack", "Defense", "S.Atk", "S.Def", "Speed"];
+
+    let ivs = [];
+    for (let i = 0; i < 6; i++) {
+        let ivDiv = document.createElement("div");
+        ivDiv.classList.add("ev");
+        ivsDiv.appendChild(ivDiv);
+
+        let attribute = document.createElement("div");
+        attribute.classList.add("iv-text");
+        attribute.textContent = attributes[i];
+        ivDiv.appendChild(attribute);
+
+        let value = document.createElement("div");
+        ivs[i] = value;
+        value.classList.add("iv-value");
+        value.textContent = "0";
+        ivDiv.appendChild(value);
+        value.contentEditable = true;
+        value.spellcheck = false;
+    }
+
+    let attDiv = document.createElement("div");
+    attDiv.classList.add("ivs");
+    attDiv.classList.add("show");
+    insideThirdToken.appendChild(attDiv);
+
+    let stats = [];
+    for (let i = 0; i < 6; i++) {
+        let evDiv = document.createElement("div");
+        evDiv.classList.add("ev");
+        attDiv.appendChild(evDiv);
+
+        let attribute = document.createElement("div");
+        attribute.classList.add("ev-text");
+        attribute.textContent = attributes[i];
+        evDiv.appendChild(attribute);
+
+        let value = document.createElement("div");
+        stats[i] = value;
+        value.classList.add("ev-value");
+        value.textContent = "0";
+        evDiv.appendChild(value);
+        value.contentEditable = true;
+        value.spellcheck = false;
+    }
+
+    let evsDiv = document.createElement("div");
+    evsDiv.classList.add("evs");
+    insideThirdToken.appendChild(evsDiv);
+    
+    let evs = [];
+    for (let i = 0; i < 6; i++) {
+        let evDiv = document.createElement("div");
+        evDiv.classList.add("ev");
+        evsDiv.appendChild(evDiv);
+
+        let attribute = document.createElement("div");
+        attribute.classList.add("ev-text");
+        attribute.textContent = attributes[i];
+        evDiv.appendChild(attribute);
+
+        let value = document.createElement("div");
+        evs[i] = value;
+        value.classList.add("ev-value");
+        value.textContent = "0";
+        evDiv.appendChild(value);
+        value.contentEditable = true;
+        value.spellcheck = false;
+    }
+
+    let createButton = document.createElement("button");
+    createButton.textContent = "CREATE";
+    createButton.classList.add("create-button");
+    insideThirdToken.appendChild(createButton);
+    createButton.onclick = function() {
+        //name, gender, nickname, level, attributes, ability, nature, ivs, evs, item, moves, types, weight, height, hapiness, friendship, isShiny, cries
+        let pokemon = new pokemonClass.Pokemon(returnText(name), returnText(gender), returnText(nickName), returnText(level), [returnText(stats[0]), returnText(stats[1]), returnText(stats[2]), returnText(stats[3]), returnText(stats[4]), returnText(stats[5])], returnText(ability), returnText(nature), [returnText(ivs[0]), returnText(ivs[1]), returnText(ivs[2]), returnText(ivs[3]), returnText(ivs[4]), returnText(ivs[5])], [returnText(evs[0]), returnText(evs[1]), returnText(evs[2]), returnText(evs[3]), returnText(evs[4]), returnText(evs[5])], returnText(heldItem), [returnText(movesValue[0]), returnText(movesValue[1]), returnText(movesValue[2]), returnText(movesValue[3])], null, null, null, 100, 100, 0, null); 
+        mainScript.createPokemon(trainer, pokemon, pokemonPosition)
+    }
 }
 
 export function changePlayerToken(trainer) {
@@ -408,8 +714,9 @@ export function changePlayerToken(trainer) {
     let token = document.getElementById(`${id}-Token`);
     
     if(token.classList.contains("player-Filled-Container") || token.classList.contains("pokemon-Filled-Container")) {
-        console.log(`closing the trainer ${trainer._name} token`);
+        console.log(`closing the trainer ${trainer._name} token`); // LOG
 
+        token.classList.remove("new-pokemon-Filled-Container");
         token.classList.remove("player-Filled-Container");
         token.classList.remove("pokemon-Filled-Container");
         
@@ -579,7 +886,7 @@ export function changePlayerToken(trainer) {
     let trainerName = document.createElement("div");
     trainerName.classList.add("token-Spam-Text-Content");
     trainerName.classList.add("small-Spam-Text-Content");
-    trainerName.textContent = `Trainer:`;
+    trainerName.textContent = `TRAINER:`;
     
     let trainerNameContainer = document.createElement("div");
     trainerNameContainer.classList.add("player-Filled-Right-Inside-Player");
@@ -596,7 +903,7 @@ export function changePlayerToken(trainer) {
     let trainerAge = document.createElement("div");
     trainerAge.classList.add("token-Spam-Text-Content");
     trainerAge.classList.add("small-Spam-Text-Content");
-    trainerAge.textContent = `Age:`;
+    trainerAge.textContent = `AGE:`;
 
     let trainerAgeContainer = document.createElement("div");
     trainerAgeContainer.classList.add("player-Filled-Right-Inside-Age");

@@ -99,6 +99,7 @@ main {
     height: 100%;
     border-radius: 5px;
     margin-right: 2%;
+    cursor: pointer;
 }
 
 .pokemonTeam-Container {
@@ -120,4 +121,5 @@ main {
     border-radius: 5px;
     height: 100%;
     width: 16%;
+    cursor: pointer;
 }

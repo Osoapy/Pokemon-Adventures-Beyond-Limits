@@ -17,6 +17,24 @@
     --dark: #705746;
     --steel: #B7B7CE;
     --fairy: #D685AD;
+    --lessNormal: rgba(168, 167, 122, 0.2);
+    --lessFire: rgba(238, 129, 48, 0.2);
+    --lessWater: rgba(99, 144, 240, 0.2);
+    --lessElectric: rgba(247, 208, 44, 0.2);
+    --lessGrass: rgba(122, 199, 76, 0.2);
+    --lessPoison: rgba(163, 62, 161, 0.2);
+    --lessIce: rgba(150, 217, 214, 0.2);
+    --lessFighting: rgba(194, 46, 40, 0.2);
+    --lessGround: rgba(226, 191, 101, 0.2);
+    --lessFlying: rgba(169, 143, 243, 0.2);
+    --lessPsychic: rgba(249, 85, 135, 0.2);
+    --lessBug: rgba(166, 185, 26, 0.2);
+    --lessRock: rgba(182, 161, 54, 0.2);
+    --lessGhost: rgba(115, 87, 151, 0.2);
+    --lessDragon: rgba(111, 53, 252, 0.2);
+    --lessDark: rgba(112, 87, 70, 0.2);
+    --lessSteel: rgba(183, 183, 206, 0.2);
+    --lessFairy: rgba(214, 133, 173, 0.2);
 }
 
 .pokemonTeam.electric {
@@ -89,4 +107,94 @@
 
 .pokemonTeam.normal {
     background-color: var(--normal);
+}
+
+.ability.normal {
+    color: var(--normal);
+    background-color: var(--lessNormal);
+}
+
+.ability.fire {
+    color: var(--fire);
+    background-color: var(--lessFire);
+}
+
+.ability.water {
+    color: var(--water);
+    background-color: var(--lessWater);
+}
+
+.ability.electric {
+    color: var(--electric);
+    background-color: var(--lessElectric);
+}
+
+.ability.grass {
+    color: var(--grass);
+    background-color: var(--lessGrass);
+}
+
+.ability.poison {
+    color: var(--poison);
+    background-color: var(--lessPoison);
+}
+
+.ability.ice {
+    color: var(--ice);
+    background-color: var(--lessIce);
+}
+
+.ability.fighting {
+    color: var(--fighting);
+    background-color: var(--lessFighting);
+}
+
+.ability.ground {
+    color: var(--ground);
+    background-color: var(--lessGround);
+}
+
+.ability.flying {
+    color: var(--flying);
+    background-color: var(--lessFlying);
+}
+
+.ability.psychic {
+    color: var(--psychic);
+    background-color: var(--lessPsychic);
+}
+
+.ability.bug {
+    color: var(--bug);
+    background-color: var(--lessBug);
+}
+
+.ability.rock {
+    color: var(--rock);
+    background-color: var(--lessRock);
+}
+
+.ability.ghost {
+    color: var(--ghost);
+    background-color: var(--lessGhost);
+}
+
+.ability.dragon {
+    color: var(--dragon);
+    background-color: var(--lessDragon);
+}
+
+.ability.dark {
+    color: var(--dark);
+    background-color: var(--lessDark);
+}
+
+.ability.steel {
+    color: var(--steel);
+    background-color: var(--lessSteel);
+}
+
+.ability.fairy {
+    color: var(--fairy);
+    background-color: var(--lessFairy);
 }
