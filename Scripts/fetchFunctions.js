@@ -52,3 +52,51 @@ export async function Type(pokemonName) {
         console.error(error);
     }
 }
+
+export async function MoveType(moveName) {
+    if (moveName) {
+        try {
+            moveName = moveName.toLowerCase().replace(/ /g, '-');
+
+            const response = await fetch(`https://pokeapi.co/api/v2/move/${moveName}`);
+
+            if (!response.ok) {
+                throw new Error("Could not fetch resorce");
+            }
+
+            const data = await response.json();
+            console.log(data.type.name);
+            return data.type.name;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
+export async function AllMoves() {
+    try {
+        const initialResponse = await fetch(`https://pokeapi.co/api/v2/move/?offset=0&limit=1`);
+        
+        if (!initialResponse.ok) {
+            throw new Error("Could not fetch resorce");
+        }
+
+        const initialData = await initialResponse.json();
+        const limit = initialData.count;
+
+        const finalResponse = await fetch(`https://pokeapi.co/api/v2/move/?offset=0&limit=${limit}`);
+
+        if (!finalResponse.ok) {
+            throw new Error("Could not fetch resorce");
+        }
+
+        const finalData = await finalResponse.json();
+        let result = [];
+        for (let i = 0; i < limit; i++) {
+            result[i] = finalData.results[i].name;
+        }
+        return result;
+    } catch (error) {
+        console.error(error);
+    }
+}

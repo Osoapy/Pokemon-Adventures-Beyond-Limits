@@ -1,13 +1,13 @@
 :root {
-    --normal: #A8A77A;
-    --fire: #EE8130;
+    --normal: #797850;
+    --fire: #ff6c00;
     --water: #6390F0;
     --electric: #F7D02C;
     --grass: #7AC74C;
     --poison: #A33EA1;
     --ice: #96D9D6;
     --fighting: #C22E28;
-    --ground: #E2BF65;
+    --ground: #ffb800;
     --flying: #A98FF3;
     --psychic: #F95587;
     --bug: #A6B91A;
@@ -15,7 +15,7 @@
     --ghost: #735797;
     --dragon: #6F35FC;
     --dark: #705746;
-    --steel: #B7B7CE;
+    --steel: #474751;
     --fairy: #D685AD;
     --lessNormal: rgba(168, 167, 122, 0.2);
     --lessFire: rgba(238, 129, 48, 0.2);
@@ -37,164 +37,164 @@
     --lessFairy: rgba(214, 133, 173, 0.2);
 }
 
-.pokemonTeam.electric {
+.pokemonTeam.electric, .ability.electric, .move.electric {
     background-color: var(--electric);
 }
 
-.pokemonTeam.fire {
+.pokemonTeam.fire, .ability.fire, .move.fire {
     background-color: var(--fire);
 }
 
-.pokemonTeam.water {
+.pokemonTeam.water, .ability.water, .move.water {
     background-color: var(--water);
 }
 
-.pokemonTeam.grass {
+.pokemonTeam.grass, .ability.grass, .move.grass {
     background-color: var(--grass);
 }
 
-.pokemonTeam.poison {
+.pokemonTeam.poison, .ability.poison, .move.poison {
     background-color: var(--poison);
 }
 
-.pokemonTeam.ice {
+.pokemonTeam.ice, .ability.ice, .move.ice {
     background-color: var(--ice);
 }
 
-.pokemonTeam.fighting {
+.pokemonTeam.fighting, .ability.fighting, .move.fighting {
     background-color: var(--fighting);
 }
 
-.pokemonTeam.ground {
+.pokemonTeam.ground, .ability.ground, .move.ground {
     background-color: var(--ground);
 }
 
-.pokemonTeam.flying {
+.pokemonTeam.flying, .ability.flying, .move.flying {
     background-color: var(--flying);
 }
 
-.pokemonTeam.psychic {
+.pokemonTeam.psychic, .ability.psychic, .move.psychic {
     background-color: var(--psychic);
 }
 
-.pokemonTeam.bug {
+.pokemonTeam.bug, .ability.bug, .move.bug {
     background-color: var(--bug);
 }
 
-.pokemonTeam.rock {
+.pokemonTeam.rock, .ability.rock, .move.rock {
     background-color: var(--rock);
 }
 
-.pokemonTeam.ghost {
+.pokemonTeam.ghost, .ability.ghost, .move.ghost {
     background-color: var(--ghost);
 }
 
-.pokemonTeam.dragon {
+.pokemonTeam.dragon, .ability.dragon, .move.dragon {
     background-color: var(--dragon);
 }
 
-.pokemonTeam.dark {
+.pokemonTeam.dark, .ability.dark, .move.dark {
     background-color: var(--dark);
 }
 
-.pokemonTeam.steel {
+.pokemonTeam.steel, .ability.steel, .move.steel {
     background-color: var(--steel);
 }
 
-.pokemonTeam.fairy {
+.pokemonTeam.fairy, .ability.fairy, .move.fairy {
     background-color: var(--fairy);
 }
 
-.pokemonTeam.normal {
+.pokemonTeam.normal, .ability.normal, .move.normal {
     background-color: var(--normal);
 }
 
-.ability.normal {
-    color: var(--normal);
-    background-color: var(--lessNormal);
-}
-
-.ability.fire {
-    color: var(--fire);
-    background-color: var(--lessFire);
-}
-
-.ability.water {
-    color: var(--water);
-    background-color: var(--lessWater);
-}
-
-.ability.electric {
+.ability.electric, .move.electric {
     color: var(--electric);
     background-color: var(--lessElectric);
 }
 
-.ability.grass {
+.ability.fire, .move.fire {
+    color: var(--fire);
+    background-color: var(--lessFire);
+}
+
+.ability.water, .move.water {
+    color: var(--water);
+    background-color: var(--lessWater);
+}
+
+.ability.grass, .move.grass {
     color: var(--grass);
     background-color: var(--lessGrass);
 }
 
-.ability.poison {
+.ability.poison, .move.poison {
     color: var(--poison);
     background-color: var(--lessPoison);
 }
 
-.ability.ice {
+.ability.ice, .move.ice {
     color: var(--ice);
     background-color: var(--lessIce);
 }
 
-.ability.fighting {
+.ability.fighting, .move.fighting {
     color: var(--fighting);
     background-color: var(--lessFighting);
 }
 
-.ability.ground {
+.ability.ground, .move.ground {
     color: var(--ground);
     background-color: var(--lessGround);
 }
 
-.ability.flying {
+.ability.flying, .move.flying {
     color: var(--flying);
     background-color: var(--lessFlying);
 }
 
-.ability.psychic {
+.ability.psychic, .move.psychic {
     color: var(--psychic);
     background-color: var(--lessPsychic);
 }
 
-.ability.bug {
+.ability.bug, .move.bug {
     color: var(--bug);
     background-color: var(--lessBug);
 }
 
-.ability.rock {
+.ability.rock, .move.rock {
     color: var(--rock);
     background-color: var(--lessRock);
 }
 
-.ability.ghost {
+.ability.ghost, .move.ghost {
     color: var(--ghost);
     background-color: var(--lessGhost);
 }
 
-.ability.dragon {
+.ability.dragon, .move.dragon {
     color: var(--dragon);
     background-color: var(--lessDragon);
 }
 
-.ability.dark {
+.ability.dark, .move.dark {
     color: var(--dark);
     background-color: var(--lessDark);
 }
 
-.ability.steel {
+.ability.steel, .move.steel {
     color: var(--steel);
     background-color: var(--lessSteel);
 }
 
-.ability.fairy {
+.ability.fairy, .move.fairy {
     color: var(--fairy);
     background-color: var(--lessFairy);
+}
+
+.ability.normal, .move.normal {
+    color: var(--normal);
+    background-color: var(--lessNormal);
 }

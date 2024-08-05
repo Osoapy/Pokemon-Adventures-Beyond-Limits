@@ -230,7 +230,27 @@ export function createPokemon(trainer, pokemon) {
         move.classList.add("move");
         if(trainer._pokemons[pokemonPosition].moves[i]) {
             move.textContent = trainer._pokemons[pokemonPosition].moves[i];
+            
+            // CHANGING THE COLOR OF THE MOVE IF IT'S A REAL MOVE
+            mainScript.allMoves
+                .then(allMoves => {
+                    if(allMoves.includes(move.textContent.toLowerCase().replace(/ /g, '-'))) {
+                        async function MoveType (moveName, element) {
+                            try {
+                                let moveType = await fetch.MoveType(moveName);
+                                changeType(element, moveType);
+                            } catch (error) {
+                                console.error('Error: ', error);
+                            }
+                        };
+                    MoveType(move.textContent, move);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error: ', error); // Lida com erros, se houver
+                });
         }
+        
         moves.appendChild(move);
         move.contentEditable = true;
         move.spellcheck = false;
@@ -1027,6 +1047,7 @@ export function changePlayerToken(trainer) {
 }
 
 export function changeType(element, type) {
+    console.log("I recieved " + type);
     switch(type) {
         case "electric":
             element.classList.add("electric"); 

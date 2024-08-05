@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let linkInput = document.getElementById('linkInput');
   let greenButton = document.getElementById('greenButton');
   let redButton = document.getElementById('redButton');
-  showInputBtn.src = "https://media.istockphoto.com/id/1352945762/vector/no-image-available-like-missing-picture.jpg?s=612x612&w=0&k=20&c=4X-znbt02a8EIdxwDFaxfmKvUhTnLvLMv1i1f3bToog=";
+  showInputBtn.src = "Assets/Images/noImageAvailable.png";
 
   showInputBtn.addEventListener('click', () => {
     inputContainer.style.display = 'block';

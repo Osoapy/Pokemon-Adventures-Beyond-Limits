@@ -11,6 +11,7 @@ import * as trainerClass from './trainer.js';
 /* GLOBAL VARIABLES */
 let trainerList = {};
 let firstChild = document.getElementById('main').children[0];
+export let allMoves = fetch.AllMoves();
 
 /* DECLARING FUNCTIONS */
 export function getNatureEffect(nature) {
@@ -46,6 +47,26 @@ export function getNatureEffect(nature) {
     return natures[nature] || [0, 0]; // Returns 0 0 if the nature is not found
 }
 
+export function applyNature(pokemon, value, multiplier) {
+    switch(value) {
+        case 2:
+            pokemon.attributes[1] = Math.floor(pokemon.attributes[1] * multiplier);
+            break;
+        case 3:
+            pokemon.attributes[2] = Math.floor(pokemon.attributes[2] * multiplier);
+            break;
+        case 4:
+            pokemon.attributes[3] = Math.floor(pokemon.attributes[3] * multiplier);
+            break;
+        case 5:
+            pokemon.attributes[4] = Math.floor(pokemon.attributes[4] * multiplier);
+            break;
+        case 6:
+            pokemon.attributes[5] = Math.floor(pokemon.attributes[5] * multiplier);
+            break;
+    }
+}
+
 export function actualizeAttributes(pokemon) {
     // HP CALCULATOR
     // (((IV + (EV/4)) + 2 * baseStat) * level / 100) + 10 + level
@@ -74,41 +95,9 @@ export function actualizeAttributes(pokemon) {
         // + 5
         pokemon.attributes[i] += 5;
     }
-    switch(getNatureEffect(pokemon.nature)[0]) {
-    case 2:
-        pokemon.attributes[1] = Math.floor(pokemon.attributes[1] * 1.1);
-        break;
-    case 3:
-        pokemon.attributes[2] = Math.floor(pokemon.attributes[2] * 1.1);
-        break;
-    case 4:
-        pokemon.attributes[3] = Math.floor(pokemon.attributes[3] * 1.1);
-        break;
-    case 5:
-        pokemon.attributes[4] = Math.floor(pokemon.attributes[4] * 1.1);
-        break;
-    case 6:
-        pokemon.attributes[5] = Math.floor(pokemon.attributes[5] * 1.1);
-        break;
-    }
-    switch(getNatureEffect(pokemon.nature)[1]) {
-    case 2:
-        pokemon.attributes[1] = Math.floor(pokemon.attributes[1] * 0.9);
-        break;
-    case 3:
-        pokemon.attributes[2] = Math.floor(pokemon.attributes[2] * 0.9);
-        break;
-    case 4:
-        pokemon.attributes[3] = Math.floor(pokemon.attributes[3] * 0.9);
-        break;
-    case 5:
-        pokemon.attributes[4] = Math.floor(pokemon.attributes[4] * 0.9);
-        break;
-    case 6:
-        pokemon.attributes[5] = Math.floor(pokemon.attributes[5] * 0.9);
-        break;
-    }
-    // console.log(pokemon.attributes); // LOG
+    // APLYING NATURE
+    applyNature(pokemon, getNatureEffect(pokemon.nature)[0], 1.1);
+    applyNature(pokemon, getNatureEffect(pokemon.nature)[1], 0.9);
 } 
 
 export function createPlayer(trainer) {
