@@ -85,7 +85,7 @@ export function createPlayer(trainer, source, firstChild) {
             let Timeimage = document.createElement("img");
             Timeimage.classList.add("pokemonTeamImage");
             Timeimage.id = `player${id}TeamImage${i}`;
-            Timeimage.src = `Assets/Images/addButton.png`;
+            Timeimage.src = `./Assets/Images/addButton.png`;
             divTime.appendChild(Timeimage);
     }
 }
@@ -861,7 +861,7 @@ export function changePlayerToken(trainer) {
 
     let GuildImage = document.createElement("img");
     GuildImage.classList.add("player-Filled-Right-Inside-Top-Guild-Image");
-    GuildImage.src = "../Assets/Images/leagueSymbol.png";
+    GuildImage.src = "./Assets/Images/leagueSymbol.png";
     rightInsideContainer.appendChild(GuildImage);
 
     let titleContainer = document.createElement("div");
@@ -1033,7 +1033,7 @@ export function changePlayerToken(trainer) {
         teamNicknames.classList.add("player-Filled-Right-Inside-Pokemons-Nicknames");
         let img = document.createElement("img");
         img.classList.add("pokemonIcon");
-        img.src = "../Assets/Images/capturedPokemon.png";
+        img.src = "./Assets/Images/capturedPokemon.png";
         teamNicknames.appendChild(img);
 
         if (trainer._pokemons[k]) {
