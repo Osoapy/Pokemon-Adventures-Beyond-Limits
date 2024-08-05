@@ -135,9 +135,16 @@ export function createPokemon(trainer, pokemon) {
     insideFirstTokenInfo.textContent = "Info";
     insideFirstToken.appendChild(insideFirstTokenInfo);
 
-    createBoldParagraph(insideFirstToken, "Nickname:");
+    let p = document.createElement("p");
+    p.classList.add("pokemon-field-text")
+    p.classList.add("first-field");;
+    let b = document.createElement("b");
+    b.textContent = "Nickname:";
+    p.appendChild(b);
+    insideFirstToken.appendChild(p);
     let nick = document.createElement("div");
     nick.classList.add("pokemon-field-answear");
+    nick.classList.add("first-field");
     nick.textContent = trainer._pokemons[pokemonPosition].nickname;
     insideFirstToken.appendChild(nick);
     nick.contentEditable = true;
@@ -320,7 +327,7 @@ export function createPokemon(trainer, pokemon) {
     ivsDiv.classList.add("ivs");
     insideThirdToken.appendChild(ivsDiv);
 
-    let attributes = ["HP", "Attack", "Defense", "S.Atk", "S.Def", "Speed"];
+    let attributes = ["HP", "Atk", "Def", "S.Atk", "S.Def", "Speed"];
     for (let i = 0; i < 6; i++) {
         let ivDiv = document.createElement("div");
         ivDiv.classList.add("ev");
@@ -1047,7 +1054,6 @@ export function changePlayerToken(trainer) {
 }
 
 export function changeType(element, type) {
-    console.log("I recieved " + type);
     switch(type) {
         case "electric":
             element.classList.add("electric"); 

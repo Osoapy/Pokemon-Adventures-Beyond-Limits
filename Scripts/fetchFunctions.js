@@ -65,7 +65,6 @@ export async function MoveType(moveName) {
             }
 
             const data = await response.json();
-            console.log(data.type.name);
             return data.type.name;
         } catch (error) {
             console.error(error);

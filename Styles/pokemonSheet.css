@@ -1,3 +1,9 @@
+#myChart {
+  max-height: 90% !important;
+  min-height: 90% !important;
+  max-width: 100% !important;
+}
+
 .pokemon-Filled-Container {
   display: flex;
   flex-direction: column;
@@ -122,12 +128,6 @@
   width: 100%;
 }
 
-#myChart {
-  max-height: 90% !important;
-  min-height: 90% !important;
-  max-width: 100% !important;
-}
-
 .stats {
   justify-content: center;
   align-items: flex-start;
@@ -208,4 +208,59 @@ canvas {
   height: 20%;
   width: 88%;
   border-radius: 15px;
+}
+
+/* Responsiveness */
+@media (max-width: 600px) and (min-height: 700px) {
+  .start, .moves-container, .ivs-container, .stats {
+    width: 88%;
+    font-size: 20px;
+  }
+
+  .att-button, .right-button, .left-button {
+    font-size: 18px;
+  }
+
+  .start, .stats {
+    height: 34vh;
+  }
+
+  .first-field {
+    margin-top: 8%;
+  }
+
+  .iv, .ev {
+    height: 40%;
+    width: 30%;
+  }
+
+  .ivs.show, .evs.show {
+    flex-wrap: wrap;
+  }
+}
+
+@media (min-width: 1600px) and (min-height: 900px) {
+  .pokemon-Filled-Container {
+    font-size: 30px;
+  }
+
+  .att-button, .right-button, .left-button {
+    font-size: 30px;
+  }
+
+  .start {
+    height: 46vh;
+  }
+
+  .moves-container {
+    height: 46vh;
+  }
+
+  .ivs-container {
+    height: 46vh;
+  }
+
+  .stats {
+    height: 46vh;
+  }
 }
