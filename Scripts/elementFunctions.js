@@ -4,10 +4,6 @@ import * as pokemonClass from './pokemon.js';
 import * as fetch from './fetchFunctions.js';
 
 /* DECLARING FUNCTIONS */
-export function noSpace(string) {
-    return string.replace(/\s+/g, '');
-}
-
 export function returnText(html) {
     return html.textContent;
 }
@@ -20,9 +16,10 @@ export function createTextContent(element, text) {
 }
 
 /* EXPORTING FUNCTIONS*/
-export function createPlayer(name, source, firstChild) {
+export function createPlayer(trainer, source, firstChild) {
     let main = document.getElementById("main");
-    let id = noSpace(name);
+    console.log(trainer);
+    let id = trainer._name.replace(/\s+/g, '');
 
     let playerToken = document.createElement("div");
     playerToken.classList.add("player-Token");
@@ -61,7 +58,7 @@ export function createPlayer(name, source, firstChild) {
 
     let playerName = document.createElement("h1");
     playerName.classList.add("player-Name");
-    playerName.textContent = name;
+    playerName.textContent = trainer._name;
     playerTop.appendChild(playerName);
 
     let underline = document.createElement("div");
@@ -72,7 +69,7 @@ export function createPlayer(name, source, firstChild) {
     pokemonTeamContainer.classList.add("pokemonTeam-Container");
     player.appendChild(pokemonTeamContainer);
 
-    for (let i = 0; i <= 5; i++) {
+    for (let i = 0; i < 6; i++) {
             let divTime = document.createElement("button");
             divTime.classList.add("pokemonTeam");
             divTime.id = `player${id}TeamButton${i}`;
@@ -80,6 +77,9 @@ export function createPlayer(name, source, firstChild) {
     
             divTime.onclick = function() {
                 console.log("Creating a new pokemon"); // LOG
+
+                // CREATING NEW POKEMONS
+                createNewPokemon(trainer, i);
             }
     
             let Timeimage = document.createElement("img");
@@ -104,7 +104,7 @@ export function createPokemon(trainer, pokemon) {
         father.appendChild(p);
     }
     
-    let id = noSpace(trainer._name);
+    let id = trainer._name.replace(/\s+/g, '');
     let token = document.getElementById(`${id}-Token`);
     
     if(token.classList.contains("player-Filled-Container") || token.classList.contains("pokemon-Filled-Container") || token.classList.remove("new-pokemon-Filled-Container")) {
@@ -121,7 +121,7 @@ export function createPokemon(trainer, pokemon) {
         return 0;
     }
 
-    console.log("changing the tainer " + trainer._name + " token");
+    console.log("changing the trainer " + trainer._name + "'s token to the pokemon " + trainer._pokemons[pokemonPosition].name + " in position " + pokemonPosition); // LOG
     token.classList.remove("empty");
     token.classList.remove("player-Filled-Container");
     token.classList.add("pokemon-Filled-Container");
@@ -134,6 +134,18 @@ export function createPokemon(trainer, pokemon) {
     insideFirstTokenInfo.classList.add("info");
     insideFirstTokenInfo.textContent = "Info";
     insideFirstToken.appendChild(insideFirstTokenInfo);
+
+    createBoldParagraph(insideFirstToken, "Nickname:");
+    let nick = document.createElement("div");
+    nick.classList.add("pokemon-field-answear");
+    nick.textContent = trainer._pokemons[pokemonPosition].nickname;
+    insideFirstToken.appendChild(nick);
+    nick.contentEditable = true;
+    nick.spellcheck = false;
+    nick.addEventListener('input', function() {
+        trainer._pokemons[pokemonPosition].nickname = this.textContent;
+        localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
+    });
 
     createBoldParagraph(insideFirstToken, "Level:");
     let level = document.createElement("div");
@@ -313,7 +325,6 @@ export function createPokemon(trainer, pokemon) {
 
     // ACTUALIZING THE STATS VALUES
     mainScript.actualizeAttributes(trainer._pokemons[pokemonPosition]);
-    console.log(trainer._pokemons[pokemonPosition])
     
     let attDiv = document.createElement("div");
     attDiv.classList.add("ivs");
@@ -446,7 +457,7 @@ export function createNewPokemon(trainer, pokemonPosition) {
         father.appendChild(p);
     }
 
-    let id = noSpace(trainer._name);
+    let id = trainer._name.replace(/\s+/g, '');
     let token = document.getElementById(`${id}-Token`);
 
     if(token.classList.contains("player-Filled-Container") || token.classList.contains("pokemon-Filled-Container") || token.classList.contains("new-pokemon-Filled-Container")) {
@@ -702,15 +713,27 @@ export function createNewPokemon(trainer, pokemonPosition) {
     createButton.textContent = "CREATE";
     createButton.classList.add("create-button");
     insideThirdToken.appendChild(createButton);
+    
     createButton.onclick = function() {
-        //name, gender, nickname, level, attributes, ability, nature, ivs, evs, item, moves, types, weight, height, hapiness, friendship, isShiny, cries
-        let pokemon = new pokemonClass.Pokemon(returnText(name), returnText(gender), returnText(nickName), returnText(level), [returnText(stats[0]), returnText(stats[1]), returnText(stats[2]), returnText(stats[3]), returnText(stats[4]), returnText(stats[5])], returnText(ability), returnText(nature), [returnText(ivs[0]), returnText(ivs[1]), returnText(ivs[2]), returnText(ivs[3]), returnText(ivs[4]), returnText(ivs[5])], [returnText(evs[0]), returnText(evs[1]), returnText(evs[2]), returnText(evs[3]), returnText(evs[4]), returnText(evs[5])], returnText(heldItem), [returnText(movesValue[0]), returnText(movesValue[1]), returnText(movesValue[2]), returnText(movesValue[3])], null, null, null, 100, 100, 0, null); 
-        mainScript.createPokemon(trainer, pokemon, pokemonPosition)
+        // CHECKING THE GIVEN NICKNAME
+        let nickname = returnText(nickName);
+        // MAKE NICKNAME1 NICKNAME2 WHEN REPEATING NICKNAMES
+        for (let k = 0, time = 1; k < trainer._pokemons.length; k++) {
+            if (nickname == trainer._pokemons[k].nickname) {
+                nickname = `${nickname}${time}`;
+                time++;
+            }
+        }
+        
+        //name, gender, nickname, level, attributes, basestats, ability, nature, ivs, evs, item, moves, types, weight, height, hapiness, friendship, isShiny, cries
+        let pokemon = new pokemonClass.Pokemon(returnText(name), returnText(gender), nickname, returnText(level), [returnText(stats[0]), returnText(stats[1]), returnText(stats[2]), returnText(stats[3]), returnText(stats[4]), returnText(stats[5])], null, returnText(ability), returnText(nature), [returnText(ivs[0]), returnText(ivs[1]), returnText(ivs[2]), returnText(ivs[3]), returnText(ivs[4]), returnText(ivs[5])], [returnText(evs[0]), returnText(evs[1]), returnText(evs[2]), returnText(evs[3]), returnText(evs[4]), returnText(evs[5])], returnText(heldItem), [returnText(movesValue[0]), returnText(movesValue[1]), returnText(movesValue[2]), returnText(movesValue[3])], null, null, null, 100, 100, 0, null); 
+        console.log(`Pokemon ${pokemon.name} created in position ${pokemonPosition}!`); // LOG
+        mainScript.createPokemon(trainer, pokemon, pokemonPosition);
     }
 }
 
 export function changePlayerToken(trainer) {
-    let id = noSpace(trainer._name);
+    let id = trainer._name.replace(/\s+/g, '');
     let token = document.getElementById(`${id}-Token`);
     
     if(token.classList.contains("player-Filled-Container") || token.classList.contains("pokemon-Filled-Container")) {
