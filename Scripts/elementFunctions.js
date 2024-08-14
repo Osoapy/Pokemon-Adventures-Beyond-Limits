@@ -15,65 +15,48 @@ export function createTextContent(element, text) {
     element.appendChild(p);
 }
 
+export function createElementClassIdFather(element, classList, id, father) {
+    let result = document.createElement(element);
+    result.classList = classList;
+    if (id != null)
+    result.id = id;
+    father.appendChild(result);
+    return result;
+}
+
 /* EXPORTING FUNCTIONS*/
 export function createPlayer(trainer, source, firstChild) {
     let main = document.getElementById("main");
     console.log(trainer);
     let id = trainer._name.replace(/\s+/g, '');
 
-    let playerToken = document.createElement("div");
-    playerToken.classList.add("player-Token");
+    let playerToken = createElementClassIdFather("div", "player-Token", `${id}-Token`, main);
     playerToken.classList.add("empty");
-    playerToken.id = `${id}-Token`; 
     main.insertBefore(playerToken, firstChild);
     
-    let playerContainer = document.createElement("div");
-    playerContainer.classList.add("player-Container");
-    playerContainer.id = `${id}-Container`; 
+    let playerContainer = createElementClassIdFather("div", "player-Container", `${id}-Container`, main);
     main.insertBefore(playerContainer, playerToken);
 
-    let player = document.createElement("div");
-    player.classList.add("player");
-    player.id = id;
-    playerContainer.appendChild(player);
+    let player = createElementClassIdFather("div", "player", id, playerContainer);
 
-    let topContainer = document.createElement("header");
-    topContainer.classList.add("top-Container");
-    player.appendChild(topContainer);
+    let topContainer = createElementClassIdFather("header", "top-Container", null, player);
 
-    let playerButton = document.createElement("div");
-    playerButton.classList = "playerButton";
-    playerButton.id = `player${id}Button`;
-    topContainer.appendChild(playerButton);
+    let playerButton = createElementClassIdFather("div", "playerButton", `player${id}Button`, topContainer);
 
-    let image = document.createElement("img");
-    image.classList = "playerImg";
-    image.id = `player${id}`;
+    let image = createElementClassIdFather("img", "playerImg", `player${id}`, playerButton);
     image.src = source;
-    playerButton.appendChild(image);
 
-    let playerTop = document.createElement("div");
-    playerTop.classList.add("player-Top");
-    topContainer.appendChild(playerTop);
+    let playerTop = createElementClassIdFather("div", "player-Top", null, topContainer);
 
-    let playerName = document.createElement("h1");
-    playerName.classList.add("player-Name");
+    let playerName = createElementClassIdFather("h1", "player-Name", null, playerTop);
     playerName.textContent = trainer._name;
-    playerTop.appendChild(playerName);
 
-    let underline = document.createElement("div");
-    underline.classList.add("underline");
-    playerTop.appendChild(underline);
+    let underline = createElementClassIdFather("div", "underline", null, playerTop);
 
-    let pokemonTeamContainer = document.createElement("div");
-    pokemonTeamContainer.classList.add("pokemonTeam-Container");
-    player.appendChild(pokemonTeamContainer);
+    let pokemonTeamContainer = createElementClassIdFather("div", "pokemonTeam-Container", null, player);
 
     for (let i = 0; i < 6; i++) {
-            let divTime = document.createElement("button");
-            divTime.classList.add("pokemonTeam");
-            divTime.id = `player${id}TeamButton${i}`;
-            pokemonTeamContainer.appendChild(divTime);
+            let divTime = createElementClassIdFather("button", "pokemonTeam", `player${id}TeamButton${i}`, pokemonTeamContainer);
     
             divTime.onclick = function() {
                 console.log("Creating a new pokemon"); // LOG
@@ -82,11 +65,8 @@ export function createPlayer(trainer, source, firstChild) {
                 createNewPokemon(trainer, i);
             }
     
-            let Timeimage = document.createElement("img");
-            Timeimage.classList.add("pokemonTeamImage");
-            Timeimage.id = `player${id}TeamImage${i}`;
+            let Timeimage = createElementClassIdFather("img", "pokemonTeamImage", `player${id}TeamImage${i}`, divTime);
             Timeimage.src = `./Assets/Images/addButton.png`;
-            divTime.appendChild(Timeimage);
     }
 }
 
@@ -126,27 +106,16 @@ export function createPokemon(trainer, pokemon) {
     token.classList.remove("player-Filled-Container");
     token.classList.add("pokemon-Filled-Container");
     
-    let insideFirstToken = document.createElement("div");
-    insideFirstToken.classList.add("start");
-    token.appendChild(insideFirstToken);
+    let insideFirstToken = createElementClassIdFather("div", "start", null, token);
 
-    let insideFirstTokenInfo = document.createElement("div");
-    insideFirstTokenInfo.classList.add("info");
+    let insideFirstTokenInfo = createElementClassIdFather("div", "info", null, insideFirstToken);
     insideFirstTokenInfo.textContent = "Info";
-    insideFirstToken.appendChild(insideFirstTokenInfo);
 
-    let p = document.createElement("p");
-    p.classList.add("pokemon-field-text")
-    p.classList.add("first-field");;
-    let b = document.createElement("b");
+    let p = createElementClassIdFather("p", "pokemon-field-text first-field", null, insideFirstToken);
+    let b = createElementClassIdFather("b", null, null, p);
     b.textContent = "Nickname:";
-    p.appendChild(b);
-    insideFirstToken.appendChild(p);
-    let nick = document.createElement("div");
-    nick.classList.add("pokemon-field-answear");
-    nick.classList.add("first-field");
+    let nick = createElementClassIdFather("div", "pokemon-field-answear first-field", null, insideFirstToken);
     nick.textContent = trainer._pokemons[pokemonPosition].nickname;
-    insideFirstToken.appendChild(nick);
     nick.contentEditable = true;
     nick.spellcheck = false;
     nick.addEventListener('input', function() {
@@ -155,10 +124,8 @@ export function createPokemon(trainer, pokemon) {
     });
 
     createBoldParagraph(insideFirstToken, "Level:");
-    let level = document.createElement("div");
-    level.classList.add("pokemon-field-answear");
+    let level = createElementClassIdFather("div", "pokemon-field-answear", null, insideFirstToken);
     level.textContent = trainer._pokemons[pokemonPosition].level;
-    insideFirstToken.appendChild(level);
     level.contentEditable = true;
     level.spellcheck = false;
     level.addEventListener('input', function() {
@@ -167,10 +134,8 @@ export function createPokemon(trainer, pokemon) {
     });
 
     createBoldParagraph(insideFirstToken, "Gender:");
-    let gender = document.createElement("div");
-    gender.classList.add("pokemon-field-answear");
+    let gender = createElementClassIdFather("div", "pokemon-field-answear", null, insideFirstToken);
     gender.textContent = trainer._pokemons[pokemonPosition].gender;
-    insideFirstToken.appendChild(gender);
     gender.contentEditable = true;
     gender.spellcheck = false;
     gender.addEventListener('input', function() {
@@ -179,10 +144,8 @@ export function createPokemon(trainer, pokemon) {
     });
 
     createBoldParagraph(insideFirstToken, "Ability:");
-    let ability = document.createElement("div");
-    ability.classList.add("pokemon-field-answear");
+    let ability = createElementClassIdFather("div", "pokemon-field-answear", null, insideFirstToken);
     ability.textContent = trainer._pokemons[pokemonPosition].ability;
-    insideFirstToken.appendChild(ability);
     ability.classList.add("ability");
     changeType(ability, trainer._pokemons[pokemonPosition].types[0]);
     ability.contentEditable = true;
@@ -193,10 +156,8 @@ export function createPokemon(trainer, pokemon) {
     });
 
     createBoldParagraph(insideFirstToken, "Nature:");
-    let nature = document.createElement("div");
-    nature.classList.add("pokemon-field-answear");
+    let nature = createElementClassIdFather("div", "pokemon-field-answear", null, insideFirstToken);
     nature.textContent = trainer._pokemons[pokemonPosition].nature;
-    insideFirstToken.appendChild(nature);
     nature.classList.add("nature");
     nature.contentEditable = true;
     nature.spellcheck = false;
@@ -206,12 +167,10 @@ export function createPokemon(trainer, pokemon) {
     });
 
     createBoldParagraph(insideFirstToken, "Held item:");
-    let heldItem = document.createElement("div");
-    heldItem.classList.add("pokemon-field-answear");
+    let heldItem = createElementClassIdFather("div", "pokemon-field-answear", null, insideFirstToken);
     if (trainer._pokemons[pokemonPosition].heldItem) {
         heldItem.textContent = trainer._pokemons[pokemonPosition].heldItem;
     }
-    insideFirstToken.appendChild(heldItem);
     heldItem.contentEditable = true;
     heldItem.spellcheck = false;
     heldItem.addEventListener('input', function() {
@@ -219,22 +178,15 @@ export function createPokemon(trainer, pokemon) {
         localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
     });
 
-    let insideSecondToken = document.createElement("div");
-    insideSecondToken.classList.add("moves-container");
-    token.appendChild(insideSecondToken);
+    let insideSecondToken = createElementClassIdFather("div", "moves-container", null, token);
 
-    let insideSecondTokenInfo = document.createElement("div");
-    insideSecondTokenInfo.classList.add("info");
+    let insideSecondTokenInfo = createElementClassIdFather("div", "info", null, insideSecondToken);
     insideSecondTokenInfo.textContent = "Moves";
-    insideSecondToken.appendChild(insideSecondTokenInfo);
 
-    let moves = document.createElement("div");
-    moves.classList.add("moves");
-    insideSecondToken.appendChild(moves);
+    let moves = createElementClassIdFather("div", "moves", null, insideSecondToken);
 
     for (let i = 0; i < 4; i++) {
-        let move = document.createElement("div");
-        move.classList.add("move");
+        let move = createElementClassIdFather("div", "move", null, moves);
         if(trainer._pokemons[pokemonPosition].moves[i]) {
             move.textContent = trainer._pokemons[pokemonPosition].moves[i];
             
@@ -258,7 +210,6 @@ export function createPokemon(trainer, pokemon) {
                 });
         }
         
-        moves.appendChild(move);
         move.contentEditable = true;
         move.spellcheck = false;
         move.addEventListener('input', function() {
@@ -267,23 +218,15 @@ export function createPokemon(trainer, pokemon) {
         });
     }
 
-    let insideThirdToken = document.createElement("div");
-    insideThirdToken.classList.add("ivs-container");
-    token.appendChild(insideThirdToken);
+    let insideThirdToken = createElementClassIdFather("div", "ivs-container", null, token);
 
-    let insideThirdTokenInfo = document.createElement("div");
-    insideThirdTokenInfo.classList.add("info");
+    let insideThirdTokenInfo = createElementClassIdFather("div", "info", null, insideThirdToken);
     insideThirdTokenInfo.textContent = "IVs / EVs";
-    insideThirdToken.appendChild(insideThirdTokenInfo);
 
-    let ivButton = document.createElement("button");
-    ivButton.classList.add("iv-button");
-    insideThirdToken.appendChild(ivButton);
+    let ivButton = createElementClassIdFather("button", "iv-button", null, insideThirdToken);
 
-    let leftbutton = document.createElement("button");
-    leftbutton.classList.add("left-button");
+    let leftbutton = createElementClassIdFather("button", "left-button", null, ivButton);
     leftbutton.textContent = "IVs";
-    ivButton.appendChild(leftbutton);
     leftbutton.onclick = function() {
         let father = ivButton.parentElement;
         ivButton.children[1].classList.remove("active");
@@ -294,11 +237,9 @@ export function createPokemon(trainer, pokemon) {
         father.children[2].classList.add("show");
     }
 
-    let attbutton = document.createElement("button");
-    attbutton.classList.add("att-button");
+    let attbutton = createElementClassIdFather("button", "att-button", null, ivButton);
     attbutton.textContent = "Stats";
     attbutton.classList.add("active");
-    ivButton.appendChild(attbutton);
     attbutton.onclick = function() {
         let father = ivButton.parentElement;
         ivButton.children[0].classList.remove("active");
@@ -309,10 +250,8 @@ export function createPokemon(trainer, pokemon) {
         father.children[3].classList.add("show");
     }
     
-    let righbutton = document.createElement("button");
-    righbutton.classList.add("right-button");
+    let righbutton = createElementClassIdFather("button", "right-button", null, ivButton);
     righbutton.textContent = "EVs";
-    ivButton.appendChild(righbutton);
     righbutton.onclick = function() {
         let father = ivButton.parentElement;
         ivButton.children[0].classList.remove("active");
@@ -323,25 +262,17 @@ export function createPokemon(trainer, pokemon) {
         father.children[4].classList.add("show");
     }
 
-    let ivsDiv = document.createElement("div");
-    ivsDiv.classList.add("ivs");
-    insideThirdToken.appendChild(ivsDiv);
+    let ivsDiv = createElementClassIdFather("div", "ivs", null, insideThirdToken);
 
     let attributes = ["HP", "Atk", "Def", "S.Atk", "S.Def", "Speed"];
     for (let i = 0; i < 6; i++) {
-        let ivDiv = document.createElement("div");
-        ivDiv.classList.add("ev");
-        ivsDiv.appendChild(ivDiv);
+        let ivDiv = createElementClassIdFather("div", "ev", null, ivsDiv);
         
-        let attribute = document.createElement("div");
-        attribute.classList.add("iv-text");
+        let attribute = createElementClassIdFather("div", "iv-text", null, ivDiv);
         attribute.textContent = attributes[i];
-        ivDiv.appendChild(attribute);
 
-        let value = document.createElement("div");
-        value.classList.add("iv-value");
+        let value = createElementClassIdFather("div", "iv-value", null, ivDiv);
         value.textContent = trainer._pokemons[pokemonPosition].ivs[i];
-        ivDiv.appendChild(value);
         value.contentEditable = true;
         value.spellcheck = false;
         value.addEventListener('input', function() {
@@ -353,25 +284,17 @@ export function createPokemon(trainer, pokemon) {
     // ACTUALIZING THE STATS VALUES
     mainScript.actualizeAttributes(trainer._pokemons[pokemonPosition]);
     
-    let attDiv = document.createElement("div");
-    attDiv.classList.add("ivs");
+    let attDiv = createElementClassIdFather("div", "ivs", null, insideThirdToken);
     attDiv.classList.add("show");
-    insideThirdToken.appendChild(attDiv);
 
     for (let i = 0; i < 6; i++) {
-        let evDiv = document.createElement("div");
-        evDiv.classList.add("ev");
-        attDiv.appendChild(evDiv);
+        let evDiv = createElementClassIdFather("div", "ev", null, attDiv);
 
-        let attribute = document.createElement("div");
-        attribute.classList.add("ev-text");
+        let attribute = createElementClassIdFather("div", "ev-text", null, evDiv);
         attribute.textContent = attributes[i];
-        evDiv.appendChild(attribute);
 
-        let value = document.createElement("div");
-        value.classList.add("ev-value");
+        let value = createElementClassIdFather("div", "ev-value", null, evDiv);
         value.textContent = trainer._pokemons[pokemonPosition].attributes[i];
-        evDiv.appendChild(value);
         value.contentEditable = true;
         value.spellcheck = false;
         value.addEventListener('input', function() {
@@ -380,24 +303,16 @@ export function createPokemon(trainer, pokemon) {
         });
     }
 
-    let evsDiv = document.createElement("div");
-    evsDiv.classList.add("evs");
-    insideThirdToken.appendChild(evsDiv);
+    let evsDiv = createElementClassIdFather("div", "evs", null, insideThirdToken);
 
     for (let i = 0; i < 6; i++) {
-        let evDiv = document.createElement("div");
-        evDiv.classList.add("ev");
-        evsDiv.appendChild(evDiv);
+        let evDiv = createElementClassIdFather("div", "ev", null, evsDiv);
         
-        let attribute = document.createElement("div");
-        attribute.classList.add("ev-text");
+        let attribute = createElementClassIdFather("div", "ev-text", null, evDiv);
         attribute.textContent = attributes[i];
-        evDiv.appendChild(attribute);
-
-        let value = document.createElement("div");
-        value.classList.add("ev-value");
+        
+        let value = createElementClassIdFather("div", "ev-value", null, evDiv);
         value.textContent = trainer._pokemons[pokemonPosition].evs[i];
-        evDiv.appendChild(value);
         value.contentEditable = true;
         value.spellcheck = false;
         value.addEventListener('input', function() {
@@ -406,22 +321,14 @@ export function createPokemon(trainer, pokemon) {
         });
     }
 
-    let insideFourthToken = document.createElement("div");
-    insideFourthToken.classList.add("stats");
-    token.appendChild(insideFourthToken);
+    let insideFourthToken = createElementClassIdFather("div", "stats", null, token);
 
-    let insideFourthTokenInfo = document.createElement("div");
-    insideFourthTokenInfo.classList.add("info");
+    let insideFourthTokenInfo = createElementClassIdFather("div", "info", null, insideFourthToken);
     insideFourthTokenInfo.textContent = "Stats";
-    insideFourthToken.appendChild(insideFourthTokenInfo);
 
-    let canvasContainer = document.createElement("div");
-    canvasContainer.classList.add("canvas-container");
-    insideFourthToken.appendChild(canvasContainer);
+    let canvasContainer = createElementClassIdFather("div", "canvas-container", null, insideFourthToken);
     
-    let stats = document.createElement("canvas");
-    stats.id = "myChart";
-    canvasContainer.appendChild(stats);
+    let stats = createElementClassIdFather("canvas", null, "myChart", canvasContainer);
     new Chart(stats, {
         type: 'radar',
         data: {
@@ -464,13 +371,10 @@ export function createPokemon(trainer, pokemon) {
     });
     Chart.defaults.font.size = 18;
 
-    let imageCont = document.createElement("div");
-    imageCont.classList.add("pokemon-sprite-Container");
-    insideFourthToken.appendChild(imageCont);
+    let imageCont = createElementClassIdFather("div", "pokemon-sprite-Container", null, insideFourthToken);
 
-    let image = document.createElement("img");
+    let image = createElementClassIdFather("img", "pokemon-sprite", null, imageCont);
     image.src = trainer._pokemons[pokemonPosition].gif;
-    image.classList.add("pokemon-sprite");
     imageCont.appendChild(image);
 }
 
@@ -506,122 +410,83 @@ export function createNewPokemon(trainer, pokemonPosition) {
     token.classList.remove("player-Filled-Container");
     token.classList.add("pokemon-Filled-Container");
 
-    let insideFirstToken = document.createElement("div");
-    insideFirstToken.classList.add("start");
-    token.appendChild(insideFirstToken);
+    let insideFirstToken = createElementClassIdFather("div", "start", null, token);
 
-    let insideFirstTokenInfo = document.createElement("div");
-    insideFirstTokenInfo.classList.add("info");
+    let insideFirstTokenInfo = createElementClassIdFather("div", "info", null, insideFirstToken);
     insideFirstTokenInfo.textContent = "Info";
-    insideFirstToken.appendChild(insideFirstTokenInfo);
 
-    let p = document.createElement("p");
-    p.classList.add("pokemon-field-text");
-    let b = document.createElement("b");
+    let p = createElementClassIdFather("p", "pokemon-field-text creation-start", null, insideFirstToken);
+    let b = createElementClassIdFather("b", null, null, p);
     b.textContent = "Species:";
-    p.appendChild(b);
-    insideFirstToken.appendChild(p);
-    p.classList.add("creation-start");
-    let name = document.createElement("div");
-    name.classList.add("creation-start");
-    name.classList.add("pokemon-field-answear");
+    let name = createElementClassIdFather("div", "creation-start pokemon-field-answear", null, insideFirstToken);
     name.textContent = "Insert the specie's name here...";
-    insideFirstToken.appendChild(name);
     name.contentEditable = true;
     name.spellcheck = false;
 
     createBoldParagraph(insideFirstToken, "Nickname:");
-    let nickName = document.createElement("div");
-    nickName.classList.add("pokemon-field-answear");
+    let nickName = createElementClassIdFather("div", "pokemon-field-answear", null, insideFirstToken);
     nickName.textContent = "???";
-    insideFirstToken.appendChild(nickName);
     nickName.contentEditable = true;
     nickName.spellcheck = false;
     
     createBoldParagraph(insideFirstToken, "Level:");
-    let level = document.createElement("div");
-    level.classList.add("pokemon-field-answear");
+    let level = createElementClassIdFather("div", "pokemon-field-answear", null, insideFirstToken);
     level.textContent = "1";
-    insideFirstToken.appendChild(level);
     level.contentEditable = true;
     level.spellcheck = false;
 
     createBoldParagraph(insideFirstToken, "Gender:");
-    let gender = document.createElement("div");
-    gender.classList.add("pokemon-field-answear");
+    let gender = createElementClassIdFather("div", "pokemon-field-answear", null, insideFirstToken);
     gender.textContent = "Choose between M, F or None";
     gender.ariaPlaceholder = "inser babies";
-    insideFirstToken.appendChild(gender);
     gender.contentEditable = true;
     gender.spellcheck = false;
 
     createBoldParagraph(insideFirstToken, "Ability:");
-    let ability = document.createElement("div");
-    ability.classList.add("pokemon-field-answear");
+    let ability = createElementClassIdFather("div", "pokemon-field-answear", null, insideFirstToken);
     ability.textContent = "Insert its ability here...";
-    insideFirstToken.appendChild(ability);
     ability.classList.add("ability");
     ability.contentEditable = true;
     ability.spellcheck = false;
 
     createBoldParagraph(insideFirstToken, "Nature:");
-    let nature = document.createElement("div");
-    nature.classList.add("pokemon-field-answear");
+    let nature = createElementClassIdFather("div", "pokemon-field-answear", null, insideFirstToken);
     nature.textContent = "Inset its nature here...";
-    insideFirstToken.appendChild(nature);
     nature.classList.add("nature");
     nature.contentEditable = true;
     nature.spellcheck = false;
 
     createBoldParagraph(insideFirstToken, "Held item:");
-    let heldItem = document.createElement("div");
-    heldItem.classList.add("pokemon-field-answear");
+    let heldItem = createElementClassIdFather("div", "pokemon-field-answear", null, insideFirstToken);
     heldItem.textContent = "None";
-    insideFirstToken.appendChild(heldItem);
     heldItem.contentEditable = true;
     heldItem.spellcheck = false;
 
-    let insideSecondToken = document.createElement("div");
-    insideSecondToken.classList.add("moves-container");
-    token.appendChild(insideSecondToken);
+    let insideSecondToken = createElementClassIdFather("div", "moves-container", null, token);
 
-    let insideSecondTokenInfo = document.createElement("div");
-    insideSecondTokenInfo.classList.add("info");
+    let insideSecondTokenInfo = createElementClassIdFather("div", "info", null, insideSecondToken);
     insideSecondTokenInfo.textContent = "Moves";
-    insideSecondToken.appendChild(insideSecondTokenInfo);
 
-    let moves = document.createElement("div");
-    moves.classList.add("moves");
-    insideSecondToken.appendChild(moves);
+    let moves = createElementClassIdFather("div", "moves", null, insideSecondToken);
 
     let movesValue = [];
     for (let i = 0; i < 4; i++) {
-        let move = document.createElement("div");
-        move.classList.add("move");
+        let move = createElementClassIdFather("div", "move", null, moves);
         move.textContent = `Move #${i + 1}`;
         movesValue[i] = move;
-        moves.appendChild(move);
         move.contentEditable = true;
         move.spellcheck = false;
     }
 
-    let insideThirdToken = document.createElement("div");
-    insideThirdToken.classList.add("ivs-container");
-    token.appendChild(insideThirdToken);
+    let insideThirdToken = createElementClassIdFather("div", "ivs-container", null, token);
 
-    let insideThirdTokenInfo = document.createElement("div");
-    insideThirdTokenInfo.classList.add("info");
+    let insideThirdTokenInfo = createElementClassIdFather("div", "info", null, insideThirdToken);
     insideThirdTokenInfo.textContent = "IVs / EVs";
-    insideThirdToken.appendChild(insideThirdTokenInfo);
 
-    let ivButton = document.createElement("button");
-    ivButton.classList.add("iv-button");
-    insideThirdToken.appendChild(ivButton);
+    let ivButton = createElementClassIdFather("button", "iv-button", null, insideThirdToken);
 
-    let leftbutton = document.createElement("button");
-    leftbutton.classList.add("left-button");
+    let leftbutton = createElementClassIdFather("button", "left-button", null, ivButton);
     leftbutton.textContent = "IVs";
-    ivButton.appendChild(leftbutton);
     leftbutton.onclick = function() {
         let father = ivButton.parentElement;
         ivButton.children[1].classList.remove("active");
@@ -632,11 +497,9 @@ export function createNewPokemon(trainer, pokemonPosition) {
         father.children[2].classList.add("show");
     }
 
-    let attbutton = document.createElement("button");
-    attbutton.classList.add("att-button");
+    let attbutton = createElementClassIdFather("button", "att-button", null, ivButton);
     attbutton.textContent = "Stats";
     attbutton.classList.add("active");
-    ivButton.appendChild(attbutton);
     attbutton.onclick = function() {
         let father = ivButton.parentElement;
         ivButton.children[0].classList.remove("active");
@@ -647,10 +510,8 @@ export function createNewPokemon(trainer, pokemonPosition) {
         father.children[3].classList.add("show");
     }
 
-    let righbutton = document.createElement("button");
-    righbutton.classList.add("right-button");
+    let righbutton = createElementClassIdFather("button", "right-button", null, ivButton);
     righbutton.textContent = "EVs";
-    ivButton.appendChild(righbutton);
     righbutton.onclick = function() {
         let father = ivButton.parentElement;
         ivButton.children[0].classList.remove("active");
@@ -661,85 +522,58 @@ export function createNewPokemon(trainer, pokemonPosition) {
         father.children[4].classList.add("show");
     }
 
-    let ivsDiv = document.createElement("div");
-    ivsDiv.classList.add("ivs");
-    insideThirdToken.appendChild(ivsDiv);
+    let ivsDiv = createElementClassIdFather("div", "ivs", null, insideThirdToken);
 
     let attributes = ["HP", "Attack", "Defense", "S.Atk", "S.Def", "Speed"];
 
     let ivs = [];
     for (let i = 0; i < 6; i++) {
-        let ivDiv = document.createElement("div");
-        ivDiv.classList.add("ev");
-        ivsDiv.appendChild(ivDiv);
+        let ivDiv = createElementClassIdFather("div", "ev", null, ivsDiv);
 
-        let attribute = document.createElement("div");
-        attribute.classList.add("iv-text");
+        let attribute = createElementClassIdFather("div", "iv-text", null, ivDiv);
         attribute.textContent = attributes[i];
-        ivDiv.appendChild(attribute);
 
-        let value = document.createElement("div");
+        let value = createElementClassIdFather("div", "iv-value", null, ivDiv);
         ivs[i] = value;
-        value.classList.add("iv-value");
         value.textContent = "0";
-        ivDiv.appendChild(value);
         value.contentEditable = true;
         value.spellcheck = false;
     }
 
-    let attDiv = document.createElement("div");
-    attDiv.classList.add("ivs");
-    attDiv.classList.add("show");
-    insideThirdToken.appendChild(attDiv);
+    let attDiv = createElementClassIdFather("div", "ivs show", null, insideThirdToken);
 
     let stats = [];
     for (let i = 0; i < 6; i++) {
-        let evDiv = document.createElement("div");
-        evDiv.classList.add("ev");
-        attDiv.appendChild(evDiv);
+        let evDiv = createElementClassIdFather("div", "ev", null, attDiv);
 
-        let attribute = document.createElement("div");
-        attribute.classList.add("ev-text");
+        let attribute = createElementClassIdFather("div", "ev-text", null, evDiv);
         attribute.textContent = attributes[i];
-        evDiv.appendChild(attribute);
 
-        let value = document.createElement("div");
+        let value = createElementClassIdFather("div", "ev-value", null, evDiv);
         stats[i] = value;
-        value.classList.add("ev-value");
         value.textContent = "0";
-        evDiv.appendChild(value);
         value.contentEditable = true;
         value.spellcheck = false;
     }
 
-    let evsDiv = document.createElement("div");
-    evsDiv.classList.add("evs");
-    insideThirdToken.appendChild(evsDiv);
+    let evsDiv = createElementClassIdFather("div", "evs", null, insideThirdToken);
     
     let evs = [];
     for (let i = 0; i < 6; i++) {
-        let evDiv = document.createElement("div");
-        evDiv.classList.add("ev");
-        evsDiv.appendChild(evDiv);
+        let evDiv = createElementClassIdFather("div", "ev", null, evsDiv);
 
-        let attribute = document.createElement("div");
-        attribute.classList.add("ev-text");
+        let attribute = createElementClassIdFather("div", "ev-text", null, evDiv);
         attribute.textContent = attributes[i];
-        evDiv.appendChild(attribute);
 
-        let value = document.createElement("div");
+        let value = createElementClassIdFather("div", "ev-value", null, evDiv);
         evs[i] = value;
-        value.classList.add("ev-value");
         value.textContent = "0";
-        evDiv.appendChild(value);
         value.contentEditable = true;
         value.spellcheck = false;
     }
 
-    let createButton = document.createElement("button");
+    let createButton = createElementClassIdFather("button", "create-button", null, insideThirdToken);
     createButton.textContent = "CREATE";
-    createButton.classList.add("create-button");
-    insideThirdToken.appendChild(createButton);
     
     createButton.onclick = function() {
         // CHECKING THE GIVEN NICKNAME
@@ -782,40 +616,24 @@ export function changePlayerToken(trainer) {
     token.classList.remove("pokemon-Filled-Container");
     token.classList.add("player-Filled-Container");
     
-    let insideToken = document.createElement("div");
-    insideToken.classList.add("player-Filled");
-    token.appendChild(insideToken);
+    let insideToken = createElementClassIdFather("div", "player-Filled", null, token);
   
-    let left = document.createElement("div");
-    left.classList.add("player-Filled-Left");
-    insideToken.appendChild(left);
+    let left = createElementClassIdFather("div", "player-Filled-Left", null, insideToken);
 
-    let leftInside = document.createElement("div");
-    leftInside.classList.add("player-Filled-Left-Inside");
-    left.appendChild(leftInside);
+    let leftInside = createElementClassIdFather("div", "player-Filled-Left-Inside", null, left);
 
-    let leftImageContainer = document.createElement("div");
-    leftImageContainer.classList.add("player-Filled-Left-Inside-Image-Container");
-    leftInside.appendChild(leftImageContainer);
+    let leftImageContainer = createElementClassIdFather("div", "player-Filled-Left-Inside-Image-Container", null, leftInside);
 
-    let leftImage = document.createElement("img");
-    leftImage.classList.add("player-Filled-Left-Inside-Image");
+    let leftImage = createElementClassIdFather("img", "player-Filled-Left-Inside-Image", null, leftImageContainer);
     leftImage.src = trainer._image;
-    leftImageContainer.appendChild(leftImage);
 
-    let HPContainer = document.createElement("div");
-    HPContainer.classList.add("player-Filled-Left-Inside-HP-Container");
-    leftInside.appendChild(HPContainer);
+    let HPContainer = createElementClassIdFather("div", "player-Filled-Left-Inside-HP-Container", null, leftInside);
 
-    let HP = document.createElement("div");
-    HP.classList.add("player-Filled-Left-Inside-HP");
+    let HP = createElementClassIdFather("div", "player-Filled-Left-Inside-HP", null, HPContainer);
     HP.textContent = "HP";
-    HPContainer.appendChild(HP);
 
-    let HPValue = document.createElement("div");
-    HPValue.classList.add("player-Filled-Left-Inside-HP-Value");
+    let HPValue = createElementClassIdFather("div", "player-Filled-Left-Inside-HP-Value", null, HP);
     HPValue.textContent = `${trainer._HP}`;
-    HP.appendChild(HPValue);
     HPValue.contentEditable = true;
     HPValue.spellcheck = false;
     HPValue.addEventListener('input', function() {
@@ -823,19 +641,13 @@ export function changePlayerToken(trainer) {
         localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
     });
 
-    let WILLContainer = document.createElement("div");
-    WILLContainer.classList.add("player-Filled-Left-Inside-WILL-Container");
-    leftInside.appendChild(WILLContainer);
+    let WILLContainer = createElementClassIdFather("div", "player-Filled-Left-Inside-WILL-Container", null, leftInside);
 
-    let WILL = document.createElement("div");
-    WILL.classList.add("player-Filled-Left-Inside-WILL");
+    let WILL = createElementClassIdFather("div", "player-Filled-Left-Inside-WILL", null, WILLContainer);
     WILL.textContent = "WILL";
-    WILLContainer.appendChild(WILL);
 
-    let WILLValue = document.createElement("div");
-    WILLValue.classList.add("player-Filled-Left-Inside-WILL-Value");
+    let WILLValue = createElementClassIdFather("div", "player-Filled-Left-Inside-WILL-Value", null, WILL);
     WILLValue.textContent = `${trainer._WILL}`;
-    WILL.appendChild(WILLValue);
     WILLValue.contentEditable = true;
     WILLValue.spellcheck = false;
     WILLValue.addEventListener('input', function() {
@@ -843,47 +655,28 @@ export function changePlayerToken(trainer) {
         localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
     });
 
-    let right = document.createElement("div");
-    right.classList.add("player-Filled-Right");
-    insideToken.appendChild(right);
+    let right = createElementClassIdFather("div", "player-Filled-Right", null, insideToken);
 
-    let rightInside = document.createElement("div");
-    rightInside.classList.add("player-Filled-Right-Inside");
-    right.appendChild(rightInside);
+    let rightInside = createElementClassIdFather("div", "player-Filled-Right-Inside", null, right);
 
-    let rightInsideTop = document.createElement("div");
-    rightInsideTop.classList.add("player-Filled-Right-Inside-Top");
-    right.appendChild(rightInsideTop);
+    let rightInsideTop = createElementClassIdFather("div", "player-Filled-Right-Inside-Top", null, right);
 
-    let rightInsideContainer = document.createElement("div");
-    rightInsideContainer.classList.add("player-Filled-Right-Inside-Top-Div");
-    rightInsideTop.appendChild(rightInsideContainer);
+    let rightInsideContainer = createElementClassIdFather("div", "player-Filled-Right-Inside-Top-Div", null, rightInsideTop);
 
-    let GuildImage = document.createElement("img");
-    GuildImage.classList.add("player-Filled-Right-Inside-Top-Guild-Image");
+    let GuildImage = createElementClassIdFather("img", "player-Filled-Right-Inside-Top-Guild-Image", null, rightInsideContainer);
     GuildImage.src = "./Assets/Images/leagueSymbol.png";
-    rightInsideContainer.appendChild(GuildImage);
 
-    let titleContainer = document.createElement("div");
-    titleContainer.classList.add("player-Filled-Right-Inside-Title-Container");
-    rightInsideContainer.appendChild(titleContainer);
+    let titleContainer = createElementClassIdFather("div", "player-Filled-Right-Inside-Title-Container", null, rightInsideContainer);
 
-    let title = document.createElement("h1");
-    title.classList.add("player-Filled-Right-Inside-Title");
+    let title = createElementClassIdFather("h1", "player-Filled-Right-Inside-Title", null, titleContainer);
     title.textContent = "POKÉMON LEAGUE";
-    titleContainer.appendChild(title);
 
-    let rankContainer = document.createElement("div");
-    rankContainer.classList.add("player-Filled-Right-Inside-Rank");
-    titleContainer.appendChild(rankContainer);
+    let rankContainer = createElementClassIdFather("div", "player-Filled-Right-Inside-Rank", null, titleContainer);
 
-    let rankContainerText = document.createElement("p");
-    rankContainerText.classList.add("player-Filled-Right-Inside-Rank-Text");
+    let rankContainerText = createElementClassIdFather("p", "player-Filled-Right-Inside-Rank-Text", null, rankContainer);
     rankContainerText.textContent = `Trainer's Rank:`;
-    rankContainer.appendChild(rankContainerText);
 
-    let rankValue = document.createElement("p");
-    rankValue.classList.add("player-Filled-Right-Inside-Rank-Value");
+    let rankValue = createElementClassIdFather("p", "player-Filled-Right-Inside-Rank-Value", null, rankContainer);
     rankValue.textContent = `${trainer._rank}`;
     rankValue.contentEditable = true;
     rankValue.spellcheck = false;
@@ -891,18 +684,13 @@ export function changePlayerToken(trainer) {
         trainer._rank = this.textContent;
         localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
     });
-    rankContainer.appendChild(rankValue);
 
-    let player = document.createElement("div");
-    player.classList.add("player-Filled-Right-Inside-Player-Container");
-    rightInside.appendChild(player);
+    let player = createElementClassIdFather("div", "player-Filled-Right-Inside-Player-Container", null, rightInside);
 
-    let playerName = document.createElement("div");
-    playerName.classList.add("token-Spam-Text-Content");
+    let playerName = createElementClassIdFather("div", "token-Spam-Text-Content", null, player);
     playerName.textContent = `PLAYER:`;
 
-    let playerNameContainer = document.createElement("div");
-    playerNameContainer.classList.add("player-Filled-Right-Inside-Player-Name");
+    let playerNameContainer = createElementClassIdFather("div", "player-Filled-Right-Inside-Player-Name", null, player);
     playerNameContainer.appendChild(playerName);
     createTextContent(playerNameContainer, `${trainer._player}`);
     playerNameContainer.children[1].contentEditable = true;
@@ -911,14 +699,11 @@ export function changePlayerToken(trainer) {
         trainer._player = this.textContent;
         localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
     });
-    player.appendChild(playerNameContainer);
 
-    let playerConcept = document.createElement("div");
-    playerConcept.classList.add("token-Spam-Text-Content");
+    let playerConcept = createElementClassIdFather("div", "token-Spam-Text-Content", null, player);
     playerConcept.textContent = `CONCEPT:`;
 
-    let playerConceptContainer = document.createElement("div");
-    playerConceptContainer.classList.add("player-Filled-Right-Inside-Player-Concept");
+    let playerConceptContainer = createElementClassIdFather("div", "player-Filled-Right-Inside-Player-Concept", null, player);
     playerConceptContainer.appendChild(playerConcept);
     createTextContent(playerConceptContainer, `${trainer._concept}`);
     playerConceptContainer.children[1].contentEditable = true;
@@ -927,19 +712,13 @@ export function changePlayerToken(trainer) {
         trainer._concept = this.textContent;
         localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
     });
-    player.appendChild(playerConceptContainer);
 
-    let rightInsideName = document.createElement("div");
-    rightInsideName.classList.add("player-Filled-Right-Inside-Name");
-    rightInsideTop.appendChild(rightInsideName);
+    let rightInsideName = createElementClassIdFather("div", "player-Filled-Right-Inside-Name", null, rightInsideTop);
 
-    let trainerName = document.createElement("div");
-    trainerName.classList.add("token-Spam-Text-Content");
-    trainerName.classList.add("small-Spam-Text-Content");
+    let trainerName = createElementClassIdFather("div", "token-Spam-Text-Content small-Spam-Text-Content", null, rightInsideName);
     trainerName.textContent = `TRAINER:`;
     
-    let trainerNameContainer = document.createElement("div");
-    trainerNameContainer.classList.add("player-Filled-Right-Inside-Player");
+    let trainerNameContainer = createElementClassIdFather("div", "player-Filled-Right-Inside-Player", null, rightInsideName);
     trainerNameContainer.appendChild(trainerName);
     createTextContent(trainerNameContainer, `${trainer._name}`);
     trainerNameContainer.children[1].contentEditable = true;
@@ -948,15 +727,11 @@ export function changePlayerToken(trainer) {
         trainer._name = this.textContent;
         localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
     });
-    rightInsideName.appendChild(trainerNameContainer);
 
-    let trainerAge = document.createElement("div");
-    trainerAge.classList.add("token-Spam-Text-Content");
-    trainerAge.classList.add("small-Spam-Text-Content");
+    let trainerAge = createElementClassIdFather("div", "token-Spam-Text-Content small-Spam-Text-Content", null, rightInsideName);
     trainerAge.textContent = `AGE:`;
 
-    let trainerAgeContainer = document.createElement("div");
-    trainerAgeContainer.classList.add("player-Filled-Right-Inside-Age");
+    let trainerAgeContainer = createElementClassIdFather("div", "player-Filled-Right-Inside-Age", null, rightInsideName);
     trainerAgeContainer.appendChild(trainerAge);
     createTextContent(trainerAgeContainer, `${trainer._age}`);
     trainerAgeContainer.children[1].contentEditable = true;
@@ -965,42 +740,29 @@ export function changePlayerToken(trainer) {
         trainer._age = this.textContent;
         localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
     });
-    rightInsideName.appendChild(trainerAgeContainer);
 
-    let natureContainer = document.createElement("div");
-    natureContainer.classList.add("player-Filled-Right-Inside-Nature-Container");
-    rightInside.appendChild(natureContainer);
+    let natureContainer = createElementClassIdFather("div", "player-Filled-Right-Inside-Nature-Container", null, rightInside);
 
-    let rightInsideNature = document.createElement("div");
-    rightInsideNature.classList.add("player-Filled-Right-Inside-Nature");
-    natureContainer.appendChild(rightInsideNature);
+    let rightInsideNature = createElementClassIdFather("div", "player-Filled-Right-Inside-Nature", null, natureContainer);
 
-    let natureValue = document.createElement("div");
-    natureValue.classList.add("token-Spam-Text-Content");
+    let natureValue = createElementClassIdFather("div", "token-Spam-Text-Content", null, rightInsideNature);
     natureValue.textContent = `NATURE:`;
     
-    let natureValueContainer = document.createElement("div");
-    natureValueContainer.classList.add("player-Filled-Right-Inside-Nature-Value");
+    let natureValueContainer = createElementClassIdFather("div", "player-Filled-Right-Inside-Nature-Value", null, rightInsideNature);
     natureValueContainer.appendChild(natureValue);
     createTextContent(natureValueContainer, `${trainer._nature}`);
-    rightInsideNature.appendChild(natureValueContainer);
     natureValueContainer.children[1].contentEditable = true;
     natureValueContainer.children[1].spellcheck = false;
     natureValueContainer.children[1].addEventListener('input', function() {
         trainer._nature = this.textContent;
         localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
     });
-    rightInsideName.appendChild(trainerNameContainer);
 
-    let confidenceContainer = document.createElement("div");
-    confidenceContainer.classList.add("player-Filled-Right-Inside-Confidence-Value-Container");
+    let confidenceContainer = createElementClassIdFather("div", "player-Filled-Right-Inside-Confidence-Value-Container", null, rightInsideNature);
     confidenceContainer.textContent = `Confidence:`;
-    rightInsideNature.appendChild(confidenceContainer);
 
-    let confidence = document.createElement("div");
-    confidence.classList.add("player-Filled-Right-Inside-Confidence-Value");
+    let confidence = createElementClassIdFather("div", "player-Filled-Right-Inside-Confidence-Value", null, confidenceContainer);
     confidence.textContent = `${trainer._confidence}`;
-    confidenceContainer.appendChild(confidence);
     confidence.contentEditable = true;
     confidence.spellcheck = false;
     confidence.addEventListener('input', function() {
@@ -1008,15 +770,12 @@ export function changePlayerToken(trainer) {
         localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
     });
 
-    let moneyText = document.createElement("div");
-    moneyText.classList.add("token-Spam-Text-Content");
+    let moneyText = createElementClassIdFather("div", "token-Spam-Text-Content", null, natureContainer);
     moneyText.textContent = `MONEY:`;
 
-    let money = document.createElement("div");
-    money.classList.add("player-Filled-Right-Inside-Money");
+    let money = createElementClassIdFather("div", "player-Filled-Right-Inside-Money", null, natureContainer);
     money.appendChild(moneyText);
     createTextContent(money, `${trainer._money}`);
-    natureContainer.appendChild(money);
     money.children[1].contentEditable = true;
     money.children[1].spellcheck = false;
     money.children[1].addEventListener('input', function() {
@@ -1024,23 +783,16 @@ export function changePlayerToken(trainer) {
         localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
     });
 
-    let teamContainer = document.createElement("div");
-    teamContainer.classList.add("player-Filled-Right-Inside-Pokemons");
-    rightInside.appendChild(teamContainer);
+    let teamContainer = createElementClassIdFather("div", "player-Filled-Right-Inside-Pokemons", null, rightInside);
 
     for(let k = 0; k < 6; k++) {
-        let teamNicknames = document.createElement("div");
-        teamNicknames.classList.add("player-Filled-Right-Inside-Pokemons-Nicknames");
-        let img = document.createElement("img");
-        img.classList.add("pokemonIcon");
+        let teamNicknames = createElementClassIdFather("div", "player-Filled-Right-Inside-Pokemons-Nicknames", null, teamContainer);
+        let img = createElementClassIdFather("img", "pokemonIcon", null, teamNicknames);
         img.src = "./Assets/Images/capturedPokemon.png";
-        teamNicknames.appendChild(img);
 
         if (trainer._pokemons[k]) {
-            let name = document.createElement("p");
+            let name = createElementClassIdFather("p", "pokemonNickname", null, teamNicknames);
             name.textContent = `${trainer._pokemons[k].nickname}`;
-            name.classList = "pokemonNickname";
-            teamNicknames.appendChild(name);
             name.contentEditable = true;
             name.spellcheck = false;
             name.addEventListener('input', function() {
@@ -1048,8 +800,6 @@ export function changePlayerToken(trainer) {
                 localStorage.setItem(`object${trainer.index}`, JSON.stringify(trainer));
             });
         }
-
-        teamContainer.appendChild(teamNicknames);
     }
 }
 

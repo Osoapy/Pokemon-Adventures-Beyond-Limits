@@ -197,11 +197,11 @@
     border-radius: 15px;
 }
 
-.player-Filled-Right-Inside-Player .spam-Text-Content, .player-Filled-Right-Inside-Player-Name .spam-Text-Content {
+.player-Filled-Right-Inside-Player-Name .spam-Text-Content, .player-Filled-Right-Inside-Age .spam-Text-Content {
     border-radius: 15px 0px 0px 15px;
 }
 
-.player-Filled-Right-Inside-Age .spam-Text-Content, .player-Filled-Right-Inside-Player-Concept .spam-Text-Content {
+.player-Filled-Right-Inside-Player .spam-Text-Content, .player-Filled-Right-Inside-Player-Concept .spam-Text-Content {
     border-radius: 0px 15px 15px 0px;
 }
 
@@ -327,7 +327,13 @@
 }
 
 .pokemonNickname {
-    margin-left: 5%;
+    display: flex;
+    border-radius: 0px 999px 999px 0px;
+    height: 100%;
+    padding-left: 5%;
+    width: -webkit-fill-available;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 .player-Filled-Right-Inside-Pokemons-Nicknames {
