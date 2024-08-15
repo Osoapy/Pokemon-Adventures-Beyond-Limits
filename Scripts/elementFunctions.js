@@ -189,20 +189,14 @@ export function createPokemon(trainer, pokemon) {
         let move = createElementClassIdFather("div", "move", null, moves);
         if(trainer._pokemons[pokemonPosition].moves[i]) {
             move.textContent = trainer._pokemons[pokemonPosition].moves[i];
+            const moveId = trainer._pokemons[pokemonPosition].moves[i].toLowerCase().replace(/ /g, "-")
             
             // CHANGING THE COLOR OF THE MOVE IF IT'S A REAL MOVE
+            console.log(mainScript.allMoves);
             mainScript.allMoves
                 .then(allMoves => {
-                    if(allMoves.includes(move.textContent.toLowerCase().replace(/ /g, '-'))) {
-                        async function MoveType (moveName, element) {
-                            try {
-                                let moveType = await fetch.MoveType(moveName);
-                                changeType(element, moveType);
-                            } catch (error) {
-                                console.error('Error: ', error);
-                            }
-                        };
-                    MoveType(move.textContent, move);
+                    if(allMoves[moveId]) {
+                        changeType(move, allMoves[moveId]);
                     }
                 })
                 .catch(error => {

@@ -53,49 +53,38 @@ export async function Type(pokemonName) {
     }
 }
 
-export async function MoveType(moveName) {
-    if (moveName) {
-        try {
-            moveName = moveName.toLowerCase().replace(/ /g, '-');
-
-            const response = await fetch(`https://pokeapi.co/api/v2/move/${moveName}`);
-
-            if (!response.ok) {
-                throw new Error("Could not fetch resorce");
-            }
-
-            const data = await response.json();
-            return data.type.name;
-        } catch (error) {
-            console.error(error);
-        }
-    }
-}
-
 export async function AllMoves() {
+    const movesDict = {};
+    let primitiveURL = `https://pokeapi.co/api/v2/move/`;
+
     try {
-        const initialResponse = await fetch(`https://pokeapi.co/api/v2/move/?offset=0&limit=1`);
-        
-        if (!initialResponse.ok) {
-            throw new Error("Could not fetch resorce");
+        // MAKE A REQUEST TO THE API
+        const responseData = await fetch(primitiveURL);
+        const firstData = await responseData.json();
+        let URL = `https://pokeapi.co/api/v2/move/?offset=0&limit=${firstData.count}`;
+
+        const response = await fetch(URL);
+        const data = await response.json();
+
+        for (const move of data.results) {
+            console.log("no for");
+            
+            // Para cada ataque, faz uma requisição para obter detalhes adicionais
+            const moveDetailsResponse = await fetch(move.url);
+            const moveDetails = await moveDetailsResponse.json();
+
+            // Obtém o nome e o tipo do ataque
+            const moveName = moveDetails.name;
+            const moveType = moveDetails.type.name;
+
+            // Armazena no dicionário
+            movesDict[moveName] = moveType;
         }
 
-        const initialData = await initialResponse.json();
-        const limit = initialData.count;
+        console.log(movesDict); // Exibe o dicionário no console
 
-        const finalResponse = await fetch(`https://pokeapi.co/api/v2/move/?offset=0&limit=${limit}`);
-
-        if (!finalResponse.ok) {
-            throw new Error("Could not fetch resorce");
-        }
-
-        const finalData = await finalResponse.json();
-        let result = [];
-        for (let i = 0; i < limit; i++) {
-            result[i] = finalData.results[i].name;
-        }
-        return result;
+        return movesDict;
     } catch (error) {
-        console.error(error);
+        console.error('Erro ao obter os ataques:', error);
     }
 }
