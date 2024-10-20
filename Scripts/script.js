@@ -267,10 +267,10 @@ function reloadPage() {
     for(let k = 0; ; k++){
         let serializedObject = localStorage.getItem(`object${k}`);
         if (serializedObject){
-                let object = JSON.parse(serializedObject);
-                if (!trainerList[object._name]) {
-                        readTrainer(object);
-                }
+            let object = JSON.parse(serializedObject);
+            if (!trainerList[object._name]) {
+                readTrainer(object);
+            }
         }
         else {
             break;

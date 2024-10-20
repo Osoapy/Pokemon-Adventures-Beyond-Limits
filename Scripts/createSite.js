@@ -1,113 +1,82 @@
-// IMPORTING
+// Imports
 import * as trainerClass from './trainer.js';
 import * as mainPage from './script.js';
 
-// MAKING SO YOU CAN EDIT YOUR IMAGE
-// CLEANING UP THE PLAYER CREATION
+// Initialize player creation interface
 document.addEventListener('DOMContentLoaded', () => {
-  let showInputBtn = document.getElementById('showInputBtn');
-  let inputContainer = document.getElementById('inputContainer');
-  let overlay = document.getElementById('overlay');
-  let confirmBtn = document.getElementById('confirmBtn');
-  let linkInput = document.getElementById('linkInput');
-  let greenButton = document.getElementById('greenButton');
-  let redButton = document.getElementById('redButton');
-  showInputBtn.src = "Assets/Images/noImageAvailable.png";
+  const elements = {
+    showInputBtn: document.getElementById('showInputBtn'),
+    inputContainer: document.getElementById('inputContainer'),
+    overlay: document.getElementById('overlay'),
+    confirmBtn: document.getElementById('confirmBtn'),
+    linkInput: document.getElementById('linkInput'),
+    greenButton: document.getElementById('greenButton'),
+    redButton: document.getElementById('redButton'),
+  };
 
-  showInputBtn.addEventListener('click', () => {
-    inputContainer.style.display = 'block';
-    overlay.style.display = 'block';
-    linkInput.focus();
+  // Default image for new players
+  elements.showInputBtn.src = "Assets/Images/noImageAvailable.png";
+
+  // Show input field for image link
+  elements.showInputBtn.addEventListener('click', () => {
+    elements.inputContainer.style.display = 'block';
+    elements.overlay.style.display = 'block';
+    elements.linkInput.focus();
   });
 
-  overlay.addEventListener('click', () => {
-    inputContainer.style.display = 'none';
-    overlay.style.display = 'none';
-    linkInput.value = '';
+  // Hide overlay/input on clicking outside
+  elements.overlay.addEventListener('click', () => {
+    elements.inputContainer.style.display = 'none';
+    elements.overlay.style.display = 'none';
+    elements.linkInput.value = '';
   });
 
-  confirmBtn.addEventListener('click', () => {
-    let link = linkInput.value;
-    showInputBtn.src = link;
-    console.log('Link inserido:', link);
-    inputContainer.style.display = 'none';
-    overlay.style.display = 'none';
-    linkInput.value = '';
+  // Update image with link and hide input
+  elements.confirmBtn.addEventListener('click', () => {
+    elements.showInputBtn.src = elements.linkInput.value;
+    elements.inputContainer.style.display = 'none';
+    elements.overlay.style.display = 'none';
+    elements.linkInput.value = '';
   });
 
-  greenButton.addEventListener('click', () => {
-    let rank = document.getElementById("creationRank");
-    rank.textContent = "None";
-    let name = document.getElementById("creationName");
-    name.textContent = "Insert name here...";
-    let age = document.getElementById("creationAge");
-    age.textContent = "0";
-    let HP = document.getElementById("creationHP");
-    HP.textContent = "0";
-    let WILL = document.getElementById("creationWILL");
-    WILL.textContent = "0";
-    let player = document.getElementById("creationPlayer");
-    player.textContent = "???";
-    let concept = document.getElementById("creationConcept");
-    concept.textContent = "???";
-    let nature = document.getElementById("creationNature");
-    nature.textContent = "???";
-    let confidence = document.getElementById("creationConfidence");
-    confidence.textContent = "0";
-    let money = document.getElementById("creationMoney");
-    money.textContent = "0";
-    showInputBtn.src = "https://media.istockphoto.com/id/1352945762/vector/no-image-available-like-missing-picture.jpg?s=612x612&w=0&k=20&c=4X-znbt02a8EIdxwDFaxfmKvUhTnLvLMv1i1f3bToog=";
-  });
+  // Reset player creation form
+  const resetForm = () => {
+    const fields = [
+      'creationRank', 'creationName', 'creationAge', 'creationHP', 
+      'creationWILL', 'creationPlayer', 'creationConcept', 'creationNature', 
+      'creationConfidence', 'creationMoney'
+    ];
+    fields.forEach(id => document.getElementById(id).textContent = {
+      creationName: "Insert name here...",
+      creationPlayer: "???",
+      creationConcept: "???",
+      creationNature: "???"
+    }[id] || "0");
+    elements.showInputBtn.src = "https://media.istockphoto.com/id/1352945762/vector/no-image-available-like-missing-picture.jpg";
+  };
 
-  greenButton.addEventListener('click', () => {
-    let rank = document.getElementById("creationRank");
-    rank = rank.textContent;
-    let name = document.getElementById("creationName");
-    name = name.textContent;
-    let age = document.getElementById("creationAge");
-    age = age.textContent;
-    let HP = document.getElementById("creationHP");
-    HP = HP.textContent;
-    let WILL = document.getElementById("creationWILL");
-    WILL = WILL.textContent;
-    let player = document.getElementById("creationPlayer");
-    player = player.textContent;
-    let concept = document.getElementById("creationConcept");
-    concept = concept.textContent;
-    let nature = document.getElementById("creationNature");
-    nature = nature.textContent;
-    let confidence = document.getElementById("creationConfidence");
-    confidence = confidence.textContent;
-    let money = document.getElementById("creationMoney");
-    money = money.textContent;
-    let image = showInputBtn.src;
+  elements.greenButton.addEventListener('click', resetForm);
 
-    // name, nature, confidence, player, HP, WILL, money, concept, xp, age, rank, image, itens, badges, pokemons, attributes, skills, qualities
-    let trainer = new trainerClass.Trainer(name, nature, confidence, player, HP, WILL, money, concept, null, age, rank, image, null, null, null, null, null, null);
+  // Create player object and pass it to mainPage
+  elements.greenButton.addEventListener('click', () => {
+    const trainer = new trainerClass.Trainer(
+      document.getElementById("creationName").textContent,
+      document.getElementById("creationNature").textContent,
+      document.getElementById("creationConfidence").textContent,
+      document.getElementById("creationPlayer").textContent,
+      document.getElementById("creationHP").textContent,
+      document.getElementById("creationWILL").textContent,
+      document.getElementById("creationMoney").textContent,
+      document.getElementById("creationConcept").textContent,
+      null,  // xp
+      document.getElementById("creationAge").textContent,
+      document.getElementById("creationRank").textContent,
+      elements.showInputBtn.src,
+      null, null, null, null, null, null
+    );
     mainPage.createPlayer(trainer);
   });
 
-  redButton.addEventListener('click', () => {
-    let rank = document.getElementById("creationRank");
-    rank.textContent = "None";
-    let name = document.getElementById("creationName");
-    name.textContent = "Insert name here...";
-    let age = document.getElementById("creationAge");
-    age.textContent = "0";
-    let HP = document.getElementById("creationHP");
-    HP.textContent = "0";
-    let WILL = document.getElementById("creationWILL");
-    WILL.textContent = "0";
-    let player = document.getElementById("creationPlayer");
-    player.textContent = "???";
-    let concept = document.getElementById("creationConcept");
-    concept.textContent = "???";
-    let nature = document.getElementById("creationNature");
-    nature.textContent = "???";
-    let confidence = document.getElementById("creationConfidence");
-    confidence.textContent = "0";
-    let money = document.getElementById("creationMoney");
-    money.textContent = "0";
-    showInputBtn.src = "https://media.istockphoto.com/id/1352945762/vector/no-image-available-like-missing-picture.jpg?s=612x612&w=0&k=20&c=4X-znbt02a8EIdxwDFaxfmKvUhTnLvLMv1i1f3bToog=";
-  });
+  // Clear form on red button click
+  elements.redButton.addEventListener('click', resetForm);
 });
